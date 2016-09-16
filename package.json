@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "scripts": {
+    "prod": "gulp --production",
+    "dev": "gulp watch"
+  },
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.0",
+    "factor-bundle": "^2.5.0",
+    "gulp": "^3.9.1",
+    "laravel-elixir": "^5.0.0"
+  },
+  "dependencies": {
+    "css-polyfills": "git+https://github.com/FremyCompany/css-grid-polyfill.git#browserify-support",
+    "jquery": "^3.1.0",
+    "jquery.loadtemplate": "^1.5.0",
+    "lodash": "^4.15.0",
+    "moment": "^2.14.1",
+    "photoswipe": "^4.1.1",
+    "signals": "^1.0.0",
+    "vex-js": "^3.0.0"
+  },
+  "browser": {
+    "jquery.loadtemplate": "./node_modules/jquery.loadtemplate/jquery-loadTemplate/jquery.loadTemplate-1.5.0.js"
+  }
+}

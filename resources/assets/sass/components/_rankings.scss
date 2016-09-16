@@ -1,0 +1,22 @@
+.card.rankings {
+  background-color: $striped-base-color;
+}
+
+.table.rankings {
+  th {
+    width: 20%;
+    text-align: center;
+  }
+
+  .rank--self {
+    font-weight: bold;
+  }
+
+  tfoot td {
+    text-align: center;
+    font-size: .8em;
+    color: $color-white-darker;
+    padding: $gap-large;
+  }
+
+}

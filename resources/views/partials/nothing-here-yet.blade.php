@@ -1,0 +1,1 @@
+<p class="empty">@lang('misc.NothingHereYet')</p>

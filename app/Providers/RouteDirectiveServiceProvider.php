@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Providers;
+
+use App\Http\Requests\Request;
+use App\View\Compilers\BladeCompiler;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
+
+class RouteDirectiveServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Blade::directive('route', function($expression) {
+            return "<?php echo route$expression; ?>";
+        });
+
+        Blade::directive('url', function($expression) {
+            return "<?php echo url$expression; ?>";
+        });
+
+        Blade::directive('active', function($expression) {
+            return "<?php echo ".__CLASS__."::active{$expression}; ?>";
+        });
+    }
+
+    public static function active($name, $className = 'active')
+    {
+        $active = \Request::route()->getName();
+        if ($name === $active) {
+            return $className;
+        }
+
+        return '';
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}

@@ -1,0 +1,80 @@
+$_edge-padding: 20px;
+
+table.schedule {
+  border-radius: $border-radius;
+  overflow: hidden;
+
+  & > thead > tr > th {
+    font-size: em(24);
+    padding: $gap-bigger;
+  }
+
+  tbody {
+    letter-spacing: -.04em;
+
+    td {
+      padding: $gap-large;
+    }
+  }
+
+  tr > th:first-child,
+  tr > td:first-child {
+    padding-left: $_edge-padding;
+  }
+
+  tr > th:last-child,
+  tr > td:last-child {
+    padding-right: $_edge-padding;
+  }
+
+  .schedule-team,
+  .schedule-result,
+  .schedule-score {
+    text-align: center;
+  }
+
+  .schedule-date {
+    width: 15%;
+    white-space: nowrap;
+  }
+
+  .schedule-title {
+    width: 30%;
+  }
+
+  .schedule-location {
+    white-space: nowrap;
+  }
+
+  .schedule--win {
+    color: $color-win-text;
+  }
+  .schedule--loss {
+    color: $color-loss-text;
+  }
+  .schedule--tie {
+    color: $color-tie-text;
+  }
+
+  .schedule-btns {
+    text-align: right;
+
+    a.btn {
+      font-size: 1em;
+      padding: $gap;
+      border: none;
+      background: none;
+    }
+  }
+
+  .schedule-today td {
+    @include heading();
+    font-size: em(22);
+    letter-spacing: .02em;
+    line-height: .8em;
+    padding: $gap-small * 1.5 $gap-small $gap-small;
+    color: $color-white;
+    background-color: $color-bright-accent;
+    text-align: center;
+  }
+}

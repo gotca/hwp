@@ -1,0 +1,1 @@
+<div class="gallery-photo--bg-square" style="background-image: url({{$photo->thumb}})"></div>

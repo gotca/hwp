@@ -1,0 +1,144 @@
+// make room for fixed nav
+.scroller-inner {
+  padding-top: 85px;
+}
+
+.main-menu {
+  @include box-shadow();
+  @include grid();
+  background-color: $color-dark-bg;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: $gap $gap-large;
+  z-index: 99999;
+  transition: all .5s;
+
+  div {
+    margin-right: $gap;
+  }
+
+  &.ghosted {
+    background: none;
+    box-shadow: none;
+    opacity: .5;
+
+    &:hover {
+      @include grid();
+      background-color: $color-dark-bg;
+      opacity: 1;
+    }
+  }
+
+  @include responsive('lg') {
+    padding: 0 $gap-large;
+  }
+}
+
+#trigger {
+  color: $color-white;
+  padding: $gap;
+  font-size: 1.5em;
+  cursor: pointer;
+
+  @include responsive('lg') {
+    display: none;
+  }
+}
+
+.nav-brand {
+  margin-left: $gap;
+
+  h1 {
+    @include text-shadow();
+    font-size: em(42);
+  }
+
+  a {
+    @include on-event() {
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+}
+
+#desktop-menu {
+  display: none;
+  @include responsive('lg') {
+    display: block;
+  }
+
+  & > ul{
+    display: flex;
+    align-items: stretch;
+    font-family: $heading-font-stack;
+    font-size: em(22);
+    text-transform: uppercase;
+
+    & > li {
+      margin: 0 $gap;
+      @include on-event() {
+        background: $color-primary-darker;
+      }
+
+      & > a{
+        display: block;
+        color: $color-white;
+        padding: $gap-extra-large $gap-large;
+        @include on-event {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .has-subs > section {
+    @include grid();
+    display: none;
+    justify-content: space-around;
+    position: absolute;
+    left: 0;
+    background-color: $color-black-bg;
+    width: 100%;
+    z-index: 100;
+    padding: 0 2em;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,.5),
+      0 2px 5px rgba(0,0,0,.5);
+    transition: all .5s;
+  }
+
+  .has-subs:hover > section {
+    display: flex;
+    padding: 2em 2em 3em 2em;
+  }
+
+  .player-list {
+
+    header {
+      margin-bottom: $gap;
+
+      h4 {
+        color: $color-white-darker;
+      }
+    }
+
+    li a {
+      font-family: $text-font-stack;
+      font-size: 1rem;
+      text-transform: none;
+      color: $color-bright-muted;
+
+      @include on-event() {
+        color: $color-bright;
+      }
+    }
+
+    .team--STAFF ul {
+      columns: 1;
+    }
+  }
+
+
+}

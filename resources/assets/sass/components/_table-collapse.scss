@@ -1,0 +1,61 @@
+.table.table--collapse {
+  // can't use responsive mixin because this is desktop first (don't give me that look)
+  @media (max-width: map-get($breakpoints, 'lg')) {
+    font-size: 1.0625em;
+
+    thead {
+      display: none;
+    }
+
+    tbody,
+    tfoot {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 90%;
+      margin: auto;
+      justify-content: space-around;
+    }
+
+    tr {
+      display: table;
+      min-width: 260px;
+      max-width: 350px;
+      margin-bottom: $gap-extra-large;
+    }
+
+    td,
+    th {
+      display: table-row;
+      text-align: left;
+      width: 100%;
+      opacity: 1 !important;
+
+      &[data-title]::before {
+        content: attr(data-title) ':';
+        display: table-cell;
+        font-family: $text-font-stack;
+        padding: $gap-small $gap;
+        font-weight: bold;
+        letter-spacing: -.04em;
+      }
+
+      span {
+        display: table-cell;
+        text-align: right;
+        padding: $gap-small $gap;
+      }
+    }
+
+    th::after {
+      content: '';
+      display: table-cell;
+    }
+
+    th:first-child {
+      font-size: 2em;
+      background: none;
+      border-bottom: 1px solid $color-white-darker;
+    }
+  }
+}

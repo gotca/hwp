@@ -1,0 +1,95 @@
+.mp-level {
+  @include grid();
+  background-color: $color-primary-bg;
+  font-family: $heading-font-stack;
+  text-transform: uppercase;
+  font-size: 30px;
+}
+
+.mp-menu header {
+  @include grid();
+  padding: 45px 20px 10px 20px;
+  background-color: $color-bright;
+
+  h2 {
+    font-size: 45px;
+    line-height: 1em;
+    color: $color-white-text;
+  }
+}
+
+.mp-level .icon {
+  color: $color-bright;
+}
+
+.mp-menu ul > li {
+  border-top: 1px solid darken($color-primary-bg, 5);
+
+  &:last-child {
+    border-bottom: 1px solid darken($color-primary-bg, 5);
+  }
+}
+
+.mp-menu a {
+  color: $color-white-darker;
+  font-size: 1em;
+  line-height: 1em;
+  padding: .4em 1em .4em 1.45em;
+
+  @include on-event {
+    text-decoration: none;
+  }
+}
+
+.mp-menu li.mp-has-subs > a::before {
+  @include fa-icon();
+  content: $fa-var-angle-left;
+  position: absolute;
+  font-size: 1em;
+  color: $color-accent;
+  margin-left: -1em;
+  margin-top: -2px;
+}
+
+.mp-overlap .mp-level.mp-level-overlay > ul > li.mp-has-subs > a::before {
+  display: none;
+}
+
+.mp-menu a.mp-back {
+  font-size: 20px;
+  padding-top: .25em;
+  padding-bottom: .25em;
+  padding-left: .75em;
+  background: $color-primary-darker;
+
+  &::after {
+    @include fa-icon();
+    content: $fa-var-angle-right;
+    position: absolute;
+    right: .5em;
+    top: 50%;
+    margin-top: -.5em;
+  }
+}
+
+/**
+ *  Team Tweaks
+*/
+.mp-menu .team a {
+  text-transform: none;
+  font-variant: small-caps;
+  padding-left: .5em;
+
+  .player--number {
+    color: $color-accent-text;
+  }
+
+  .player--name {
+    letter-spacing: .03em;
+  }
+}
+
+.mp-menu .team--STAFF a .player--number {
+  display: none;
+  padding-left: 1.45em;
+}

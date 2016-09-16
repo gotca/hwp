@@ -1,0 +1,94 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self [false] - Whether or not to include current selector
+/// @link https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+@mixin on-event($self: false) {
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
+    }
+  }
+}
+
+/// Make a context based selector a little more friendly
+/// @author Hugo Giraudel
+/// @param {String} $context
+@mixin when-inside($context) {
+  #{$context} & {
+    @content;
+  }
+}
+
+@mixin text-align($dir) {
+  text-align: $dir !important;
+}
+
+
+@mixin responsive($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
+
+
+@mixin grid($size-key: 'md') {
+  @if map-has-key($grid-sizes, $size-key) {
+    background-size: #{map-get($grid-sizes, $size-key)} #{map-get($grid-sizes, $size-key)};
+    background-image: linear-gradient(to right, rgba(0,0,0,.08), transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,.08) 1px, transparent 1px);
+  }
+
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$size-key}`. "
+        + "Please make sure it is defined in `$grid-sizes` map.";
+  }
+}
+
+@mixin box-shadow() {
+  box-shadow: 0 2px 5px rgba(0,0,0,.75);
+}
+
+@mixin text-shadow() {
+  text-shadow: 0 2px 5px rgba(0,0,0,.75);
+}
+
+@mixin heading() {
+  font-family: $heading-font-stack;
+  text-transform: uppercase;
+  font-size: 1.1em;
+}
+
+@mixin table-subhead() {
+  @include heading();
+  font-size: em(20);
+  color: #3c3c3c;
+  background: #aaa;
+}
+
+@mixin clearfix() {
+  &::after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}

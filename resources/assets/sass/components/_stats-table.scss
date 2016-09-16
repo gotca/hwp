@@ -1,0 +1,63 @@
+.stats-table {
+  text-align: center;
+
+  & > thead > tr > th {
+    line-height: 1em;
+    text-align: center;
+  }
+
+  & > tbody > tr > th,
+  & > tfoot > tr > th {
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  & tfoot {
+    border-top: 2px solid $color-white-darker;
+  }
+
+  // empty rows are 0 and dim
+  td span:empty {
+    opacity: .6;
+
+    &::before {
+      content: '0';
+    }
+  }
+
+  // zebra rows and columns
+  // rows
+  tr:nth-child(even) td,
+  tr:nth-child(even) th{
+    background: rgba(0,0,0,.05);
+  }
+  // columns
+  tr td:nth-child(even){
+    background: rgba(0,0,0,.05);
+  }
+  // intersect
+  tr:nth-child(even) td:nth-child(even){
+    background: rgba(0,0,0,.10);
+  }
+
+  // hover
+  &:hover tr td{
+    opacity: .6;
+  }
+
+  &:hover tr:hover td{
+    opacity: 1;
+  }
+}
+
+.game-stats--box-score {
+
+  tbody + tbody {
+    border: none;
+  }
+
+  tr.team-name th {
+    @include table-subhead();
+    border-bottom: 0;
+  }
+}

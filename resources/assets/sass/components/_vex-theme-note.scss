@@ -1,0 +1,67 @@
+.vex.vex-theme-note {
+  @extend .vex.vex-theme-default;
+
+  padding-top: 3em;
+  padding-bottom: 3em;
+
+
+  .vex-content {
+    @include box-shadow();
+    font-family: $text-font-stack;
+    padding: 0;
+    width: 95%;
+    background: $color-white-bg;
+    border-radius: 0;
+    overflow: hidden;
+
+    @include responsive(sm) {
+      width: 80%;
+    }
+  }
+
+  .note {
+    header {
+      padding: $gap-extra-large;
+
+      h1 {
+        font-size: 3em;
+        line-height: 1em;
+      }
+
+      time {
+        font-size: .9em;
+        color: $color-white-darker;
+      }
+    }
+
+    .body {
+      padding: $gap-extra-large;
+
+      .flex-middle {
+        @include responsive(sm) {
+          display: flex;
+          align-items: center;
+
+          p {
+            margin-left: $gap-large;
+            margin-top: 0;
+          }
+        }
+
+        & + .flex-middle {
+          margin-top: 1em;
+        }
+
+        img {
+          z-index: 1;
+
+          & + img {
+            margin-left: -2.5em;
+            z-index: 0;
+            transform: scale(.85);
+          }
+        }
+      }
+    }
+  }
+}

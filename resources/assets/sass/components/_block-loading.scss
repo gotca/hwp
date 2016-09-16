@@ -1,0 +1,23 @@
+.block-loading {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  opacity: 0;
+  transition: all .3s;
+
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -25px;
+  }
+}
+
+.loading > .block-loading {
+  bottom: 0;
+  opacity: .7;
+  z-index: 2;
+}

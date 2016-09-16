@@ -1,0 +1,48 @@
+/**
+ * Basic typography style for copy text
+ */
+body {
+  color: $text-color;
+  font: normal 100% / 1.4 $text-font-stack;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font-stack;
+  font-weight: normal;
+  text-transform: uppercase;
+  line-height: 1em;
+  margin: 0;
+  position: relative;
+}
+
+
+.text-align--left {
+  @include text-align(left);
+}
+
+.text-align--right {
+  @include text-align(right);
+}
+
+.text-align--center {
+  @include text-align(center);
+}
+
+
+@each $name, $color in $colors {
+  .text--#{$name} {
+    color: $color !important;
+  }
+}
+
+.text--white-darker {
+  color: $color-white-darker;
+}
+
+.text--shadow {
+  @include text-shadow();
+}
+
+.text--muted {
+  color: lighten($color-black-text, 15);
+}

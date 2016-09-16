@@ -1,0 +1,71 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+.btn,
+a.btn {
+  display: inline-block;
+  padding: $gap-large;
+  font-family: $heading-font-stack;
+  font-size: 1.25em;
+  text-transform: uppercase;
+  line-height: 1.2em;
+  color: $color-black-lighter;
+  background: $color-smoke;
+  border: none;
+  transition: all .5s;
+  cursor: pointer;
+
+  i {
+    font-size: 1.1em;
+    line-height: 1.2em;
+  }
+
+  &:hover {
+    background: lighten($color-smoke, 10);
+    color: lighten($color-bright-lighter, 10);
+  }
+
+  &.disabled,
+  &[disabled] {
+    opacity: .5;
+    pointer-events: none;
+  }
+}
+
+.btn.btn--text {
+  background: none;
+  color: $color-bright;
+  padding: $gap $gap-large;
+
+  &:hover {
+    background: $color-smoke;
+    color: $color-bright-darker;
+    text-decoration: none;
+  }
+}
+
+.btn.btn--lg {
+  font-size: 2em;
+}
+
+.btn-group {
+  display: flex;
+
+  .btn {
+    text-align: center;
+
+    & + .btn {
+      border-left: 1px solid $color-white-darker;
+    }
+  }
+}
+
+.btn-group--full {
+  .btn {
+    flex: 1;
+  }
+}
+
+.btn-group--end {
+  justify-content: flex-end;
+}

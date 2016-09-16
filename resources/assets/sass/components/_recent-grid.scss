@@ -1,0 +1,65 @@
+$_grid-gap: 30px;
+
+.recent-grid {
+
+  & > div,
+  & > aside {
+    margin-bottom: $gap-large;
+  }
+
+  @include responsive(lg) {
+    display: grid;
+    // the polyfill doesn't know gap yet, so just use margin
+    // grid-column-gap: $_grid-gap;
+    // grid-row-gap: $_grid-gap;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(4, 260px);
+
+    // specifically placed
+    .recent {
+      grid-column: auto / span 3;
+      margin-bottom: $_grid-gap;
+      margin-right: $_grid-gap;
+    }
+
+    .recent--first {
+      grid-column: 1 / span 4;
+      grid-row: 1 / span 2;
+    }
+
+    .recent--second {
+      grid-column: auto / span 4;
+    }
+
+    .upcoming {
+      grid-column: 9 / span 4;
+      grid-row: 1 / span 2;
+      margin-bottom: $_grid-gap;
+      margin-right: $_grid-gap;
+    }
+
+    .rankings {
+      grid-column: 1 / span 3;
+      grid-row: 3 / span 2;
+      margin-bottom: $_grid-gap;
+      margin-right: $_grid-gap;
+    }
+
+    // auto placed
+    .recent--1-1 {}
+
+    .recent--1-2 {
+      grid-row: auto / span 2;
+    }
+
+    .recent--2-2 {
+      grid-column: auto / span 6;
+      grid-row: auto / span 2;
+    }
+
+    .recent--2-1 {
+      grid-column: auto / span 6;
+    }
+  }
+
+}

@@ -1,0 +1,94 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the site/application.
+// -----------------------------------------------------------------------------
+footer .follow-us h1 {
+  @include text-shadow();
+  font-size: em(40);
+  padding: $gap;
+}
+
+.footer-section {
+  padding-top: $gap-extra-extra-large;
+  padding-bottom: $gap-extra-extra-large;
+}
+
+.footer-section.main {
+  @include grid();
+  @include box-shadow();
+  background-color: #252738 !important;
+
+  a {
+    color: $color-bright-muted;
+  }
+}
+
+.footer-section .twitter-embed {
+  margin-bottom: $gap-large;
+}
+
+.footer-section .player-list {
+  .team {
+    margin-top: $gap-large;
+    text-align: center;
+
+    h4 {
+      color: $color-white-darker;
+      font-size: em(26);
+      margin-bottom: $gap;
+    }
+
+    ul li {
+      margin-bottom: $gap-small;
+    }
+  }
+
+  .player--number {
+    display: none;
+  }
+
+  @include responsive(sm) {
+    .team {
+      text-align: left;
+      margin-top: 0;
+
+      ul {
+        columns: 2;
+      }
+    }
+
+    .team--V,
+    .team--JV {
+      display: inline-block;
+      width: 47%;
+      vertical-align: top;
+    }
+
+    .team--V {
+      margin-right: 5%;
+    }
+
+    .team--STAFF {
+      margin-top: $gap;
+
+      ul {
+        columns: auto;
+
+        li {
+          display: inline-block;
+          margin-right: $gap-large;
+        }
+      }
+    }
+  }
+
+}
+
+.footer-section.sub {
+  @include heading();
+  @include grid();
+  @include box-shadow();
+  font-size: em(22);
+  color: #ccc;
+  padding: $gap;
+  background-color: #1f202e !important;
+}

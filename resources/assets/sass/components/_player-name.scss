@@ -1,0 +1,21 @@
+.player--number {
+  display: inline-block;
+  text-align: right;
+  min-width: 2em;
+  margin-right: .25em;
+
+  &::before {
+    content: '#';
+    font-size: .6em;
+    vertical-align: text-top;
+  }
+
+  .team--staff & {
+    display: none;
+  }
+}
+
+.player--title {
+  font-style: italic;
+  opacity: .6;
+}

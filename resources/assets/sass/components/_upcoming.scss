@@ -1,0 +1,30 @@
+aside.upcoming {
+  background-color: $striped-base-color;
+}
+
+table.upcoming {
+  overflow-y: auto;
+
+  tr.upcoming-day td {
+    @include table-subhead();
+  }
+
+  .upcoming-time {
+    width: 50px;
+  }
+
+  .upcoming-team {
+    color: $color-white-darker;
+    text-align: center;
+  }
+
+  .upcoming-opponent {
+    width: 45%;
+  }
+
+}
+
+// bump the size for schedule page
+.page--schedule .schedule--upcoming table {
+  font-size: 1.2em;
+}

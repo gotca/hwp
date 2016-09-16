@@ -1,0 +1,43 @@
+$_badge-height: 147;
+
+.badges {
+  padding: 0;
+}
+
+
+
+.badge {
+  position: relative;
+  height: $_badge-height - 20px;
+  margin: 0 5px;
+
+  img {
+    margin-top: -10px;
+  }
+
+  .hover {
+    @include box-shadow();
+    display: block;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    margin-top: -2.5em;
+    padding: $gap;
+    background: $color-white;
+    z-index: 1;
+    border-radius: 2px;
+    opacity: 0;
+    transition: all .5s;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &:hover .hover {
+    opacity: 1;
+    top: 50%;
+  }
+}

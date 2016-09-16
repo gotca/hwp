@@ -1,0 +1,40 @@
+<header class="page-header">
+    <div class="bg-elements">
+        <div class="bg--gradient"></div>
+        <div class="bg--img" @if($headerPhoto)style="background-image: url({{$headerPhoto}});"@endif></div>
+    </div>
+
+    <div class="container">
+        <h1>
+            <span>@lang('misc.'.$game->team)</span>
+            <small>@lang('misc.vs')</small>
+            <span class="text--muted">{{$game->opponent}}</span>
+        </h1>
+
+        <nav class="game-nav sub-nav">
+            <ul>
+                @if($game->box_stats_count)
+                    <li class="@active('game.stats')">
+                        <a href="@route('game.stats', ['game' => $game->id])"
+                           title="@lang('game.stats')"
+                        ><i class="fa fa-line-chart"></i> @lang('game.stats')</a>
+                    </li>
+                @endif
+                @if($game->album_count)
+                    <li class="@active('game.photos')">
+                        <a href="@route('game.photos', ['game' => $game->id])"
+                           title="@lang('game.photos')"
+                        ><i class="fa fa-picture-o"></i> @lang('game.photos')</a>
+                    </li>
+                @endif
+                @if($game->updates_count)
+                    <li class="@active('game.recap')">
+                        <a href="@route('game.recap', ['game' => $game->id])"
+                           title="@lang('game.recap')"
+                        ><i class="fa fa-ticket"></i> @lang('game.recap')</a>
+                    </li>
+                @endif
+            </ul>
+        </nav>
+    </div>
+</header>

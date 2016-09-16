@@ -1,0 +1,48 @@
+.result {
+
+  .body {
+    font-size: .9em;
+    text-align: left;
+  }
+
+  .score {
+    font-family: $heading-font-stack;
+    font-size: em(80);
+    color: $color-black-text;
+    display: flex;
+    justify-content: center;
+
+    > div {
+      text-align: center;
+      flex: 1;
+
+      &:first-child {
+        border-right: 1px solid $color-smoke;
+      }
+    }
+  }
+
+
+  .box-score {
+    float: right;
+    margin: -.5em;
+
+    td {
+      padding: .5em .75em;
+      border-left: 1px solid darken($color-white-darker, 10);
+    }
+  }
+  
+}
+
+.result--win header {
+  background-color: $color-win-bg;
+}
+
+.result--loss header {
+  background-color: $color-loss-bg;
+}
+
+.result--tie header {
+  background-color: $color-tie-bg;
+}
