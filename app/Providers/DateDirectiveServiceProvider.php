@@ -65,7 +65,7 @@ class DateDirectiveServiceProvider extends ServiceProvider
      */
     public function outputPhp($func, $date)
     {
-        return "<?php echo ".__CLASS__."::$func{$date}; ?>";
+        return "<?php echo ".__CLASS__."::$func($date); ?>";
     }
 
     /**

@@ -53,7 +53,7 @@ class MiscDirectiveServiceProvider extends ServiceProvider
     public function outputPhp($func, $expression)
     {
         debug($func, $expression);
-        return "<?php echo ".__CLASS__."::$func{$expression}; ?>";
+        return "<?php echo ".__CLASS__."::$func($expression); ?>";
     }
 
 

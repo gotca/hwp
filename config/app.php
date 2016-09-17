@@ -149,6 +149,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -164,6 +165,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TenantServiceProvider::class,
@@ -219,6 +221,7 @@ return [
         'Landlord'   => HipsterJazzbo\Landlord\Facades\LandlordFacade::class,
         'Setting' => Thetispro\Setting\Facades\Setting::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Notificaiton' => Illuminate\Support\Facades\Notification::class,
     ],
 
 ];

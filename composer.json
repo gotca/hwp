@@ -6,12 +6,14 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.3.*",
         "hipsterjazzbo/landlord": "^1.0",
         "thetispro/laravel5-setting": "dev-master",
         "barryvdh/laravel-debugbar": "^2.2",
         "eluceo/ical": "^0.10.1",
-        "fusonic/opengraph": "@dev"
+        "fusonic/opengraph": "@dev",
+        "pusher/pusher-php-server": "^2.6",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

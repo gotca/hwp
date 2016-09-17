@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Notifications\Notifiable;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use BelongsToTenant;
+    use BelongsToTenant, Notifiable;
 
     /**
      * The attributes that are mass assignable.
