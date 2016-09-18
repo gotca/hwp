@@ -10,25 +10,21 @@
 		this.holder = $(holder);
 		this.btn = $(btn);
 		this.loadCount = 0;
+		this.templates = [];
 
+		this.getTemplates();
 		this.attachEvents();
 	}
 
-	Recent.prototype.classes = [
-		'1-1', '2-1', '1-1',
-		'1-1', '1-1', '1-2', '1-2',
-		'2-1',
-		'1-1', '1-1', '2-2',
-		'1-1', '1-1'
-	];
+	Recent.prototype.pageIDs = ['page-even', 'page-odd'];
 
-	Recent.prototype.otherClasses = [
-		'1-1', '2-1', '1-1',
-		'1-2', '1-2', '1-1', '1-1',
-		'2-1',
-		'2-2', '1-1', '1-1',
-		'1-1', '1-1'
-	];
+	Recent.prototype.getTemplates = function() {
+		var self = this;
+
+		_.forEach(this.pageIDs, function(val, idx) {
+			self.templates[idx] = $($('#'+val).text());
+		});
+	};
 
 	Recent.prototype.attachEvents = function() {
 		var self = this;
@@ -39,9 +35,17 @@
 	Recent.prototype.load = function() {
 		var self = this;
 		var url = this.btn.data('url');
+		var tmpl;
 
 		this.holder.addClass('loading');
 		this.btn.attr('disabled', 'disabled');
+
+		this.loadCount++;
+
+		if (this.loadCount > 1) {
+			tmpl = this.templates[this.loadCount%2].clone();
+			tmpl.appendTo(this.holder);
+		}
 
 		$.getJSON(url)
 			.done(this.done.bind(self))
@@ -59,13 +63,6 @@
 		var max = Math.min(rsp.per_page, rsp.data.length);
 		var classes = this.classes;
 
-		self.loadCount++;
-
-		// flip layout for every other
-		if (self.loadCount % 2) {
-			classes = this.otherClasses;
-		}
-
 		for(i; i < max; i++) {
 			var item = rsp.data[i];
 			var newEl = $(item.rendered);
@@ -77,7 +74,6 @@
 
 				loadingEl.replaceWith(newEl);
 			} else {
-				newEl.addClass('recent--' + classes[i]);
 				newEl.appendTo(self.holder);
 			}
 		}
@@ -93,6 +89,8 @@
 	Recent.prototype.error = function(err) {
 		console.error(err);
 		alert('Error loading the recent content');
+		this.holder.find('.recent--loading').remove();
+		this.loadCount--;
 	};
 
 

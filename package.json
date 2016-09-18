@@ -11,7 +11,6 @@
     "laravel-elixir": "^5.0.0"
   },
   "dependencies": {
-    "css-polyfills": "git+https://github.com/FremyCompany/css-grid-polyfill.git#browserify-support",
     "jquery": "^3.1.0",
     "jquery.loadtemplate": "^1.5.0",
     "lodash": "^4.15.0",

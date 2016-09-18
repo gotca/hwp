@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({43:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({27:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -45,7 +45,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./gallery/full":30,"./gallery/popup":31,"./matchMenuHeight":35,"./mlpushmenu":36,"./note":39,"jquery":21,"lodash":22}],39:[function(require,module,exports){
+},{"./gallery/full":14,"./gallery/popup":15,"./matchMenuHeight":19,"./mlpushmenu":20,"./note":23,"jquery":5,"lodash":6}],23:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -82,7 +82,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":21,"vex-js":27}],36:[function(require,module,exports){
+},{"jquery":5,"vex-js":11}],20:[function(require,module,exports){
 'use strict';
 
 /**
@@ -331,7 +331,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = mlPushMenu;
 })(window);
 
-},{"./classie":28}],35:[function(require,module,exports){
+},{"./classie":12}],19:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -345,7 +345,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     };
 })();
 
-},{}],31:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -392,7 +392,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":21,"photoswipe":25,"photoswipe/dist/photoswipe-ui-default.js":24}],30:[function(require,module,exports){
+},{"jquery":5,"photoswipe":9,"photoswipe/dist/photoswipe-ui-default.js":8}],14:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -470,7 +470,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":21,"jquery.loadtemplate":20,"photoswipe":25,"photoswipe/dist/photoswipe-ui-default.js":24}],28:[function(require,module,exports){
+},{"jquery":5,"jquery.loadtemplate":4,"photoswipe":9,"photoswipe/dist/photoswipe-ui-default.js":8}],12:[function(require,module,exports){
 "use strict";
 
 /*!
@@ -545,7 +545,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = classie;
 })(window);
 
-},{}],27:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.vex = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*
@@ -1288,7 +1288,7 @@ module.exports = vex
 },{"classlist-polyfill":1,"domify":2,"es6-object-assign":3}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"classlist-polyfill":1,"domify":18,"es6-object-assign":19}],25:[function(require,module,exports){
+},{"classlist-polyfill":1,"domify":2,"es6-object-assign":3}],9:[function(require,module,exports){
 /*! PhotoSwipe - v4.1.1 - 2015-12-24
 * http://photoswipe.com
 * Copyright (c) 2015 Dmitry Semenov; */
@@ -5007,7 +5007,7 @@ _registerModule('History', {
 	framework.extend(self, publicMethods); };
 	return PhotoSwipe;
 });
-},{}],24:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*! PhotoSwipe Default UI - 4.1.1 - 2015-12-24
 * http://photoswipe.com
 * Copyright (c) 2015 Dmitry Semenov; */
@@ -5870,7 +5870,7 @@ return PhotoSwipeUI_Default;
 
 });
 
-},{}],19:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * Code refactored from Mozilla Developer Network:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -5918,7 +5918,7 @@ module.exports = {
   polyfill: polyfill
 };
 
-},{}],18:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 
 /**
  * Expose `parse`.
@@ -6275,4 +6275,4 @@ if ("document" in window.self) {
   }
 }
 
-},{}]},{},[43]);
+},{}]},{},[27]);

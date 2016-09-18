@@ -12,8 +12,9 @@
 @import "pager";
 @import "rankings";
 @import "upcoming";
-@import "recent-grid";
 @import "recent";
+//@import "recent-grid";
+@import "recent-flex";
 @import "loader";
 @import "schedule";
 @import "album-list";
@@ -28,4 +29,5 @@
 @import 'bg-slideshow';
 @import 'playerlist';
 @import 'player-name';
+@import "hr";
 @import "vex-theme-note";

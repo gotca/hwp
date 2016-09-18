@@ -1,6 +1,8 @@
+$recent-height: 200px;
+
 .recent {
-  position: relative;
-  min-height: 200px;
+  //position: relative;
+  min-height: $recent-height;
   background: $color-primary-bg;
 
   > a {
@@ -103,12 +105,14 @@
   }
 }
 
-.recent--first h1 {
-  font-size: em(68);
-}
+@include responsive(lg) {
+  .recent--first h1 {
+    font-size: em(68);
+  }
 
-.recent--second h1 {
-  font-size: em(50);
+  .recent--second h1 {
+    font-size: em(50);
+  }
 }
 
 .recent--loading {

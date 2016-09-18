@@ -104,7 +104,7 @@ class HomeController extends Controller
         $upcoming = Schedule::with('location')->upcoming()->take(10)->get()->groupByDate('start', 'Y-m-d');
         $rankings = $this->getRankings();
 
-        return view('partials.home.content-grid', compact('upcoming', 'rankings'));
+        return view('partials.home.content-flex', compact('upcoming', 'rankings'));
     }
 
     /**

@@ -32,7 +32,7 @@
     </section>
 
     <section class="footer-section sub text-align--center">
-        <p>Special thanks to Mrs. Luyk &amp; Mrs. Dalman for taking awesome pictures, &amp; <a href="{{route('players', ['nameKey' => 'EzraDejonge'])}}" title="Ezra Dejonge">Ezra</a> for the sweet 3d polo ball!</p>
+        <p>Special thanks to Mrs. Luyk &amp; Mrs. Dalman for taking awesome pictures, &amp; <a href="{{route('players', ['nameKey' => 'EzraDejonge'])}}" title="Ezra Dejonge">Ezra Dejonge</a> for making the sweet 3d polo ball!</p>
     </section>
 
 </footer>

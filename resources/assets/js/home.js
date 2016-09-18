@@ -4,9 +4,6 @@
 		Rankings   = require('./rankings'),
 		Recent     = require('./recent');
 
-	require('css-polyfills');
-
-
 	// ghost the nav when we're at the top of the page
 	GhostedNav(document.getElementById('main-menu'), document.getElementById('home-header'));
 
