@@ -16,6 +16,7 @@ class CreateRankingsTable extends Migration
             $table->increments('id');
             $table->site();
             $table->season();
+            $table->integer('rank')->nullable();
             $table->date('start');
             $table->date('end');
             $table->timestamps();

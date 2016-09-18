@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\ArticleImages;
 use App\Console\Commands\GenerateJSPlayerList;
+use App\Console\Commands\MWPARankingCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,7 +18,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         GenerateJSPlayerList::class,
-        ArticleImages::class
+        ArticleImages::class,
+        MWPARankingCommand::class,
     ];
 
     /**

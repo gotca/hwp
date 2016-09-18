@@ -16,7 +16,7 @@ class GenerateJSPlayerList extends Command
      *
      * @var string
      */
-    protected $signature = 'generate-js-player-list {--domain= : The domain to pull players from}';
+    protected $signature = 'generate:js-player-list {--domain= : The domain to pull players from}';
 
     /**
      * The console command description.

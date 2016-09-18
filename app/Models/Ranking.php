@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Models\Scopes\RankingScope;
 use App\Models\Traits\HasTotal;
+use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Ranking extends Model
 {
-    use HasTotal;
+    use HasTotal, BelongsToTenant;
 
     protected $casts = [
         'start' => 'datetime',

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8aad29be566ce03dac284793b2b97e67",
-    "content-hash": "32773fc1a912b62910a72334a26c544a",
+    "hash": "ca5c8041f806ec292fdef711e84049b7",
+    "content-hash": "369d36fc4e4f6b0d3b0ef67a6aff10a2",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -267,6 +267,55 @@
                 "php calendar"
             ],
             "time": "2016-06-09 09:08:55"
+        },
+        {
+            "name": "fabpot/goutte",
+            "version": "v3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfPHP/Goutte.git",
+                "reference": "3cbc6ed222422a28400e470050f14928a153207e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfPHP/Goutte/zipball/3cbc6ed222422a28400e470050f14928a153207e",
+                "reference": "3cbc6ed222422a28400e470050f14928a153207e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0",
+                "symfony/browser-kit": "~2.1|~3.0",
+                "symfony/css-selector": "~2.1|~3.0",
+                "symfony/dom-crawler": "~2.1|~3.0"
+            },
+            "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Goutte\\": "Goutte"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "A simple PHP Web Scraper",
+            "homepage": "https://github.com/FriendsOfPHP/Goutte",
+            "keywords": [
+                "scraper"
+            ],
+            "time": "2015-11-05 12:58:44"
         },
         {
             "name": "fusonic/linq",
@@ -571,6 +620,108 @@
                 "tenant"
             ],
             "time": "2016-09-08 22:38:44"
+        },
+        {
+            "name": "illuminated/console-logger",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmitry-ivanov/laravel-console-logger.git",
+                "reference": "b15ced97a8ea71740ffcdcbdf6897c2b4cbbde6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-console-logger/zipball/b15ced97a8ea71740ffcdcbdf6897c2b4cbbde6e",
+                "reference": "b15ced97a8ea71740ffcdcbdf6897c2b4cbbde6e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^5.2",
+                "illuminated/helper-functions": "^0.1.5",
+                "monolog/monolog": "^1.19",
+                "php": ">=5.6.4",
+                "psr/http-message": "^1.0",
+                "psr/log": "^1.0",
+                "symfony/finder": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "integrations/autoload.php"
+                ],
+                "psr-4": {
+                    "Illuminated\\Console\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Ivanov",
+                    "email": "dmitry.g.ivanov@gmail.com"
+                }
+            ],
+            "description": "Provides logging and email notifications for Laravel console commands.",
+            "keywords": [
+                "command",
+                "console",
+                "email",
+                "iclogger",
+                "laravel",
+                "logger",
+                "notification"
+            ],
+            "time": "2016-09-14 14:34:32"
+        },
+        {
+            "name": "illuminated/helper-functions",
+            "version": "0.1.30",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmitry-ivanov/laravel-helper-functions.git",
+                "reference": "4e287cc15a4338817aedf02f822832c3aade9785"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-helper-functions/zipball/4e287cc15a4338817aedf02f822832c3aade9785",
+                "reference": "4e287cc15a4338817aedf02f822832c3aade9785",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.2",
+                "php": ">=5.6.4",
+                "symfony/finder": "^3.0",
+                "symfony/process": "^3.0",
+                "symfony/var-dumper": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dmitry Ivanov",
+                    "email": "dmitry.g.ivanov@gmail.com"
+                }
+            ],
+            "description": "Provides Laravel-specific and pure PHP helper functions.",
+            "keywords": [
+                "function",
+                "helper",
+                "laravel"
+            ],
+            "time": "2016-09-15 18:16:42"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1642,6 +1793,63 @@
                 "mailer"
             ],
             "time": "2016-07-08 11:51:25"
+        },
+        {
+            "name": "symfony/browser-kit",
+            "version": "v3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/browser-kit.git",
+                "reference": "d2a07cc11c5fa94820240b1e67592ffb18e347b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/d2a07cc11c5fa94820240b1e67592ffb18e347b9",
+                "reference": "d2a07cc11c5fa94820240b1e67592ffb18e347b9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/dom-crawler": "~2.8|~3.0"
+            },
+            "require-dev": {
+                "symfony/css-selector": "~2.8|~3.0",
+                "symfony/process": "~2.8|~3.0"
+            },
+            "suggest": {
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\BrowserKit\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony BrowserKit Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-07-26 08:04:17"
         },
         {
             "name": "symfony/console",
