@@ -25,4 +25,5 @@ return [
     'today' => 'Today',
     'allDay' => 'All Day',
     'directions' => 'Directions',
+    'iCalSummary' => ':TEAM :Type :title',
 ];

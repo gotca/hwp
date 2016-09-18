@@ -60,7 +60,13 @@ class ScheduleController extends Controller
             $vEvent
                 ->setDtStamp($item->start)
                 ->setDtEnd($item->end)
-                ->setSummary($item->opponent)
+                ->setSummary(trans('schedule.iCalSummary', [
+                    'team' => trans('misc.'.$item->team),
+                    'type' => $item->type,
+                    'title' => $item->type === Schedule::TOURNAMENT
+                        ? ' - ' . $item->scheduled->title
+                        : 'vs ' . $item->scheduled->opponent
+                ]))
                 ->setCategories([$item->team, $item->type])
                 ->setLocation($item->location->title . "\n" . $item->location->full_address, $item->location->title);
 
