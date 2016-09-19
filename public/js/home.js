@@ -82,7 +82,6 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 		var loading = this.holder.find('.recent--loading');
 		var i = 0;
 		var max = Math.min(rsp.per_page, rsp.data.length);
-		var classes = this.classes;
 
 		for (i; i < max; i++) {
 			var item = rsp.data[i];
@@ -97,6 +96,9 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 				newEl.appendTo(self.holder);
 			}
 		}
+
+		// hide and remove anything still set as loading
+		this.holder.find('.recent--loading').fadeOut();
 
 		if (next) {
 			this.btn.data('url', next).removeAttr('disabled');
