@@ -101,7 +101,11 @@ class HomeController extends Controller
      */
     public function content()
     {
-        $upcoming = Schedule::with('location')->upcoming()->take(10)->get()->groupByDate('start', 'Y-m-d');
+        $upcoming = Schedule::with('location')
+            ->upcoming()
+            ->take(10)
+            ->get()
+            ->groupByDate('start', 'Y-m-d');
         $rankings = $this->getRankings();
 
         return view('partials.home.content-flex', compact('upcoming', 'rankings'));

@@ -50,6 +50,9 @@
     <script type="text/html" id="gallery-thumb-tmpl">
         @include('partials.photos.thumb-js')
     </script>
+    <script type="text/html" id="load-more-btn">
+        @include('partials.photos.load-more-btn')
+    </script>
 
     <script src="js/playerlist/{{ app('App\Models\ActiveSite')->domain }}.js"></script>
     <script src="{{ elixir('js/components.js') }}"></script>

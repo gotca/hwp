@@ -84,6 +84,7 @@
                        </div>
                    </div>
                </div>
+
                 @if($articles->count())
                     <div class="col-xs-12 col-md-4">
                         <aside class="player-articles card card--no-shadow">
