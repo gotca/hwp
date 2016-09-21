@@ -112,6 +112,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{elixir('js/player.js')}}"></script>
 @endpush

@@ -81,8 +81,10 @@ function drawCharts() {
 
 }
 
+google.charts.load('current', {'packages':['corechart']});
+
 // when google is loaded, make the charts
-google.setOnLoadCallback(function () {
+google.charts.setOnLoadCallback(function(){
 	initCharts();
 	drawCharts();
 
