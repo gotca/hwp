@@ -12,9 +12,25 @@ class Recent extends Model
     use BelongsToTenant, HasTotal;
 
     /**
-     *  How long should titles be?
+     * How long should titles be?
+     *
+     * @param int
      */
     const TITLE_LIMIT = 30;
+
+    /**
+     * The different renderer types, match the renderer field in the db table
+     *
+     */
+    const TYPE_PHOTOS = 'photos';
+
+    const TYPE_ARTICLES = 'articles';
+
+    const TYPE_NOTE = 'note';
+
+    const TYPE_GAME = 'game';
+
+    const TYPE_TOURNAMENT = 'tournament';
 
 
     /**

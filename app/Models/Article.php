@@ -13,6 +13,15 @@ class Article extends Model
         'published' => 'datetime'
     ];
 
+    protected $fillable = [
+        'title',
+        'url',
+        'photo',
+        'description',
+        'published'
+    ];
+
+
     public function players()
     {
         return $this->belongsToMany('App\Models\Player')

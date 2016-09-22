@@ -3,30 +3,31 @@
 namespace App\Notifications;
 
 use App\Channels\LogChannel;
-use App\Models\Rank;
+use App\Models\Article;
 use App\Notifications\Traits\Loggable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class RankingsUpdated extends Notification implements ShouldQueue
+class ArticlesImported extends Notification implements ShouldQueue
 {
     use Loggable, Queueable;
 
     /**
-     * @var Rank
+     * @var Article
      */
-    protected $rank;
+    protected $article;
 
     /**
      * Create a new notification instance.
      *
+     * @param Article $article
      * @return void
      */
-    public function __construct(Rank $rank)
+    public function __construct(Article $article)
     {
-        $this->rank = $rank;
+        $this->article = $article;
     }
 
     /**
@@ -50,7 +51,7 @@ class RankingsUpdated extends Notification implements ShouldQueue
     {
         return [
             'message' => $this->getMessage(),
-            'context' => $this->rank->toArray()
+            'context' => $this->article->toArray()
         ];
     }
 
@@ -68,12 +69,9 @@ class RankingsUpdated extends Notification implements ShouldQueue
     }
 
     protected function getMessage() {
-        if ($this->rank->tied) {
-            $key = 'notifications.rankingsTied';
-        } else {
-            $key = 'notifications.rankings';
-        }
-
-        return trans($key, ['rank' => $this->rank->rank]);
+        return trans('notifications.articleImported', [
+            'title' => $this->article->title,
+            'url' => $this->article->url
+        ]);
     }
 }

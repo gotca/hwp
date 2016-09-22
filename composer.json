@@ -12,8 +12,7 @@
         "barryvdh/laravel-debugbar": "^2.2",
         "eluceo/ical": "^0.10.1",
         "fusonic/opengraph": "@dev",
-        "pusher/pusher-php-server": "^2.6",
-        "predis/predis": "^1.1",
+        "predis/predis": "~1.0",
         "illuminated/console-logger": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
         "fabpot/goutte": "^3.1"
