@@ -13,7 +13,7 @@ class ArticleImages extends Command
      *
      * @var string
      */
-    protected $signature = 'articles:images';
+    protected $signature = 'parsers:articles:images';
 
     /**
      * The console command description.
