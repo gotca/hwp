@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\ArticleImages;
 use App\Console\Commands\GenerateJSPlayerList;
 use App\Console\Commands\HudsonvilleAthleticsParser;
+use App\Console\Commands\MLiveParser;
 use App\Console\Commands\MWPARankingCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,7 +21,8 @@ class Kernel extends ConsoleKernel
         GenerateJSPlayerList::class,
         ArticleImages::class,
         MWPARankingCommand::class,
-        HudsonvilleAthleticsParser::class
+        HudsonvilleAthleticsParser::class,
+        MLiveParser::class
     ];
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
-use App\Events\Contracts\Recent;
-use App\Models\Recent as RecentModel;
+use App\Events\Contracts\Recent as RecentEvent;
+use App\Models\Recent as Recent;
 use App\Models\Season;
 use App\Models\Site;
 use Illuminate\Broadcasting\Channel;
@@ -14,7 +14,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ArticlesImported implements Recent, ShouldQueue
+class ArticleImported implements RecentEvent, ShouldQueue
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -29,14 +29,9 @@ class ArticlesImported implements Recent, ShouldQueue
     public $season;
 
     /**
-     * @var array
-     */
-    public $articleIds;
-
-    /**
      * @var int
      */
-    public $articleTags;
+    public $articleId;
 
     /**
      * Create a new event
@@ -44,16 +39,14 @@ class ArticlesImported implements Recent, ShouldQueue
      * @param Site $site
      * @param Season $season
      * @param array $articleIds
-     * @param int $articleTags
      *
      * @return void
      */
-    public function __construct(Site $site, Season $season, array $articleIds, $articleTags)
+    public function __construct(Site $site, Season $season, $articleId)
     {
         $this->site = $site;
         $this->season = $season;
-        $this->articleIds = $articleIds;
-        $this->articleTags = $articleTags;
+        $this->articleId = $articleId;
     }
 
     /**
@@ -93,7 +86,7 @@ class ArticlesImported implements Recent, ShouldQueue
      */
     public function getRenderer()
     {
-        return RecentModel::TYPE_ARTICLES;
+        return Recent::TYPE_ARTICLES;
     }
 
     /**
@@ -103,7 +96,7 @@ class ArticlesImported implements Recent, ShouldQueue
      */
     public function getContent()
     {
-        return json_encode($this->articleIds);
+        return json_encode([$this->articleId]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\Contracts\Recent as RecentContract;
+use App\Events\Contracts\Recent as RecentEvent;
 use App\Models\Recent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,10 +22,10 @@ class RecentListener
     /**
      * Create the entry in the recent table
      *
-     * @param  RecentContract  $event
+     * @param  RecentEvent  $event
      * @return void
      */
-    public function handle(RecentContract $event)
+    public function handle(RecentEvent $event)
     {
         $recent = new Recent();
         $recent->site_id = $event->getSiteId();

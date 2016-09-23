@@ -17,8 +17,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\RecentListener',
         ],
 
-        'App\Events\ArticlesImported' => [
-            'App\Listeners\ArticlesImportedNotifier'
+        'App\Events\ArticleImported' => [
+            'App\Listeners\ArticleImportedNotifier'
         ]
     ];
 
