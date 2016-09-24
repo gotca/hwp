@@ -71,13 +71,12 @@
             </header>
 
             <p class="subscribe-link text-align--center">
-                <a href="@route('schedule.subscribe')"
-                   title="@lang('schedule.subscribe')"
-                   class="btn btn--text btn--lg"
-                   target="_blank"
+                <button
+                    title="@lang('schedule.subscribe')"
+                    class="subscribe btn btn--text btn--lg"
                 >
                     <i class="fa fa-calendar"></i> @lang('schedule.subscribe')
-                </a>
+                </button>
             </p>
 
             <table class="table table--striped schedule">
@@ -148,6 +147,49 @@
         </div>
 
     </article>
+
+    <script type="text/html" id="subscribe-modal">
+        <article class="note subscribe-modal">
+            <header class="bg--dark bg--grid">
+                <h1>Subscribe</h1>
+            </header>
+            <div class="body">
+                <p>Choose how you would like to subscribe below</p>
+                <ul class="subscribe-providers">
+                    <li>
+                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal:')" target="_blank">
+                            <i class="fa fa-apple"></i>
+                            Apple Calendar
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal:')" target="_blank">
+                            <i class="fa fa-windows"></i>
+                            Outlook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.google.com/calendar/render?cid=http:@route('schedule.subscribe')" target="_blank">
+                            <i class="fa fa-google"></i>
+                            Google <em>(online)</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://calendar.live.com/calendar/calendar.aspx?rru=addsubscription&url=http:@route('schedule.subscribe')&name=@lang('vcal.name')'" target="_blank">
+                            <i class="fa fa-windows"></i>
+                            Outlook.com <em>(online)</em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@route('schedule.subscribe')" target="_blank">
+                            <i class="fa fa-clipboard"></i>
+                            Copy/Paste
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </script>
 @endsection
 
 @push('scripts')

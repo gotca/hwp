@@ -6230,6 +6230,39 @@ hr {
   border-bottom: 1px solid #bfbfbf;
   margin: 2em 0; }
 
+.subscribe-modal .body p {
+  margin-top: 0; }
+
+.subscribe-providers {
+  list-style: none;
+  padding: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  position: relative;
+  top: 0.5em; }
+  .subscribe-providers li {
+    -ms-flex: 1;
+    flex: 1;
+    text-align: center;
+    line-height: 1.1em;
+    margin-bottom: 0.5em; }
+    .subscribe-providers li a {
+      display: inline-block;
+      padding: 0.5em;
+      color: gray;
+      transition: all .25s ease-in-out; }
+      .subscribe-providers li a:hover, .subscribe-providers li a:active, .subscribe-providers li a:focus {
+        text-decoration: none;
+        color: #2a82c9; }
+      .subscribe-providers li a i.fa {
+        display: block;
+        font-size: 2em;
+        margin-bottom: 0.25em; }
+
 .vex.vex-theme-note {
   padding-top: 3em;
   padding-bottom: 3em; }

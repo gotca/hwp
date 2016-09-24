@@ -19,6 +19,10 @@ class RouteDirectiveServiceProvider extends ServiceProvider
             return "<?php echo route($expression); ?>";
         });
 
+        Blade::directive('routeWithProtocol', function($expression) {
+            return "<?php echo ".__CLASS__."::routeWithProtocol($expression); ?>";
+        });
+
         Blade::directive('url', function($expression) {
             return "<?php echo url($expression); ?>";
         });
@@ -36,6 +40,11 @@ class RouteDirectiveServiceProvider extends ServiceProvider
         }
 
         return '';
+    }
+
+    public static function routeWithProtocol($routeName, $params, $protocol)
+    {
+        return $protocol . route($routeName, $params);
     }
 
     /**

@@ -9,7 +9,7 @@
 	vex.defaultOptions.className = 'vex-theme-default';
 
 	$(document).ready(function() {
-		$(document).on('click', '.note', function() {
+		$(document).on('click', '[data-note-id]', function() {
 			var self = $(this);
 
 			$(this).addClass('loading');
