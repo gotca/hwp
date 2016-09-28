@@ -157,6 +157,7 @@ return [
         HipsterJazzbo\Landlord\LandlordServiceProvider::class,
         Thetispro\Setting\SettingServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        NotificationChannels\Twitter\TwitterServiceProvider::class,
 
 
 

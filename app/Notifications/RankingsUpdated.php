@@ -9,6 +9,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use NotificationChannels\Twitter\TwitterChannel;
+use NotificationChannels\Twitter\TwitterStatusUpdate;
 
 class RankingsUpdated extends Notification implements ShouldQueue
 {
@@ -37,7 +39,7 @@ class RankingsUpdated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return $this->sendToLog() ? [LogChannel::class] : ['twitter'];
+        return $this->sendToLog() ? [LogChannel::class] : [TwitterChannel::class];
     }
 
     /**
@@ -52,6 +54,17 @@ class RankingsUpdated extends Notification implements ShouldQueue
             'message' => $this->getMessage(),
             'context' => $this->rank->toArray()
         ];
+    }
+
+    /**
+     * Get the twitter status update for this notification.
+     *
+     * @param $notifiable
+     * @return TwitterStatusUpdate
+     */
+    public function toTwitter($notifiable)
+    {
+        return new TwitterStatusUpdate($this->getMessage());
     }
 
     /**

@@ -17,7 +17,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "fabpot/goutte": "^3.1",
         "symfony/dom-crawler": "^3.1",
-        "symfony/css-selector": "^3.1"
+        "symfony/css-selector": "^3.1",
+        "laravel-notification-channels/twitter": "^0.0.6"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

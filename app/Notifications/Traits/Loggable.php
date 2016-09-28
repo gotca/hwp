@@ -15,7 +15,7 @@ trait Loggable
      */
     public function sendToLog()
     {
-        return App::environment('local', 'dev', 'staging');
+        return env('LOG_NOTIFICATIONS');
     }
 
 }
