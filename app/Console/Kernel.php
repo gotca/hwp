@@ -33,7 +33,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('parsers:articles:hudsonvilleathletics --domain=hudsonvillewaterpolo')->hourly();
+        $schedule->command('parsers:articles:mlive --domain=hudsonvillewaterpolo')->hourly();
+        $schedule->command('parsers:mwpa:rankings --domain=hudsonvillewaterpolo')->hourly();
     }
 }
