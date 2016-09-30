@@ -24,6 +24,8 @@ class CreatePlayerSeason extends Migration
             $table->string('shutterfly_tag')->nullable();
             $table->integer('sort')->nullable();
             $table->timestamps();
+
+            $table->unique(['player_id', 'season_id']);
         });
     }
 
