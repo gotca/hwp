@@ -20,6 +20,8 @@ class CreatePhotoPlayer extends Migration
             $table->integer('photo_id')->unsigned();
             $table->timestamps();
 
+            $table->unique(['player_id', 'season_id', 'photo_id'], 'photo_player_unique');
+
             $table->foreign('photo_id')
                 ->references('id')->on('photos')
                 ->onDelete('cascade')

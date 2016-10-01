@@ -16,10 +16,13 @@ class CreatePhotos extends Migration
             $table->increments('id');
             $table->site();
             $table->season();
+            $table->string('shutterfly_id')->nullable();
             $table->string('file');
             $table->integer('width');
             $table->integer('height');
             $table->timestamps();
+
+            $table->unique(['shutterfly_id']);
         });
     }
 
