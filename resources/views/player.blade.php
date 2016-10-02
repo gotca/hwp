@@ -10,7 +10,7 @@
         <header class="page-header bg--dark">
             <div class="bg-elements">
                 <div class="bg--gradient"></div>
-                <div class="bg--img" style="background-image: url({{$headerPhoto->photo}});"></div>
+                <div class="bg--img" style="background-image: url({{$headerPhoto ? $headerPhoto->photo : 'images/ezra-ball.png'}});"></div>
             </div>
 
             <div class="container">
