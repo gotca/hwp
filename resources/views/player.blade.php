@@ -60,6 +60,10 @@
                     </div>
                 </div>
             </section>
+        @else
+            <script>
+                var stats = window.stats || {};
+            </script>
         @endif
 
         @if($badges->count())
