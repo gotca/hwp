@@ -15,7 +15,7 @@ class CreateGameStatDumps extends Migration
         $this->schema->create('game_stat_dumps', function (Blueprint $table) {
             $table->increments('id');
             $table->site();
-            $table->integer('game_id')->unsigned();
+            $table->integer('game_id')->unsigned()->unique();
             $table->text('json')->nullable();
             $table->timestamps();
 
