@@ -52,6 +52,8 @@ class CreateStats extends Migration
 
             $table->timestamps();
 
+            $table->unique(['player_id', 'game_id']);
+
             $table->foreign('game_id')
                 ->references('id')->on('games')
                 ->onDelete('cascade')

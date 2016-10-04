@@ -23,11 +23,12 @@ class PlayerListService
 
     /**
      * PlayerListService constructor.
+     *
      * @param PlayerSeason $players
      */
     public function __construct(PlayerSeason $players, ActiveSeason $activeSeason)
     {
-        $this->playerList = Cache::rememberForever('playerlist-'.$activeSeason->id, function() use ($players, $activeSeason) {
+        $this->playerList = Cache::rememberForever('playerlist-' . $activeSeason->id, function() use ($players, $activeSeason) {
             return $players->with('player')
                 ->select('player_season.*')
                 ->join('players', 'players.id', '=', 'player_season.player_id')
@@ -48,6 +49,13 @@ class PlayerListService
     public function all()
     {
         return $this->playerList;
+    }
+
+    public function getIdForNameKey($nameKey)
+    {
+        return $this->playerList->flatten()->first(function($playerSeason) use ($nameKey) {
+            return $playerSeason->player->name_key === $nameKey;
+        })->player_id;
     }
 
 

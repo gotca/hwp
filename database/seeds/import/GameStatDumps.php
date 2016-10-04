@@ -19,6 +19,8 @@ class GameStatDumps extends ImportBase
             $this->addSiteToData($data);
             $this->rename($data, 'json_dump', 'json');
 
+            $data->json = $this->fixNameKeys($data->json);
+
             if ($data->dump_version == "1") {
                 $data->json = $this->convertToNewVersion($data->json);
             }
@@ -53,5 +55,15 @@ class GameStatDumps extends ImportBase
 
         $obj->boxscore[1] = $quarters;
         return json_encode($obj);
+    }
+
+    private function fixNameKeys($json)
+    {
+        $misspellings = [
+            'AustonAtwood' => 'AustinAtwood',
+            'AnthonyShepard ' => 'AnthonyShepard'
+        ];
+
+        return str_replace(array_keys($misspellings), array_values($misspellings), $json);
     }
 }
