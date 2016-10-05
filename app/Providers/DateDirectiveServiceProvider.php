@@ -81,7 +81,7 @@ class DateDirectiveServiceProvider extends ServiceProvider
         if ($d->isToday()) {
             return trans('misc.today');
 
-        } elseif ($d->diffInDays() < 7) {
+        } elseif ($d->diffInDays() < 6) {
             return $d->format($full ? self::DAY : self::DAY_SHORT);
 
         } else {
