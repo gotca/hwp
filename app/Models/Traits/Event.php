@@ -26,7 +26,8 @@ trait Event
     public function scopeUpcoming(Builder $query)
     {
         $today = Carbon::today();
-        return $query->where('end', '>=', $today);
+        return $query->where('end', '>=', $today)
+            ->orderBy('start', 'asc');
     }
 
     /**
