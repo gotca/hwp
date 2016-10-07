@@ -16,9 +16,12 @@ class CreateAlbums extends Migration
             $table->increments('id');
             $table->site();
             $table->season();
+            $table->string('shutterfly_id')->nullable();
             $table->integer('cover_id')->unsigned();
             $table->string('title');
             $table->timestamps();
+
+            $table->unique(['shutterfly_id']);
 
             $table->foreign('cover_id')
                 ->references('id')->on('photos')
