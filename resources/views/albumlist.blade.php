@@ -11,8 +11,8 @@
             <div class="bg-elements">
                 <div class="bg--gradient"></div>
                 <div class="bg--img"
-                    @if($albums->count())
-                        style="background-image: url({{ $albums->random()->cover->photo  }})"
+                    @if($cover)
+                        style="background-image: url({{ $cover->photo  }})"
                     @endif
                 ></div>
             </div>

@@ -17,7 +17,13 @@ class AlbumController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('albumlist', compact('albums'));
+        $albums = $albums->filter(function($album) {
+           return $album->photos_count > 0;
+        });
+
+        $cover = $albums->random()->cover;
+
+        return view('albumlist', compact('albums', 'cover'));
     }
 
     public function photos(PhotoAlbum $album)

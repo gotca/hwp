@@ -5885,7 +5885,8 @@ table.schedule {
 
 .album-list .photo-album {
   height: 200px;
-  margin: 15px; }
+  margin: 15px;
+  position: relative; }
   @media (min-width: 48em) {
     .album-list .photo-album {
       min-width: 40%; } }
