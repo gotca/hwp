@@ -5576,22 +5576,30 @@ ul.pager {
 aside.upcoming {
   background-color: #f2f2f2; }
 
-table.upcoming {
-  overflow-y: auto; }
-  table.upcoming tr.upcoming-day td {
-    font-family: "League Gothic", "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    text-transform: uppercase;
-    font-size: 1.1em;
-    font-size: 1.25em;
-    color: #3c3c3c;
-    background: #aaa; }
-  table.upcoming .upcoming-time {
-    width: 50px; }
-  table.upcoming .upcoming-team {
-    color: #bfbfbf;
-    text-align: center; }
-  table.upcoming .upcoming-opponent {
-    width: 45%; }
+@media (min-width: 75em) {
+  .upcoming-scroller {
+    position: absolute;
+    top: 67px;
+    bottom: 0;
+    overflow-y: auto; } }
+
+table.upcoming tr.upcoming-day td {
+  font-family: "League Gothic", "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.1em;
+  font-size: 1.25em;
+  color: #3c3c3c;
+  background: #aaa; }
+
+table.upcoming .upcoming-time {
+  width: 50px; }
+
+table.upcoming .upcoming-team {
+  color: #bfbfbf;
+  text-align: center; }
+
+table.upcoming .upcoming-opponent {
+  width: 45%; }
 
 .page--schedule .schedule--upcoming table {
   font-size: 1.2em; }

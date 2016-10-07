@@ -2,8 +2,16 @@ aside.upcoming {
   background-color: $striped-base-color;
 }
 
+.upcoming-scroller {
+  @include responsive(lg) {
+    position: absolute;
+    top: 67px;
+    bottom: 0;
+    overflow-y: auto;
+  }
+}
+
 table.upcoming {
-  overflow-y: auto;
 
   tr.upcoming-day td {
     @include table-subhead();

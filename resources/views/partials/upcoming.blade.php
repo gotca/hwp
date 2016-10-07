@@ -4,10 +4,10 @@
         <a href="@route('schedule')" title="@lang('misc.viewAll')">@lang('misc.viewAll')</a>
     </header>
 
-    <table class="body upcoming table table--striped">
-
-        @forelse($upcoming as $date => $events)
-            <tbody>
+    <div class="upcoming-scroller">
+        <table class="body upcoming table table--striped">
+            @forelse($upcoming as $date => $events)
+                <tbody>
                 <tr class="upcoming-day">
                     <td colspan="4">@day(new Carbon\Carbon($date))</td>
                 </tr>
@@ -21,12 +21,12 @@
                         </td>
                     </tr>
                 @endforeach
-            </tbody>
-        @empty
-            <tbody>
+                </tbody>
+            @empty
+                <tbody>
                 <tr><td>@include('partials.nothing-here-yet')</td></tr>
-            </tbody>
-        @endforelse
-
-    </table>
+                </tbody>
+            @endforelse
+        </table>
+    </div>
 </aside>
