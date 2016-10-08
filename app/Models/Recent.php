@@ -92,7 +92,7 @@ class Recent extends Model
      */
     public function getRenderer()
     {
-        $class = '\\App\\Models\\Recent\\Render\\' . $this->renderer;
+        $class = '\\App\\Models\\Recent\\Render\\' . ucwords($this->renderer);
         return new $class($this->content, $this);
     }
 }
