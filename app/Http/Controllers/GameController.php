@@ -39,21 +39,12 @@ class GameController extends Controller
                 $statusUs = $statusThem = Game::TIE;
         }
 
-        // convert the player stats to actual stat objects for the generated values
-        foreach($stats->stats as $k => &$v) {
-            $namesByKey[$k] = '<a href="'.route('players', ['name_key'=>$v->name_key]).'">#' . $v->number. ' ' . $v->first_name . ' ' .$v->last_name.'</a>';
-            $v = get_object_vars($v);
-            $v = new Stat($v);
-        }
+        $players = $game->stats()->with('player.seasons')->get();
+        $goalies = $players->filter(function($stat) use($namesByKey) {
+            return $stat->saves > 0 || $stat->goals_allowed > 0;
+        });
 
-        $goalies = [];
-        foreach($stats->stats as $namekey => $player) {
-            if ($player->saves > 0 || $player->goals_allowed > 0) {
-                $goalies[$namekey] = $player;
-            }
-        }
-
-        return view('partials.game.stats', compact('game', 'headerPhoto', 'stats', 'goalies', 'namesByKey', 'statusUs', 'statusThem'));
+        return view('partials.game.stats', compact('game', 'headerPhoto', 'stats', 'players', 'goalies', 'statusUs', 'statusThem'));
     }
 
     public function photos(Game $game)

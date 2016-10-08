@@ -95,14 +95,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($goalies as $player)
+                @foreach($goalies as $stat)
                     <tr>
-                        <th>{!! $namesByKey[$player->name_key] !!}</th>
+                        <th>@playerLink($stat->player)</th>
                         @foreach($fields as $key => &$sum)
                             <td class="stat--{{$key}}" data-title="@lang('stats.'.$key)">
-                                <span>@number($player->$key)</span></td>
+                                <span>@number($stat->$key)</span></td>
                             <?php
-                            $sum += $player->$key;
+                            $fields[$key] += $stat->$key;
                             ?>
                         @endforeach
                     </tr>
@@ -139,7 +139,7 @@
                     'shooting_percent' => 0,
                     'assists' => 0,
                     'steals' => 0,
-                    'turn_overs' => 0,
+                    'turnovers' => 0,
                     'steals_to_turnovers' => 0,
                     'blocks' => 0,
                     'kickouts' => 0,
@@ -165,14 +165,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($stats->stats as $player)
+                @foreach($players as $stat)
                     <tr>
-                        <th>{!! $namesByKey[$player->name_key] !!}</th>
+                        <th>@playerLink($stat->player)</th>
                         @foreach($fields as $key => &$sum)
                             <td class="stat--{{$key}}" data-title="@lang('stats.'.$key)">
-                                <span>@numberOrNothing($player->$key)</span></td>
+                                <span>@numberOrNothing($stat->$key)</span>
+                            </td>
                             <?php
-                            $sum += $player->$key;
+                            $fields[$key] += $stat->$key;
                             ?>
                         @endforeach
                     </tr>
@@ -181,6 +182,7 @@
                 <tfoot>
                 <tr>
                     <?php
+                    app('debugbar')->info($fields);
                     $totals = new \App\Models\Stat($fields);
                     ?>
                     <th>@lang('stats.totals')</th>

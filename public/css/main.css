@@ -5931,7 +5931,7 @@ nav.sub-nav {
     border-top: 2px solid #bfbfbf; }
   .stats-table td span:empty {
     opacity: .6; }
-    .stats-table td span:empty::before {
+    .stats-table td span:empty::after {
       content: '0'; }
   .stats-table tr:nth-child(even) td,
   .stats-table tr:nth-child(even) th {
@@ -5956,6 +5956,11 @@ nav.sub-nav {
   color: #3c3c3c;
   background: #aaa;
   border-bottom: 0; }
+
+.stat--save_percent span::after,
+.stat--shooting_percent span::after,
+.stat--five_meters_percent span::after {
+  content: '%'; }
 
 .card .player-articles-body {
   padding: 0; }

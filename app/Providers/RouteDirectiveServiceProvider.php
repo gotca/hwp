@@ -30,6 +30,10 @@ class RouteDirectiveServiceProvider extends ServiceProvider
         Blade::directive('active', function($expression) {
             return "<?php echo ".__CLASS__."::active($expression); ?>";
         });
+        
+        Blade::directive('playerLink', function($expression) {
+            return "<?php echo ".__CLASS__."::playerLink($expression); ?>";
+        });
     }
 
     public static function active($name, $className = 'active')
@@ -45,6 +49,11 @@ class RouteDirectiveServiceProvider extends ServiceProvider
     public static function routeWithProtocol($routeName, $params, $protocol)
     {
         return $protocol . route($routeName, $params);
+    }
+    
+    static public function playerLink($player)
+    {
+        return '<a href="'.route('players', ['name_key'=>$player->name_key]).'">#' . $player->seasons->first()->number. ' ' . $player->first_name . ' ' .$player->last_name.'</a>';
     }
 
     /**
