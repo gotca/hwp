@@ -82,10 +82,5 @@ class SaveScoringStats extends LoggedCommand
         }
     }
 
-    protected function getNotificationLevel()
-    {
-        return Logger::DEBUG;
-    }
-
 
 }
