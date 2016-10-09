@@ -48,7 +48,7 @@ class RouteDirectiveServiceProvider extends ServiceProvider
 
     public static function routeWithProtocol($routeName, $params, $protocol)
     {
-        return $protocol . route($routeName, $params);
+        return preg_replace('/(ht|s?f)tps?/', $protocol, route($routeName, $params));
     }
     
     static public function playerLink($player)

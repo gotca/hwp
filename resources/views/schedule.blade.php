@@ -157,25 +157,25 @@
                 <p>Choose how you would like to subscribe below</p>
                 <ul class="subscribe-providers">
                     <li>
-                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal:')" target="_blank">
+                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal')" target="_blank">
                             <i class="fa fa-apple"></i>
                             Apple Calendar
                         </a>
                     </li>
                     <li>
-                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal:')" target="_blank">
+                        <a href="@routeWithProtocol('schedule.subscribe', null, 'webcal')" target="_blank">
                             <i class="fa fa-windows"></i>
                             Outlook
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.google.com/calendar/render?cid=http:@route('schedule.subscribe')" target="_blank">
+                        <a href="http://www.google.com/calendar/render?cid=@route('schedule.subscribe')" target="_blank">
                             <i class="fa fa-google"></i>
                             Google <em>(online)</em>
                         </a>
                     </li>
                     <li>
-                        <a href="http://calendar.live.com/calendar/calendar.aspx?rru=addsubscription&url=http:@route('schedule.subscribe')&name=@lang('vcal.name')'" target="_blank">
+                        <a href="http://calendar.live.com/calendar/calendar.aspx?rru=addsubscription&url=@route('schedule.subscribe')&name=@lang('vcal.name')'" target="_blank">
                             <i class="fa fa-windows"></i>
                             Outlook.com <em>(online)</em>
                         </a>
