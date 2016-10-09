@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Player;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -53,6 +54,14 @@ class RouteDirectiveServiceProvider extends ServiceProvider
     
     static public function playerLink($player)
     {
+        if (! $player instanceof Player) {
+            try {
+                $player = Player::nameKey($player)->with('seasons')->firstOrFail();
+            } catch(\Exception $e) {
+                return $player;
+            }
+        }
+
         return '<a href="'.route('players', ['name_key'=>$player->name_key]).'">#' . $player->seasons->first()->number. ' ' . $player->first_name . ' ' .$player->last_name.'</a>';
     }
 

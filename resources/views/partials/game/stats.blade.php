@@ -227,7 +227,7 @@
                                         </tr>
                                         @forelse($us[$i][$j] as $nameKey => $goals)
                                             <tr>
-                                                <th>{!! $namesByKey[$nameKey] or $nameKey !!}</th>
+                                                <th>@playerLink($nameKey)</th>
                                                 <td>{{$goals}}</td>
                                             </tr>
                                         @empty
