@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use Eluceo\iCal\Component\Timezone;
+use Eluceo\iCal\Component\TimezoneRule;
+use Eluceo\iCal\Property\Event\RecurrenceRule;
 use Illuminate\Http\Request;
 use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
@@ -40,26 +43,28 @@ class ScheduleController extends Controller
      *
      * @return mixed
      */
-    public function subscribe()
+    public function subscribe(Request $request)
     {
         $schedule = Schedule::with(['location', 'scheduled'])
             ->withCount(['album', 'updates', 'boxStats'])
             ->orderBy('start', 'asc')
             ->get();
 
+        $tz = $this->getTimezone();
+
         $vCal = new Calendar('HudsonvilleWaterPolo.com');
         $vCal
-            ->setMethod('PUBLISH')
             ->setName(trans('vcal.name'))
             ->setDescription(trans('vcal.description'))
             ->setCalId('HudsonvilleWaterPolo.com')
-            ->setTimezone('US/Eastern');
+            ->setTimezone($tz);
 
         foreach ($schedule as $item) {
             $vEvent = new Event();
             $vEvent
-                ->setDtStamp($item->start)
+                ->setDtStart($item->start)
                 ->setDtEnd($item->end)
+                ->setUseTimezone(true)
                 ->setSummary(trans('schedule.iCalSummary', [
                     'team' => trans('misc.'.$item->team),
                     'type' => $item->type,
@@ -104,8 +109,51 @@ class ScheduleController extends Controller
             $vCal->addComponent($vEvent);
         }
 
-        return response($vCal->render())
-            ->header('Content-Type', 'text/calendar; charset=utf-8')
-            ->header('Content-Disposition', 'attachment; filename="ical.ics"');
+        $data = $vCal->render();
+
+        if ($request->has('text')) {
+            return response($data)
+                ->header('Content-Type', 'text/plain; charset=utf-8');
+        } else {
+            return response($data)
+                ->header('Content-Type', 'text/calendar; charset=utf-8')
+                ->header('Content-Disposition', 'attachment; filename="ical.ics"');
+        }
+    }
+
+    protected function getTimezone() {
+        $tz  = 'America/Detroit';
+        $dtz = new \DateTimeZone($tz);
+
+        // Create timezone rule object for Standard Time
+        $std = new TimezoneRule(TimezoneRule::TYPE_STANDARD);
+        $std->setTzName('US-Eastern-STD');
+        $std->setDtStart(new \DateTime('1967-10-29 2:00:00', $dtz));
+        $std->setTzOffsetFrom('-0400');
+        $std->setTzOffsetTo('-0500');
+        $stdRecurrenceRule = new RecurrenceRule();
+        $stdRecurrenceRule->setFreq(RecurrenceRule::FREQ_YEARLY);
+        $stdRecurrenceRule->setByDay('-1SU');
+        $stdRecurrenceRule->setByMonth(10);
+        $std->setRecurrenceRule($stdRecurrenceRule);
+
+        // Create timezone rule object for Daylight Saving Time
+        $dst = new TimezoneRule(TimezoneRule::TYPE_DAYLIGHT);
+        $dst->setTzName('US-Eastern-DST');
+        $dst->setDtStart(new \DateTime('1987-04-05 02:00:00', $dtz));
+        $dst->setTzOffsetFrom('-0500');
+        $dst->setTzOffsetTo('-0400');
+        $dstRecurrenceRule = new RecurrenceRule();
+        $dstRecurrenceRule->setFreq(RecurrenceRule::FREQ_YEARLY);
+        $dstRecurrenceRule->setByDay('-1SU');
+        $dstRecurrenceRule->setByMonth(4);
+        $dst->setRecurrenceRule($dstRecurrenceRule);
+
+        // Create timezone definition and add rules
+        $vtz = new Timezone($tz);
+        $vtz->addComponent($std);
+        $vtz->addComponent($dst);
+
+        return $vtz;
     }
 }
