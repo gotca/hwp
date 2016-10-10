@@ -62,6 +62,7 @@ class ScheduleController extends Controller
         foreach ($schedule as $item) {
             $vEvent = new Event();
             $vEvent
+                ->setDtStamp($item->start)
                 ->setDtStart($item->start)
                 ->setDtEnd($item->end)
                 ->setUseTimezone(true)
