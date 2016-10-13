@@ -155,7 +155,7 @@ class DateDirectiveServiceProvider extends ServiceProvider
     static public function time(Carbon $d, $treatMidnightAsAllDay = true)
     {
         $str = $d->format(self::TIME);
-        return $treatMidnightAsAllDay ? str_replace($str, '12:00am', trans('misc.allDay')) : $str;
+        return $treatMidnightAsAllDay ? str_replace('12:00am', trans('misc.allDay'), $str) : $str;
     }
 
     /**
