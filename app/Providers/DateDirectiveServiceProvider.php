@@ -149,11 +149,13 @@ class DateDirectiveServiceProvider extends ServiceProvider
      * Formats as 5:30pm
      *
      * @param Carbon $d
+     * @param boolean $treatMidnightAsAllDay replaces 12:00AM with all day
      * @return string
      */
-    static public function time(Carbon $d)
+    static public function time(Carbon $d, $treatMidnightAsAllDay = true)
     {
-        return $d->format(self::TIME);
+        $str = $d->format(self::TIME);
+        return $treatMidnightAsAllDay ? str_replace($str, '12:00am', trans('misc.allDay')) : $str;
     }
 
     /**

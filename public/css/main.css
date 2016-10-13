@@ -5592,7 +5592,8 @@ table.upcoming tr.upcoming-day td {
   background: #aaa; }
 
 table.upcoming .upcoming-time {
-  width: 50px; }
+  width: 50px;
+  white-space: nowrap; }
 
 table.upcoming .upcoming-team {
   color: #bfbfbf;
