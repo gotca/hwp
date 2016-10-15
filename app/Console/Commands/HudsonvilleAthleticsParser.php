@@ -31,6 +31,13 @@ class HudsonvilleAthleticsParser extends ArticleImporter
     protected $url = "http://feeds.feedburner.com/hudsonvilleathletics?format=xml";
 
     /**
+     * The key in the settings file for the site
+     *
+     * @var string
+     */
+    protected $settingKey = 'hudsonvilleathletics';
+
+    /**
      * Gets the last ran timestamp and does all the hard work
      *
      * @param $lastRan
@@ -38,6 +45,8 @@ class HudsonvilleAthleticsParser extends ArticleImporter
      */
     protected function parse($lastRan)
     {
+        $this->logDebug('Last Ran', [$lastRan]);
+
         $feed = new \SimpleXMLElement($this->url, null, true);
         $imported_articles = [];
         $imported_tags = 0;
@@ -45,12 +54,18 @@ class HudsonvilleAthleticsParser extends ArticleImporter
 
             // if the pubdate is less than our last parse just continue on
             if($lastRan > strtotime((string)$item->pubDate)) {
+                $this->logDebug('Skipping article, to old', [
+                    'title' => (string) $item->title,
+                    'pubDate' => (string) $item->pubDate,
+                    'pubDateTS' => strtotime((string)$item->pubdate),
+                ]);
                 continue;
+                
             } else {
                 // search the article for players
                 $found_players = [];
                 $content = strip_tags(html_entity_decode((string)$item->children('http://purl.org/rss/1.0/modules/content/')->encoded));
-                $this->playerlist->each(function($playerSeason) use ($found_players, $content) {
+                $this->playerlist->each(function($playerSeason) use (&$found_players, $content) {
                     $found_pos = stripos($content, $playerSeason->player->name);
                     if($found_pos !== false){
                         $found_players[$playerSeason->player->id] = $this->excerptAndHighlight(strip_tags($content), $playerSeason->player->name);
@@ -78,13 +93,16 @@ class HudsonvilleAthleticsParser extends ArticleImporter
                         $pta = [
                             'article_id' => $article_id,
                             'player_id' => $player_id,
-                            'highlight' => $highlight
+                            'highlight' => $highlight,
+                            'created_at' => date('Y-m-d G:i:s', $published),
+                            'updated_at' => date('Y-m-d G:i:s', $published)
                         ];
                         $this->playerToArticleInsertStmt->execute($pta);
                         $imported_tags++;
                     }
 
                 } else {
+                    $this->logDebug('skipping article, no players found', ['title' => (string)$item->title]);
                     continue;
                 }
             }
