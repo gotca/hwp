@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tournament;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,7 @@ class TournamentController extends Controller
             ->orderBy('start', 'asc')
             ->get();
 
-        $upcoming = $games->where('end', '>=', time())
+        $upcoming = $games->where('end', '>=', Carbon::create())
             ->groupByDate('start', 'Ymd');
 
         return view('tournament', compact('tournament', 'games', 'upcoming'));
