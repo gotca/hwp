@@ -48,6 +48,10 @@ a.btn {
   font-size: 2em;
 }
 
+.btn.btn--submit {
+  margin: 0 0  0 $gap;
+}
+
 .btn-group {
   display: flex;
 

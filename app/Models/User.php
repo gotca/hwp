@@ -11,6 +11,14 @@ class User extends Authenticatable
     use BelongsToTenant, Notifiable;
 
     /**
+     * Specify the tenant columns to use for this model
+     * This always ignores the season tenant check
+     *
+     * @var array
+     */
+    protected $tenantColumns = ['site_id'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -25,6 +33,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'root'
     ];
 }

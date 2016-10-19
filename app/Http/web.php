@@ -11,6 +11,10 @@
 |
 */
 
+Auth::routes();
+
+
+
 Route::get('/', ['uses' => 'HomeController@index', 'as' => 'home']);
 
 Route::get('/recent', ['uses' => 'HomeController@recent', 'as' => 'recent']);

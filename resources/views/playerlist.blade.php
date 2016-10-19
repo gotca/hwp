@@ -1,6 +1,6 @@
 @inject('playerList', 'App\Services\PlayerListService')
 
-@extends('master')
+@extends('layouts.app')
 
 @section('title')
     Player List -
