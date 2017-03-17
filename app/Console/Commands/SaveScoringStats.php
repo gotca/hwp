@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Advantage;
 use App\Models\GameStatDump;
 use App\Models\Stat;
 use App\Services\PlayerListService;
@@ -51,10 +52,11 @@ class SaveScoringStats extends LoggedCommand
         $game_id = $this->argument('game_id');
         $dump = GameStatDump::with('game')->where('game_id', $game_id)->firstOrFail();
         $data = $dump->json;
-        $fields = array_flip(Stat::FIELDS);
 
+        # STATS
+        $fields = array_flip(Stat::FIELDS);
         foreach ($data->stats as $nameKey => $playerStats) {
-            $this->logDebug('saving', (array)$playerStats);
+            $this->logDebug('saving stats', (array)$playerStats);
             $player_id = $this->playerList->getIdForNameKey($nameKey);
 
             // older entries have turn_overs instead of turnovers
@@ -79,6 +81,26 @@ class SaveScoringStats extends LoggedCommand
             );
             
             $this->logInfo(sprintf('success inserting game #%s for %s', $dump->game_id, $nameKey));
+        }
+
+        # ADVANTAGES
+        foreach ($data->advantage_conversion as $key => $advantage) {
+            $this->logDebug('saving advantage', (array)$advantage);
+
+            $team = $key == 0 ? 'US' : 'THEM';
+            $keys = [
+                'game_id' => $dump->game_id,
+                'team' => $team
+            ];
+            $save = [
+                'site_id' => $dump->site_id,
+                'drawn' => $advantage->drawn,
+                'converted' => $advantage->converted
+            ];
+
+            Advantage::updateOrCreate($keys, $save);
+
+            $this->logInfo(sprintf('success inserting advantage #%s for %s', $dump->game_id, $team));
         }
     }
 

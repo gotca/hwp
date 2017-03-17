@@ -53,9 +53,21 @@ class PlayerListService
 
     public function getIdForNameKey($nameKey)
     {
+        return $this->getPlayerForNameKey($nameKey)->player_id;
+    }
+
+    public function getPlayerForNameKey($nameKey)
+    {
         return $this->playerList->flatten()->first(function($playerSeason) use ($nameKey) {
             return $playerSeason->player->name_key === $nameKey;
-        })->player_id;
+        });
+    }
+
+    public function getPlayerById($id)
+    {
+        return $this->playerList->flatten()->first(function($playerSeason) use ($id) {
+           return $playerSeason->player_id == $id;
+        });
     }
 
 

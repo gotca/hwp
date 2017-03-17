@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Collections\StatCollection;
+use App\Services\PlayerListService;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 
@@ -205,6 +207,13 @@ class Stat extends Model
         'shoot_out_missed',
         'shoot_out_save_percent'
     ];
+
+
+    /**
+     * For editing stats, this is set to the goals they scored per quarter
+     * @var array
+     */
+    public $goalsPerQuarter = [];
     
 
     /**
@@ -222,11 +231,32 @@ class Stat extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * The player for this stat
+     * 
+     * @var PlayerSeason
+     */
+    protected $player;
 
+    /**
+     * @var PlayerListService
+     */
+    private $playerListService;
 
-    public function player()
+    public function __construct($attributes = [])
     {
-        return $this->belongsTo('App\Models\Player');
+        parent::__construct($attributes);
+
+        $this->playerListService = app('App\\Services\\PlayerListService');
+    }
+
+    public function getPlayerAttribute($val)
+    {
+        if (!$this->player) {
+            $this->player = $this->playerListService->getPlayerById($this->player_id);
+        }
+
+        return $this->player;
     }
 
     public function season()
@@ -239,10 +269,14 @@ class Stat extends Model
         return $this->belongsTo('App\Models\Game');
     }
 
+    public function newCollection(array $models = [])
+    {
+        return new StatCollection($models);
+    }
+
     /**
      * Getters for calculated fields
      */
-
     public function getShootingPercentAttribute()
     {
         return $this->ratio($this->goals, $this->shots) * 100;

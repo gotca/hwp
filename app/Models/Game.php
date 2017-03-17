@@ -56,11 +56,20 @@ class Game extends Model
         return $this->hasMany('App\Models\Stat');
     }
 
+    public function advantages()
+    {
+        return $this->hasMany('App\Models\Advantage');
+    }
+
     public function updates()
     {
         return $this->hasOne('App\Models\GameUpdateDump');
     }
 
+    /**
+     * @deprecated
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function boxStats()
     {
         return $this->hasOne('App\Models\GameStatDump');
