@@ -61,6 +61,11 @@ class Game extends Model
         return $this->hasMany('App\Models\Advantage');
     }
 
+    public function boxscores()
+    {
+        return $this->hasMany('App\Models\Boxscore');
+    }
+
     public function updates()
     {
         return $this->hasOne('App\Models\GameUpdateDump');

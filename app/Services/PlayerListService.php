@@ -53,7 +53,12 @@ class PlayerListService
 
     public function getIdForNameKey($nameKey)
     {
-        return $this->getPlayerForNameKey($nameKey)->player_id;
+        $player = $this->getPlayerForNameKey($nameKey);
+        if ($player) {
+            return $player->id;
+        } else {
+            return null;
+        }
     }
 
     public function getPlayerForNameKey($nameKey)

@@ -26,7 +26,8 @@ class ImportSeeder extends Seeder
         \Import\GameUpdateDumps::class,
         \Import\GameStatDumps::class,
         \Import\Stats::class,
-        \Import\Advantages::class
+        \Import\Advantages::class,
+        \Import\BoxScores::class
     ];
 
     /**

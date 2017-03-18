@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Advantage;
+use App\Models\Boxscore;
 use App\Models\GameStatDump;
 use App\Models\Stat;
 use App\Services\PlayerListService;
@@ -102,6 +103,34 @@ class SaveScoringStats extends LoggedCommand
 
             $this->logInfo(sprintf('success inserting advantage #%s for %s', $dump->game_id, $team));
         }
+
+        # BOXSCORES
+        foreach($data->boxscore as $team => $quarters) {
+            foreach($quarters as $quarter => $score) {
+                foreach($score as $nameKey => $goals) {
+                    $this->logDebug('saving boxscore', [$team, $quarter, $nameKey, $goals]);
+
+                    $player_id = $this->playerList->getIdForNameKey($nameKey);
+
+                    $keys = [
+                        'game_id' => $dump->game_id,
+                        'quarter' => $quarter,
+                        'player_id' => $player_id ? $player_id : 0,
+                        'name' => $nameKey
+                    ];
+                    $save = [
+                        'site_id' => $dump->site_id,
+                        'team' => $team == 0 ? 'US' : 'THEM',
+                        'goals' => $goals
+                    ];
+
+                    Boxscore::updateOrCreate($keys, $save);
+
+                    $this->logInfo(sprintf('success inserting boxscore #%s', $dump->game_id));
+                }
+            }
+        }
+
     }
 
 
