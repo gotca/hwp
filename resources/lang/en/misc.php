@@ -38,4 +38,9 @@ return [
     'allDay' => 'All Day',
     'game' => 'Game',
     'loading' => 'Loading',
+    'edit' => 'Edit',
+    'save' => 'Save',
+    'add' => 'Add',
+    'remove', 'Remove',
+    'saveSuccessful' => 'Save Successful!'
 ];

@@ -28,6 +28,19 @@ class Boxscore extends Model
      */
     protected $tenantColumns = ['site_id'];
 
+    /**
+     * Attributes that aren't mass assignable
+     * Doing site_id keeps everything in the proper tenanted location
+     *
+     * @var array
+     */
+    protected $guarded = ['site_id'];
+
+    /**
+     * Boxscore constructor.
+     *
+     * @param array $attributes
+     */
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);

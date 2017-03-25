@@ -4,5 +4,6 @@
   "js/main.js": "js/main-05dd8ecd92.js",
   "js/player.js": "js/player-4ca304620c.js",
   "js/recap.js": "js/recap-bf6c6c7c58.js",
-  "js/schedule.js": "js/schedule-d53c628ff3.js"
+  "js/schedule.js": "js/schedule-d53c628ff3.js",
+  "js/statEdit.js": "js/statEdit-5e09d0147e.js"
 }

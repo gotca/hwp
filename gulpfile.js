@@ -23,7 +23,8 @@ elixir.config.js.browserify.plugins.push(
                 'public/js/home.js',
                 'public/js/schedule.js',
                 'public/js/player.js',
-                'public/js/recap.js'
+                'public/js/recap.js',
+                'public/js/statEdit.js'
             ]
         }
     }
@@ -40,7 +41,7 @@ elixir(function (mix) {
 
     mix.browserify(
         // Entry points need to be in the same order as the factor bundle outputs
-        ['main.js', 'home.js', 'schedule.js', 'player.js', 'recap.js'],
+        ['main.js', 'home.js', 'schedule.js', 'player.js', 'recap.js', 'statEdit.js'],
         'public/js/components.js'
     );
 
@@ -51,7 +52,8 @@ elixir(function (mix) {
         'js/schedule.js',
         'js/player.js',
         'js/components.js',
-        'js/recap.js'
+        'js/recap.js',
+        'js/statEdit.js'
     ];
     if (inProduction) {
         versionedFiles.push('css/main.css');

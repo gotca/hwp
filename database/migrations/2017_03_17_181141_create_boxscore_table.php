@@ -19,6 +19,7 @@ class CreateBoxscoreTable extends Migration
             $table->integer('game_id')->unsigned();
             $table->enum('team', ['US', 'THEM']);
             $table->tinyInteger('quarter')->unsigned();
+            $table->timestamps();
 
             // set stupid defaults for the player and name so unique key will work
             $table->integer('player_id')->unsigned()->default(0);

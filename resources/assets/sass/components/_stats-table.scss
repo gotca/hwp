@@ -26,27 +26,29 @@
   }
 
   // zebra rows and columns
-  // rows
-  tr:nth-child(even) td,
-  tr:nth-child(even) th{
-    background: rgba(0,0,0,.05);
-  }
-  // columns
-  tr td:nth-child(even){
-    background: rgba(0,0,0,.05);
-  }
-  // intersect
-  tr:nth-child(even) td:nth-child(even){
-    background: rgba(0,0,0,.10);
-  }
+  tbody {
+    // rows
+    tr:nth-child(even) td,
+    tr:nth-child(even) th{
+      background: rgba(0,0,0,.05);
+    }
+    // columns
+    tr td:nth-child(even){
+      background: rgba(0,0,0,.05);
+    }
+    // intersect
+    tr:nth-child(even) td:nth-child(even){
+      background: rgba(0,0,0,.10);
+    }
 
-  // hover
-  &:hover tr td{
-    opacity: .6;
-  }
+    // hover
+    &:hover tr td{
+      opacity: .6;
+    }
 
-  &:hover tr:hover td{
-    opacity: 1;
+    &:hover tr:hover td{
+      opacity: 1;
+    }
   }
 }
 

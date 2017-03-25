@@ -222,7 +222,7 @@ return [
         'Landlord'   => HipsterJazzbo\Landlord\Facades\LandlordFacade::class,
         'Setting' => Thetispro\Setting\Facades\Setting::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Notificaiton' => Illuminate\Support\Facades\Notification::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
     ],
 
 ];

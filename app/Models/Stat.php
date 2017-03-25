@@ -229,7 +229,7 @@ class Stat extends Model
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $guarded = ['site_id'];
 
     /**
      * The player for this stat
@@ -254,9 +254,18 @@ class Stat extends Model
     {
         if (!$this->player) {
             $this->player = $this->playerListService->getPlayerById($this->player_id);
+            if (!$this->player) {
+                $this->player = new PlayerSeason();
+            }
         }
 
         return $this->player;
+    }
+
+    public function setPlayerAttribute(Player $player)
+    {
+        $this->player = $player;
+        // $this->attributes['player'] = $player;
     }
 
     public function season()

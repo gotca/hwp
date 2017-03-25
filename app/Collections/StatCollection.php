@@ -26,7 +26,7 @@ class StatCollection extends CustomCollection
     {
         return $this->filter(function($stat) {
             return ($stat->saves > 0 || $stat->goals_allowed > 0) ||
-                $stat->player->position == 'GOALIE';
+            ($stat->player && property_exists($stat->player, 'position') && $stat->player->position == 'GOALIE');
         });
     }
 

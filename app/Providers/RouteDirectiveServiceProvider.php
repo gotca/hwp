@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Player;
+use App\Models\PlayerSeason;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +36,10 @@ class RouteDirectiveServiceProvider extends ServiceProvider
         Blade::directive('playerLink', function($expression) {
             return "<?php echo ".__CLASS__."::playerLink($expression); ?>";
         });
+
+        Blade::directive('playerSeasonLink', function($expression) {
+            return "<?php echo ".__CLASS__."::playerSeasonLink($expression); ?>";
+        });
     }
 
     public static function active($name, $className = 'active')
@@ -54,7 +59,7 @@ class RouteDirectiveServiceProvider extends ServiceProvider
     
     static public function playerLink($player)
     {
-        if (! $player instanceof Player) {
+        if (!$player instanceof Player) {
             try {
                 $player = Player::nameKey($player)->with('seasons')->firstOrFail();
             } catch(\Exception $e) {
@@ -63,6 +68,11 @@ class RouteDirectiveServiceProvider extends ServiceProvider
         }
 
         return '<a href="'.route('players', ['name_key'=>$player->name_key]).'">#' . $player->seasons->first()->number. ' ' . $player->first_name . ' ' .$player->last_name.'</a>';
+    }
+
+    static public function playerSeasonLink(PlayerSeason $ps)
+    {
+        return '<a href="'.route('players', ['name_key'=>$ps->name_key]).'">#' . $ps->number. ' ' . $ps->name.'</a>';
     }
 
     /**

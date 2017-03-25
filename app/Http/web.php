@@ -41,10 +41,14 @@ Route::get('ical.ics', function() {
 
 Route::get('game/{game}/recap', ['uses' => 'GameController@recap', 'as' => 'game.recap']);
 
-Route::get('game/{game}/stats', ['uses' => 'GameController@stats', 'as' => 'game.stats']);
-
 Route::get('game/{game}/photos', ['uses' => 'GameController@photos', 'as' => 'game.photos']);
 
+
+Route::get('game/{game}/stats', ['uses' => 'StatController@view', 'as' => 'game.stats']);
+
+Route::get('game/{game}/stats/edit', ['uses' => 'StatController@edit', 'as' => 'game.stats.edit'])->middleware('auth');
+
+Route::post('game/{game}/stats/edit', ['uses' => 'StatController@save', 'as' => 'game.stats.edit'])->middleware('auth');
 
 
 Route::get('photos', ['uses' => 'AlbumController@index', 'as' => 'albumlist']);

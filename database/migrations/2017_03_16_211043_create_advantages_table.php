@@ -20,6 +20,7 @@ class CreateAdvantagesTable extends Migration
             $table->enum('team', ['US', 'THEM']);
             $table->integer('drawn')->unsigned()->default('0');
             $table->integer('converted')->unsigned()->default('0');
+            $table->timestamps();
 
             $table->foreign('game_id')
                 ->references('id')->on('games')

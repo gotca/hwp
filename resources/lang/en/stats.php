@@ -15,8 +15,8 @@ return [
     'shots' => 'Shots',
     'assists' => 'Assists',
     'steals' => 'Steals',
-    'turnovers' => 'Turnovers',
-    'turn_overs' => 'Turnovers', // catch the json dump
+    'turnovers' => 'Turn&shy;overs',
+    'turn_overs' => 'Turn&shy;overs', // catch the json dump
     'blocks' => 'Blocks',
     'kickouts_drawn' => 'Kickouts Drawn',
     'kickouts' => 'Kickouts',
@@ -37,7 +37,7 @@ return [
     'shoot_out_blocked' => 'Shoot Out Blocked',
     'shoot_out_allowed' => 'Shoot Out Allowed',
     'shooting_percent' => 'Shooting',
-    'steals_to_turnovers' => 'Steals To Turnovers',
+    'steals_to_turnovers' => 'Steals To Turn&shy;overs',
     'kickouts_drawn_to_called' => 'Kickouts Drawn To Called',
     'save_percent' => 'Save %',
     'sprints_percent' => 'Sprints Percent',
@@ -51,8 +51,9 @@ return [
     'stats' => 'Stats',
     'value' => 'Value',
 
+    'taken' => 'Taken',
     'made' => 'Made',
-    'missed-blocked' => 'Missed/Blocked',
+    'missed-blocked' => 'Missed/&shy;Blocked',
     'drawn' => 'Drawn',
     'called' => 'Called',
     'sprints' => 'Sprints',
@@ -73,6 +74,12 @@ return [
     'perQuarter' => 'Per Quarter',
     'advantages' => 'Advantages',
     'converted' => 'Converted',
+    'attempts' => 'Attempts',
+
 
     'name' => 'Name',
+
+    'opponent' => 'Opponent',
+    'team' => 'Team',
+    'autogenerateScore' => 'Auto-Generate Score'
 ];

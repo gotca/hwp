@@ -1,0 +1,54 @@
+$_toggle-base: 3em;
+
+input.toggler {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+
+  & + label {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    padding: 2px;
+    width: $_toggle-base;
+    height: $_toggle-base / 2;
+    background-color: #dddddd;
+    border-radius: $_toggle-base / 2;
+
+    &:before,
+    &:after {
+      display: block;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      bottom: 1px;
+      content: "";
+    }
+
+    &:before {
+      right: 1px;
+      background-color: #f1f1f1;
+      border-radius: $_toggle-base / 2;
+      transition: background 0.4s;
+    }
+
+    &:after {
+      width: 50%;
+      background-color: #fff;
+      border-radius: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: margin 0.4s;
+    }
+  }
+
+  &:checked + label:before {
+    background-color: $color-win;
+  }
+
+  &:checked + label:after {
+    margin-left: 50%;
+  }
+}

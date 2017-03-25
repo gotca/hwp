@@ -61,6 +61,14 @@ class Player extends Model
         return $this->hasMany('App\Models\PlayerSeason')->with('season');
     }
 
+    public function activeSeason()
+    {
+        $activeSeasonId = app('App\Models\ActiveSeason')->id;
+        return $this->hasOne('App\Models\PlayerSeason')
+            ->with('season')
+            ->where('season_id', $activeSeasonId);
+    }
+
     public function stats()
     {
         return $this->hasMany('App\Models\Stat');

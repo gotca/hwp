@@ -50,4 +50,9 @@ class Schedule extends Model
     {
         return $this->hasOne('App\Models\GameStatDump', 'game_id', 'join_id');
     }
+
+    public function stats()
+    {
+        return $this->hasMany('App\Models\Stat', 'game_id', 'join_id');
+    }
 }

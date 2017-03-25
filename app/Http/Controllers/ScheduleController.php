@@ -31,7 +31,7 @@ class ScheduleController extends Controller
             ->slice(0, 4);
 
         $full = Schedule::with(['location', 'scheduled'])
-            ->withCount(['album', 'updates', 'boxStats'])
+            ->withCount(['album', 'updates', 'stats'])
             ->orderBy('start', 'asc')
             ->get();
 

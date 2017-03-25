@@ -41,6 +41,8 @@ class MiscDirectiveServiceProvider extends ServiceProvider
         Blade::directive('forimplode', $partial('forImplode'));
         Blade::directive('endforimplode', $partial('endForImplode'));
         Blade::directive('implode', $partial('implode'));
+        
+        Blade::directive('val', $partial('val'));
     }
 
     /**
@@ -52,7 +54,6 @@ class MiscDirectiveServiceProvider extends ServiceProvider
      */
     public function outputPhp($func, $expression)
     {
-        debug($func, $expression);
         return "<?php echo ".__CLASS__."::$func($expression); ?>";
     }
 
@@ -98,6 +99,12 @@ class MiscDirectiveServiceProvider extends ServiceProvider
         } else {
             return '';
         }
+    }
+    
+    static public function val($name, $default = '')
+    {
+        $val = old($name, $default);
+        return $val !== 0 ? $val : '';
     }
 
     // just needed to satisfy the provider

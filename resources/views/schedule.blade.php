@@ -123,7 +123,7 @@
                             @endif
                             <td class="schedule-btns btn-group btn-group--end">
                                 @if($event->scheduled instanceof \App\Models\Game)
-                                    @if($event->box_stats_count)
+                                    @if($event->stats_count)
                                         <a class="btn" href="@route('game.stats', ['id'=>$event->scheduled->id])" title="@lang('misc.stats')">
                                             <i class="fa fa-line-chart"></i>
                                         </a>
@@ -136,6 +136,11 @@
                                     @if($event->updates_count)
                                         <a class="btn" href="@route('game.recap', ['id'=>$event->scheduled->id])" title="@lang('misc.recap')">
                                             <i class="fa fa-ticket"></i>
+                                        </a>
+                                    @endif
+                                    @if(auth()->check())
+                                        <a class="btn" href="@route('game.stats.edit', ['id'=>$event->scheduled->id])" title="@lang('misc.edit')">
+                                            <i class="fa fa-pencil"></i>
                                         </a>
                                     @endif
                                 @endif

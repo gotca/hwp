@@ -1,0 +1,26 @@
+[data-autogenerate-score-status="on"] {
+  [data-autogenerate-score="off"] {
+    display: none;
+  }
+}
+
+[data-autogenerate-score-status="off"] {
+  [data-autogenerate-score="on"] {
+    display: none;
+  }
+}
+
+.autogenerate-holder {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+
+  label {
+    cursor: pointer;
+  }
+}
+
+input.game-score {
+  font-size: inherit;
+  height: auto;
+  text-align: center;
+}

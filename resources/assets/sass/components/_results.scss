@@ -29,20 +29,29 @@
 
     td {
       padding: .5em .75em;
-      border-left: 1px solid darken($color-white-darker, 10);
+      border-left: 1px solid hsl(0, 0%, 71%);
+
+      &:first-child,
+      &:nth-child(5),
+      &:nth-child(7) {
+        border-left-color: hsl(0, 0%, 65%);
+      }
     }
   }
   
 }
 
-.result--win header {
+.result--win header,
+[data-result="win"] header {
   background-color: $color-win-bg;
 }
 
-.result--loss header {
+.result--loss header,
+[data-result="loss"] header {
   background-color: $color-loss-bg;
 }
 
-.result--tie header {
+.result--tie header,
+[data-result="tie"] header {
   background-color: $color-tie-bg;
 }
