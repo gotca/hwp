@@ -26,4 +26,7 @@ return [
     'allDay' => 'All Day',
     'directions' => 'Directions',
     'iCalSummary' => ':TEAM :Type :title',
+    'type' => 'Type',
+    'game' => 'Game',
+    'tournament' => 'Tournament'
 ];

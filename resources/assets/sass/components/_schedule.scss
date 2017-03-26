@@ -27,10 +27,23 @@ table.schedule {
     padding-right: $_edge-padding;
   }
 
+  tr.in-tournament > td:first-child {
+    padding-left: $_edge-padding * 2;
+  }
+
+  .schedule-type,
   .schedule-team,
   .schedule-result,
   .schedule-score {
     text-align: center;
+  }
+
+  td.schedule-type {
+    color: lighten(grey, 20);
+
+    .fa-square {
+      font-size: .85em;
+    }
   }
 
   .schedule-date {

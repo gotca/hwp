@@ -5853,10 +5853,17 @@ table.schedule {
   table.schedule tr > th:last-child,
   table.schedule tr > td:last-child {
     padding-right: 20px; }
+  table.schedule tr.in-tournament > td:first-child {
+    padding-left: 40px; }
+  table.schedule .schedule-type,
   table.schedule .schedule-team,
   table.schedule .schedule-result,
   table.schedule .schedule-score {
     text-align: center; }
+  table.schedule td.schedule-type {
+    color: #b3b3b3; }
+    table.schedule td.schedule-type .fa-square {
+      font-size: .85em; }
   table.schedule .schedule-date {
     width: 15%;
     white-space: nowrap; }

@@ -82,6 +82,7 @@
             <table class="table table--striped schedule">
                 <thead class="bg--grid bg--dark">
                     <tr>
+                        <th class="schedule-type">@lang('schedule.type')</th>
                         <th class="schedule-date">@lang('schedule.date')</th>
                         <th class="schedule-team">@lang('schedule.team')</th>
                         <th class="schedule-title">@lang('schedule.title')</th>
@@ -93,7 +94,17 @@
                 </thead>
                 <tbody>
                     @foreach($full as $event)
-                        <tr data-timestamp="{{$event->start->timestamp}}">
+                        <tr
+                            data-timestamp="{{$event->start->timestamp}}"
+                            class="@if($event->scheduled instanceof App\Models\Game && $event->scheduled->tournament_id)in-tournament @endif"
+                        >
+                            <td class="schedule-type">
+                                @if($event->scheduled instanceof App\Models\Game)
+                                    <i class="fa fa-square" title="@lang('schedule.game')"></i>
+                                @elseif($event->scheduled instanceof App\Models\Tournament)
+                                    <i class="fa fa-sitemap fa-rotate-90 fa-lg" title="@lang('schedule.tournament')"></i>
+                                @endif
+                            </td>
                             <td class="schedule-date" data-title="@lang('schedule.date')">
                                 @dayWithDateTime($event->start)
                             </td>
