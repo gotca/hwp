@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({27:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({37:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -45,7 +45,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./gallery/full":14,"./gallery/popup":15,"./matchMenuHeight":19,"./mlpushmenu":20,"./note":23,"jquery":5,"lodash":6}],23:[function(require,module,exports){
+},{"./gallery/full":15,"./gallery/popup":16,"./matchMenuHeight":20,"./mlpushmenu":21,"./note":24,"jquery":6,"lodash":7}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -82,7 +82,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":5,"vex-js":11}],20:[function(require,module,exports){
+},{"jquery":6,"vex-js":12}],21:[function(require,module,exports){
 'use strict';
 
 /**
@@ -331,7 +331,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = mlPushMenu;
 })(window);
 
-},{"./classie":12}],19:[function(require,module,exports){
+},{"./classie":13}],20:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -345,7 +345,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     };
 })();
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -392,7 +392,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":5,"photoswipe":9,"photoswipe/dist/photoswipe-ui-default.js":8}],14:[function(require,module,exports){
+},{"jquery":6,"photoswipe":10,"photoswipe/dist/photoswipe-ui-default.js":9}],15:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -499,7 +499,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":5,"jquery.loadtemplate":4,"photoswipe":9,"photoswipe/dist/photoswipe-ui-default.js":8}],12:[function(require,module,exports){
+},{"jquery":6,"jquery.loadtemplate":5,"photoswipe":10,"photoswipe/dist/photoswipe-ui-default.js":9}],13:[function(require,module,exports){
 "use strict";
 
 /*!
@@ -574,7 +574,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = classie;
 })(window);
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*! PhotoSwipe - v4.1.1 - 2015-12-24
 * http://photoswipe.com
 * Copyright (c) 2015 Dmitry Semenov; */
@@ -4293,7 +4293,7 @@ _registerModule('History', {
 	framework.extend(self, publicMethods); };
 	return PhotoSwipe;
 });
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*! PhotoSwipe Default UI - 4.1.1 - 2015-12-24
 * http://photoswipe.com
 * Copyright (c) 2015 Dmitry Semenov; */
@@ -5156,4 +5156,4 @@ return PhotoSwipeUI_Default;
 
 });
 
-},{}]},{},[27]);
+},{}]},{},[37]);

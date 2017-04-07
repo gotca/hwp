@@ -1,4 +1,4 @@
-.stats-table {
+.table.stats-table {
   text-align: center;
 
   & > thead > tr > th {
@@ -48,6 +48,14 @@
 
     &:hover tr:hover td{
       opacity: 1;
+    }
+  }
+
+  @media (max-width: map-get($breakpoints, 'lg')) {
+    tr {
+      min-width: 260px;
+      max-width: 350px;
+      width: auto;
     }
   }
 }

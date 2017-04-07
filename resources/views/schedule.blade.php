@@ -79,7 +79,7 @@
                 </button>
             </p>
 
-            <table class="table table--striped schedule">
+            <table class="table table--striped table--collapse schedule">
                 <thead class="bg--grid bg--dark">
                     <tr>
                         <th class="schedule-type">@lang('schedule.type')</th>
@@ -94,18 +94,34 @@
                 </thead>
                 <tbody>
                     @foreach($full as $event)
+                        <?php
+                        $class = get_class($event->scheduled);
+                        switch($class) {
+                            case 'App\Models\Tournament':
+                                $type = 'tournament';
+                                break;
+
+                            default:
+                            case 'App\Models\Game':
+                                $type = 'game';
+                                if ($event->scheduled->tournament_id) {
+                                    $type = 'tournament-game';
+                                }
+                                break;
+                        }
+                        ?>
                         <tr
                             data-timestamp="{{$event->start->timestamp}}"
                             class="@if($event->scheduled instanceof App\Models\Game && $event->scheduled->tournament_id)in-tournament @endif"
                         >
-                            <td class="schedule-type">
+                            <td class="schedule-type" data-title="@lang('schedule.type')" data-filter-value="{{$type}}">
                                 @if($event->scheduled instanceof App\Models\Game)
-                                    <i class="fa fa-square" title="@lang('schedule.game')"></i>
+                                    <i class="fa fa-square" title="@lang('schedule.game')"></i>&nbsp;<span class="hidden--lg">@lang('schedule.game')</span>
                                 @elseif($event->scheduled instanceof App\Models\Tournament)
-                                    <i class="fa fa-sitemap fa-rotate-90 fa-lg" title="@lang('schedule.tournament')"></i>
+                                    <i class="fa fa-sitemap fa-rotate-90 fa-lg" title="@lang('schedule.tournament')"></i>&nbsp;<span class="hidden--lg">@lang('schedule.tournament')</span>
                                 @endif
                             </td>
-                            <td class="schedule-date" data-title="@lang('schedule.date')">
+                            <td class="schedule-date" data-title="@lang('schedule.date')" data-filter-value="{{$event->start->timestamp}}">
                                 @dayWithDateTime($event->start)
                             </td>
                             <td class="schedule-team" data-title="@lang('schedule.team')">
@@ -132,29 +148,31 @@
                                     @endif
                                 </td>
                             @endif
-                            <td class="schedule-btns btn-group btn-group--end">
-                                @if($event->scheduled instanceof \App\Models\Game)
-                                    @if($event->stats_count)
-                                        <a class="btn" href="@route('game.stats', ['id'=>$event->scheduled->id])" title="@lang('misc.stats')">
-                                            <i class="fa fa-line-chart"></i>
-                                        </a>
+                            <td class="schedule-btns">
+                                <div class="btn-group btn-group--end">
+                                    @if($event->scheduled instanceof \App\Models\Game)
+                                        @if($event->stats_count)
+                                            <a class="btn" href="@route('game.stats', ['id'=>$event->scheduled->id])" title="@lang('misc.stats')">
+                                                <i class="fa fa-line-chart"></i>
+                                            </a>
+                                        @endif
+                                        @if($event->album_count)
+                                            <a class="btn" href="@route('game.photos', ['id'=>$event->scheduled->id])" title="@lang('misc.photos')">
+                                                <i class="fa fa-picture-o"></i>
+                                            </a>
+                                        @endif
+                                        @if($event->updates_count)
+                                            <a class="btn" href="@route('game.recap', ['id'=>$event->scheduled->id])" title="@lang('misc.recap')">
+                                                <i class="fa fa-ticket"></i>
+                                            </a>
+                                        @endif
+                                        @if(auth()->check())
+                                            <a class="btn" href="@route('game.stats.edit', ['id'=>$event->scheduled->id])" title="@lang('misc.edit')">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        @endif
                                     @endif
-                                    @if($event->album_count)
-                                        <a class="btn" href="@route('game.photos', ['id'=>$event->scheduled->id])" title="@lang('misc.photos')">
-                                            <i class="fa fa-picture-o"></i>
-                                        </a>
-                                    @endif
-                                    @if($event->updates_count)
-                                        <a class="btn" href="@route('game.recap', ['id'=>$event->scheduled->id])" title="@lang('misc.recap')">
-                                            <i class="fa fa-ticket"></i>
-                                        </a>
-                                    @endif
-                                    @if(auth()->check())
-                                        <a class="btn" href="@route('game.stats.edit', ['id'=>$event->scheduled->id])" title="@lang('misc.edit')">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    @endif
-                                @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({29:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({39:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -144,7 +144,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./live/engine":17,"./nameLinker":22,"jquery":5,"jquery.loadtemplate":4,"lodash":6}],22:[function(require,module,exports){
+},{"./live/engine":18,"./nameLinker":23,"jquery":6,"jquery.loadtemplate":5,"lodash":7}],23:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -183,7 +183,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	module.exports = linker;
 })();
 
-},{"lodash":6}],17:[function(require,module,exports){
+},{"lodash":7}],18:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -289,7 +289,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	module.exports = engine;
 })();
 
-},{"./game":18,"lodash":6,"moment":7}],18:[function(require,module,exports){
+},{"./game":19,"lodash":7,"moment":8}],19:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -309,7 +309,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	module.exports = Game;
 })();
 
-},{"signals":10}],10:[function(require,module,exports){
+},{"signals":11}],11:[function(require,module,exports){
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
 /*global define:false, require:false, exports:false, module:false, signals:false */
 
@@ -756,4 +756,4 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 }(this));
 
-},{}]},{},[29]);
+},{}]},{},[39]);

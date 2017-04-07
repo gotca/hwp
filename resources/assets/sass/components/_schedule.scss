@@ -1,12 +1,39 @@
 $_edge-padding: 20px;
 
 table.schedule {
-  border-radius: $border-radius;
-  overflow: hidden;
+  table-layout: fixed;
 
-  & > thead > tr > th {
-    font-size: em(24);
-    padding: $gap-bigger;
+  // fake border radius for the table
+  & > thead > tr:first-child {
+    & > th:first-child {
+      border-radius: 4px 0 0 0;
+    }
+
+    & > th:last-child {
+      border-radius: 0 4px 0 0;
+    }
+  }
+
+  & > tbody > tr:last-child {
+    & > td:first-child {
+      border-radius: 0 0 0 4px;
+    }
+
+    & > td:last-child {
+      border-radius: 0 0 4px 0;
+    }
+  }
+
+  & > thead {
+
+    & > tr > th {
+      font-size: em(24);
+      padding: $gap-bigger;
+    }
+
+    .schedule-type {
+      width: 100px;
+    }
   }
 
   tbody {
@@ -20,11 +47,6 @@ table.schedule {
   tr > th:first-child,
   tr > td:first-child {
     padding-left: $_edge-padding;
-  }
-
-  tr > th:last-child,
-  tr > td:last-child {
-    padding-right: $_edge-padding;
   }
 
   tr.in-tournament > td:first-child {
@@ -89,5 +111,21 @@ table.schedule {
     color: $color-white;
     background-color: $color-bright-accent;
     text-align: center;
+  }
+
+  // collapsible tweaks
+  @media (max-width: map-get($breakpoints, 'lg')) {
+    // redo strip handling
+    tbody > tr:nth-of-type(even) {
+      background-color: $striped-other-color;
+
+      & > td {
+        background-color: transparent;
+      }
+    }
+
+
+
+
   }
 }

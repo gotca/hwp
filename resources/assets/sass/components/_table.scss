@@ -95,7 +95,7 @@ th {
 .table--striped tfoot {
   background-color: $striped-base-color;
 }
-.table--striped > tbody > tr:nth-of-type(even) {
+.table--striped > tbody > tr:nth-of-type(even) > td {
   background-color: $striped-other-color;
 }
 .table--hover > tbody > tr:hover {

@@ -71,6 +71,16 @@ $modes: screen, overlay, darken, lighten, color-dodge, color-burn, hard-light, s
   }
 }
 
+/**
+ * hidden on breakpoints
+ */
+@each $name, $size in $breakpoints {
+  @media (min-width: #{map-get($breakpoints, $name)}) {
+    .hidden--#{$name} {
+      display: none;
+    }
+  }
+}
 
 .loading {
   cursor: wait;

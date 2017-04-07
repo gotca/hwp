@@ -19,15 +19,14 @@
 
     tr {
       display: table;
-      min-width: 260px;
-      max-width: 350px;
       margin-bottom: $gap-extra-large;
+      width: 100%;
     }
 
     td,
     th {
       display: table-row;
-      text-align: left;
+      text-align: left !important;
       width: 100%;
       opacity: 1 !important;
 
@@ -35,12 +34,14 @@
         content: attr(data-title) ':';
         display: table-cell;
         font-family: $text-font-stack;
+        color: $text-color;
         padding: $gap-small $gap;
         font-weight: bold;
         letter-spacing: -.04em;
+        text-align: left;
       }
 
-      span {
+      span.right {
         display: table-cell;
         text-align: right;
         padding: $gap-small $gap;

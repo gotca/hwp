@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({26:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({36:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -18,7 +18,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	recent.load();
 })();
 
-},{"./ghostNav":16,"./rankings":24,"./recent":25}],25:[function(require,module,exports){
+},{"./ghostNav":17,"./rankings":25,"./recent":26}],26:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -118,7 +118,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":5,"lodash":6}],24:[function(require,module,exports){
+},{"jquery":6,"lodash":7}],25:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -199,7 +199,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./dateFormats":13,"jquery":5,"moment":7}],16:[function(require,module,exports){
+},{"./dateFormats":14,"jquery":6,"moment":8}],17:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -243,7 +243,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     }
 })();
 
-},{"lodash":6}],13:[function(require,module,exports){
+},{"lodash":7}],14:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -330,7 +330,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	}
 })();
 
-},{"./moment.phpformat":21,"moment":7}],21:[function(require,module,exports){
+},{"./moment.phpformat":22,"moment":8}],22:[function(require,module,exports){
 'use strict';
 
 (function (m) {
@@ -410,4 +410,4 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	};
 })();
 
-},{"moment":7}]},{},[26]);
+},{"moment":8}]},{},[36]);
