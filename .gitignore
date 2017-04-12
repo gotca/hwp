@@ -6,3 +6,4 @@ Homestead.json
 .env
 /mailoutput/
 /public/build/
+/bower_components/
