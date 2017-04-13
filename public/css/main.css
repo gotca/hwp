@@ -5403,7 +5403,8 @@ th {
 .table--striped tfoot, .stats-table-edit tfoot {
   background-color: none; }
 
-.table--striped > tbody > tr:nth-of-type(even) > td, .stats-table-edit > tbody > tr:nth-of-type(even) > td {
+.table--striped > tbody > tr:nth-of-type(even) > td, .stats-table-edit > tbody > tr:nth-of-type(even) > td,
+.table--striped > tbody > tr:nth-of-type(even) > th, .stats-table-edit > tbody > tr:nth-of-type(even) > th {
   background-color: rgba(0, 0, 0, 0.06); }
 
 .table--hover > tbody > tr:hover {
