@@ -1,6 +1,6 @@
 <nav id="desktop-menu">
     <ul>
-        <li class="players has-subs">
+        <li class="players has-subs super-subs">
             <a href="@route('playerlist')" title="">@lang('menu.players')</a>
             @include('partials.playerlist')
         </li>
@@ -13,5 +13,16 @@
         <li class="photos">
             <a href="@route('albumlist')" title="@lang('menu.photos')">@lang('menu.photos')</a>
         </li>
+
+        @if(auth()->check())
+            <li class="admin-menu has-subs">
+                <a href="@route('admin')">@lang('menu.admin')</a>
+                <section>
+                    @include('partials.menu.admin')
+                </section>
+            </li>
+        @else
+            <li class="admin-menu"><a href="@route('login')">@lang('menu.login')</a></li>
+        @endif
     </ul>
 </nav>

@@ -72,3 +72,7 @@ Route::get('gallery/album/{album}', ['uses' => 'GalleryController@album', 'as' =
 Route::get('gallery/player/{player}', ['uses' => 'GalleryController@playerCareer', 'as' => 'gallery.playerCareer']);
 
 Route::get('gallery/player/{player}/season/{season}', ['uses' => 'GalleryController@playerSeason', 'as' => 'gallery.playerSeason']);
+
+Route::get('admin', function() {
+    return 'Hello World';
+})->name('admin');

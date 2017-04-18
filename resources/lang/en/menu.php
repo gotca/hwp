@@ -18,5 +18,7 @@ return [
     'scoring' => 'Scoring',
     'photos' => 'Photos',
     'mainMenu' => 'Main Menu',
+    'admin' => 'Admin',
+    'login' => 'Login'
 
 ];

@@ -53,6 +53,26 @@
             <li>
                 <a href="@route('albumlist')">@lang('menu.photos')</a>
             </li>
+
+
+            @if(auth()->check())
+                <li class="admin-menu mp-has-subs">
+                    <a href="@route('admin')">@lang('menu.admin')</a>
+                    <div class="mp-level">
+                        <header>
+                            <h2>@lang('menu.admin')</h2>
+                        </header>
+                        <div class="icon"><i class="fa fa-gear"></i></div>
+                        <a class="mp-back" href="#">back</a>
+
+                        @include('partials.menu.admin')
+
+                    </div>
+                </li>
+            @else
+                <li class="admin-menu"><a href="@route('login')">@lang('menu.login')</a></li>
+            @endif
+
         </ul>
     </div>
 </nav>

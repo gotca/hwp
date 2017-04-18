@@ -5015,12 +5015,16 @@ body,
   display: none; }
   @media (min-width: 75em) {
     #desktop-menu {
-      display: block; } }
+      display: block;
+      -ms-flex: 1;
+      flex: 1; } }
   #desktop-menu > ul {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: stretch;
     align-items: stretch;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
     font-family: "League Gothic", "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 1.375em;
     text-transform: uppercase; }
@@ -5034,38 +5038,63 @@ body,
         padding: 1.25em 1em; }
         #desktop-menu > ul > li > a:hover, #desktop-menu > ul > li > a:active, #desktop-menu > ul > li > a:focus {
           text-decoration: none; }
-  #desktop-menu .has-subs > section {
-    background-size: 15px 15px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.08), transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-    display: none;
-    -ms-flex-pack: distribute;
-    justify-content: space-around;
-    position: absolute;
-    left: 0;
-    background-color: #333;
-    width: 100%;
-    z-index: 100;
-    padding: 0 2em;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
-    transition: all .5s; }
-  #desktop-menu .has-subs:hover > section {
-    display: -ms-flexbox;
-    display: flex;
-    padding: 2em 2em 3em 2em; }
-  #desktop-menu .player-list header {
-    margin-bottom: 0.5em; }
-    #desktop-menu .player-list header h4 {
-      color: #bfbfbf; }
-  #desktop-menu .player-list li a {
-    font-family: "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 1rem;
-    text-transform: none;
-    color: #6ba3d0; }
-    #desktop-menu .player-list li a:hover, #desktop-menu .player-list li a:active, #desktop-menu .player-list li a:focus {
-      color: #2a82c9; }
-  #desktop-menu .player-list .team--STAFF ul {
-    -moz-columns: 1;
-    columns: 1; }
+  #desktop-menu .has-subs {
+    position: relative; }
+    #desktop-menu .has-subs > section {
+      background-size: 15px 15px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.08), transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+      display: none;
+      position: absolute;
+      background-color: #333;
+      z-index: 100;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.5);
+      transition: all .5s; }
+      #desktop-menu .has-subs > section header {
+        margin-bottom: 0.5em; }
+        #desktop-menu .has-subs > section header h4 {
+          color: #bfbfbf; }
+      #desktop-menu .has-subs > section li a {
+        font-family: "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        font-size: 1rem;
+        text-transform: none;
+        color: #6ba3d0;
+        display: block;
+        width: 14em;
+        padding: .75em 1.25em;
+        transition: all .5s; }
+        #desktop-menu .has-subs > section li a:hover, #desktop-menu .has-subs > section li a:active, #desktop-menu .has-subs > section li a:focus {
+          color: #2a82c9;
+          background: rgba(255, 255, 255, 0.05);
+          text-decoration: none; }
+    #desktop-menu .has-subs:hover > section {
+      display: block; }
+  #desktop-menu .super-subs.has-subs {
+    position: static; }
+    #desktop-menu .super-subs.has-subs > section {
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      left: 0;
+      width: 100%;
+      padding: 0 2em; }
+      #desktop-menu .super-subs.has-subs > section li a {
+        display: inline;
+        width: auto;
+        padding: 0; }
+        #desktop-menu .super-subs.has-subs > section li a:hover, #desktop-menu .super-subs.has-subs > section li a:active, #desktop-menu .super-subs.has-subs > section li a:focus {
+          background: none;
+          text-decoration: underline; }
+      #desktop-menu .super-subs.has-subs > section .team--STAFF ul {
+        -moz-columns: 1;
+        columns: 1; }
+    #desktop-menu .super-subs.has-subs:hover > section {
+      display: -ms-flexbox;
+      display: flex;
+      padding: 2em 2em 3em 2em; }
+
+#desktop-menu .admin-menu {
+  margin-left: auto; }
+  #desktop-menu .admin-menu section {
+    right: 0; }
 
 header {
   position: relative; }
