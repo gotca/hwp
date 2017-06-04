@@ -71,7 +71,7 @@
     flex: 1;
   }
 
-  & > ul{
+  & > ul {
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
@@ -85,7 +85,7 @@
         background: $color-primary-darker;
       }
 
-      & > a{
+      & > a {
         display: block;
         color: $color-white;
         padding: $gap-extra-large $gap-large;
@@ -99,14 +99,14 @@
   .has-subs {
     position: relative;
 
-     > section {
+    > section {
       @include grid();
       display: none;
       position: absolute;
       background-color: $color-black-bg;
       z-index: 100;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,.5),
-      0 2px 5px rgba(0,0,0,.5);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, .5),
+      0 2px 5px rgba(0, 0, 0, .5);
       transition: all .5s;
 
       header {
@@ -129,9 +129,13 @@
 
         @include on-event() {
           color: $color-bright;
-          background: rgba(255,255,255,.05);
+          background: rgba(255, 255, 255, .05);
           text-decoration: none;
         }
+      }
+
+      li.divider {
+        border-top: 1px solid darken($color-black-bg, 10);
       }
     }
 
@@ -139,22 +143,22 @@
       display: block;
     }
   }
-  
+
   // super sized sub menu
   .super-subs.has-subs {
     position: static;
-    
+
     > section {
       justify-content: space-around;
       left: 0;
       width: 100%;
       padding: 0 2em;
-      
+
       li a {
         display: inline;
         width: auto;
         padding: 0;
-        
+
         @include on-event() {
           background: none;
           text-decoration: underline;

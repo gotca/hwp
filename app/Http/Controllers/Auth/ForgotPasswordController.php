@@ -21,6 +21,13 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     /**
+     * Where to redirect users after login / registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/admin';
+
+    /**
      * Create a new controller instance.
      *
      * @return void

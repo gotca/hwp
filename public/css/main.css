@@ -5066,6 +5066,8 @@ body,
           color: #2a82c9;
           background: rgba(255, 255, 255, 0.05);
           text-decoration: none; }
+      #desktop-menu .has-subs > section li.divider {
+        border-top: 1px solid #1a1a1a; }
     #desktop-menu .has-subs:hover > section {
       display: block; }
   #desktop-menu .super-subs.has-subs {

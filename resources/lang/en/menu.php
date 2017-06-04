@@ -19,6 +19,7 @@ return [
     'photos' => 'Photos',
     'mainMenu' => 'Main Menu',
     'admin' => 'Admin',
-    'login' => 'Login'
+    'login' => 'Login',
+    'logout' => 'Logout'
 
 ];

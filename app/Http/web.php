@@ -73,6 +73,12 @@ Route::get('gallery/player/{player}', ['uses' => 'GalleryController@playerCareer
 
 Route::get('gallery/player/{player}/season/{season}', ['uses' => 'GalleryController@playerSeason', 'as' => 'gallery.playerSeason']);
 
+
+
+
 Route::get('admin', function() {
-    return 'Hello World';
-})->name('admin');
+    return view('helloWorld');
+})->name('admin')
+->middleware('auth');
+
+Route::get('logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout']);
