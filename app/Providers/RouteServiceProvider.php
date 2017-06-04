@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $this->mapWebRoutes($router);
-
+        $this->mapApiRoutes($router);
         //
     }
 
@@ -59,6 +59,21 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace, 'middleware' => 'web',
         ], function ($router) {
             require app_path('Http/web.php');
+        });
+    }
+
+    /**
+     * This wasn't included in the upgrade, so a little sloppy add on
+     *
+     * @param Router $router
+     */
+    protected function mapApiRoutes(Router $router) {
+        $router->group([
+            'middleware' => 'api',
+            'namespace' => $this->namespace,
+            'prefix' => 'api'
+        ], function($router) {
+            require app_path('Http/api.php');
         });
     }
 }
