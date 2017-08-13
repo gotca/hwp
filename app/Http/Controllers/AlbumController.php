@@ -21,7 +21,12 @@ class AlbumController extends Controller
            return $album->photos_count > 0;
         });
 
-        $cover = $albums->random()->cover;
+        if ($albums->count()) {
+            $cover = $albums->random()->cover;
+        } else {
+            $cover = null;
+        }
+
 
         return view('albumlist', compact('albums', 'cover'));
     }
