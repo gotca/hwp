@@ -18,13 +18,7 @@
             <div class="loader"></div>
         </div>
 
-        @for($i = 0; $i < 3; $i++)
-            <div class="recent recent--1-1 recent--loading">
-                <div class="loader"></div>
-            </div>
-        @endfor
-
-        @for($i = 0; $i < 3; $i++)
+        @for($i = 0; $i < 6; $i++)
             <div class="recent recent--1-1 recent--loading">
                 <div class="loader"></div>
             </div>

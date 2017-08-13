@@ -61,11 +61,18 @@
 		var loading = this.holder.find('.recent--loading');
 		var i = 0;
 		var max = Math.min(rsp.per_page, rsp.data.length);
+		var pageClass = "";
+
+		if (this.loadCount > 1) {
+      pageClass = 'recent-page--' + this.loadCount%2;
+    }
 
 		for(i; i < max; i++) {
 			var item = rsp.data[i];
 			var newEl = $(item.rendered);
 			var loadingEl = loading.eq(i);
+
+			newEl.addClass(pageClass);
 
 			if (loadingEl.length) {
 				newEl.attr('class', newEl.attr('class') + ' ' + loadingEl.attr('class'))
@@ -78,7 +85,13 @@
 		}
 
 		// hide and remove anything still set as loading
-		this.holder.find('.recent--loading').fadeOut();
+    var empty = this.holder.find('.recent--loading');
+    if (this.loadCount > 1) {
+      empty.fadeOut();
+    } else {
+      empty.removeClass('recent--loading').addClass('bg--smoke').empty();
+    }
+
 
 		if (next) {
 			this.btn.data('url', next)

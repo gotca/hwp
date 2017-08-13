@@ -108,7 +108,7 @@ class HomeController extends Controller
             ->groupByDate('start', 'Y-m-d');
         $rankings = $this->getRankings();
 
-        return view('partials.home.content-flex', compact('upcoming', 'rankings'));
+        return view('partials.home.content-grid', compact('upcoming', 'rankings'));
     }
 
     /**
