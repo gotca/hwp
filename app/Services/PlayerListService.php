@@ -61,6 +61,10 @@ class PlayerListService
         }
     }
 
+    /**
+     * @param $nameKey
+     * @return PlayerSeason
+     */
     public function getPlayerForNameKey($nameKey)
     {
         return $this->playerList->flatten()->first(function($playerSeason) use ($nameKey) {

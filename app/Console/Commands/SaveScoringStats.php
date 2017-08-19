@@ -58,7 +58,7 @@ class SaveScoringStats extends LoggedCommand
         $fields = array_flip(Stat::FIELDS);
         foreach ($data->stats as $nameKey => $playerStats) {
             $this->logDebug('saving stats', (array)$playerStats);
-            $player_id = $this->playerList->getIdForNameKey($nameKey);
+            $player_id = $this->playerList->getPlayerForNameKey($nameKey)->player->id;
 
             // older entries have turn_overs instead of turnovers
             if (!property_exists($playerStats, 'turnovers')) {
@@ -110,11 +110,14 @@ class SaveScoringStats extends LoggedCommand
                 foreach($score as $nameKey => $goals) {
                     $this->logDebug('saving boxscore', [$team, $quarter, $nameKey, $goals]);
 
-                    $player_id = $this->playerList->getIdForNameKey($nameKey);
+                    // only get player_id if team === 0 -- the home team
+                    $player_id = $team === 0 ?
+                        $this->playerList->getPlayerForNameKey($nameKey)->player->id
+                        : false;
 
                     $keys = [
                         'game_id' => $dump->game_id,
-                        'quarter' => $quarter,
+                        'quarter' => $quarter + 1,
                         'player_id' => $player_id ? $player_id : 0,
                         'name' => $nameKey
                     ];
