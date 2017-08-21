@@ -60,7 +60,7 @@
                 <h1><span class="text--muted">@lang('tournament.all')</span> @lang('tournament.games')</h1>
             </header>
 
-            <table class="table table--striped schedule">
+            <table class="table table--striped schedule table--collapse">
                 <thead class="bg--grid bg--dark">
                     <tr>
                         <th class="schedule-date">@lang('tournament.date')</th>
