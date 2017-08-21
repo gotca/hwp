@@ -18,6 +18,7 @@ function init() {
 			var td = document.createElement('td');
 
 			tr.classList.add('schedule-today');
+			tr.dataset.skipFilter = true;
 			td.innerHTML = 'today';
 			td.colSpan = document.querySelectorAll('table.schedule thead th').length;
 			tr.appendChild(td);

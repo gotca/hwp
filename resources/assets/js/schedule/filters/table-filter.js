@@ -44,11 +44,15 @@ class TableFilter {
 			});
 
 			filtered = this.rows.filter(function(row) {
+				if ('skipFilter' in row.dataset) {
+					return true;
+				}
+
 				for(let i = 0; i < enabled.length; i++) {
 					let filter = enabled[i],
 						cell = row.cells[filter.index];
 
-					if (!filter.filter(cell)) {
+					if (cell === undefined || !filter.filter(cell)) {
 						return false;
 					}
 				}

@@ -37,6 +37,7 @@ function init() {
 			var td = document.createElement('td');
 
 			tr.classList.add('schedule-today');
+			tr.dataset.skipFilter = true;
 			td.innerHTML = 'today';
 			td.colSpan = document.querySelectorAll('table.schedule thead th').length;
 			tr.appendChild(td);
@@ -189,11 +190,15 @@ var TableFilter = function () {
 				});
 
 				filtered = this.rows.filter(function (row) {
+					if ('skipFilter' in row.dataset) {
+						return true;
+					}
+
 					for (var i = 0; i < enabled.length; i++) {
 						var filter = enabled[i],
 						    cell = row.cells[filter.index];
 
-						if (!filter.filter(cell)) {
+						if (cell === undefined || !filter.filter(cell)) {
 							return false;
 						}
 					}
