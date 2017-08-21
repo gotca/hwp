@@ -97,22 +97,24 @@
                                     {{$game->score_us}} - {{$game->score_them}}
                                 @endif
                             </td>
-                            <td class="schedule-btns btn-group">
-                                @if($game->box_stats_count)
-                                    <a class="btn" href="@route('game.stats', ['id'=>$game->id])" title="@lang('misc.stats')">
-                                        <i class="fa fa-line-chart"></i>
-                                    </a>
-                                @endif
-                                @if($game->album_count)
-                                    <a class="btn" href="@route('game.photos', ['id'=>$game->id])" title="@lang('misc.photos')">
-                                        <i class="fa fa-picture-o"></i>
-                                    </a>
-                                @endif
-                                @if($game->updates_count)
-                                    <a class="btn" href="@route('game.recap', ['id'=>$game->id])" title="@lang('misc.recap')">
-                                        <i class="fa fa-ticket"></i>
-                                    </a>
-                                @endif
+                            <td class="schedule-btns">
+                                <div class="btn-group btn-group--end">
+                                    @if($game->box_stats_count)
+                                        <a class="btn" href="@route('game.stats', ['id'=>$game->id])" title="@lang('misc.stats')">
+                                            <i class="fa fa-line-chart"></i>
+                                        </a>
+                                    @endif
+                                    @if($game->album_count)
+                                        <a class="btn" href="@route('game.photos', ['id'=>$game->id])" title="@lang('misc.photos')">
+                                            <i class="fa fa-picture-o"></i>
+                                        </a>
+                                    @endif
+                                    @if($game->updates_count)
+                                        <a class="btn" href="@route('game.recap', ['id'=>$game->id])" title="@lang('misc.recap')">
+                                            <i class="fa fa-ticket"></i>
+                                        </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach
