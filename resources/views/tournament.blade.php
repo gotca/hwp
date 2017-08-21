@@ -27,7 +27,7 @@
 
                     <div class="row center-xs">
                         @foreach($upcoming as $date => $games)
-                            <section class="col-xs-6 col-md-4">
+                            <section class="col-xs-12 col-md-4">
                                 <header class="bg--grid bg--bright">
                                     <h1>@day(new \Carbon\Carbon($date))</h1>
                                 </header>
