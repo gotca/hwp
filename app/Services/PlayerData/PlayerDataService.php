@@ -51,7 +51,8 @@ class PlayerDataService implements DataProvider
      */
     public function getTitle()
     {
-        return $this->provider->getTitle();
+        $tmp = $this->provider->getTitle();
+        return $tmp == '' ? null : $tmp;
     }
 
     /**
