@@ -24,12 +24,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
+        Route::pattern('shape', '(square|rectangle)');
+        Route::pattern('ext', '(\.svg)?');
 
         Route::bind('game', function ($value) {
             return \App\Models\Game::withCount(['album', 'boxStats', 'updates'])
                 ->where('id', $value)->first();
         });
+
+        parent::boot();
     }
 
     /**

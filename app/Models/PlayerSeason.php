@@ -11,6 +11,9 @@ class PlayerSeason extends Model
 {
     use BelongsToTenant, UsesCustomCollection, HasStats;
 
+    const FIELD = 'FIELD';
+    const GOALIE = 'GOALIE';
+
     protected $table = 'player_season';
 
     /**
@@ -73,6 +76,16 @@ class PlayerSeason extends Model
     public function stats()
     {
         return $this->player->stats()->where('season_id', '=', $this->season_id);
+    }
+
+    /**
+     * Get the related Badges for this player and season
+     *
+     * @return \App\Models\Badge[]
+     */
+    public function badges()
+    {
+        return $this->player->badges()->where('season_id', '=', $this->season_id);
     }
 
 }

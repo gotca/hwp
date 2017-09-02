@@ -71,6 +71,28 @@ class Game extends Model
         return $this->hasOne('App\Models\GameUpdateDump');
     }
 
+    public function badge()
+    {
+        return $this->belongsTo('App\Models\Badge');
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public static function oppositeStatus($status) {
+        switch ($status) {
+            case Game::WIN:
+                return Game::LOSS;
+
+            case Game::LOSS:
+                return Game::WIN;
+
+            default:
+                return Game::TIE;
+        }
+    }
+
     /**
      * @deprecated
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

@@ -33,6 +33,24 @@
 		}
 	}
 
-	module.exports = linker;
+	function matcher(str) {
+    var matched;
+    var nameKeys = [];
+
+    while((matched = regex.exec(str)) !== null) {
+      var name = matched[2];
+      var url = _.get(playerlist.byName, name, false);
+      if (url) {
+        nameKeys.push(url.replace('/players/', ''));
+      }
+    }
+
+    return nameKeys;
+  }
+
+	module.exports = {
+		linker: linker,
+		matcher: matcher
+	};
 
 })();

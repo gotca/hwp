@@ -4,4 +4,5 @@
         <span class="score" data-content="score"></span>
         <time data-content="timestampFormatted"></time>
     </div>
+    <div class="json" data-content="json"></div>
 </div>

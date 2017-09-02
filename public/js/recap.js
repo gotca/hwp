@@ -3,144 +3,149 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 'use strict';
 
 (function () {
-	'use strict';
+  'use strict';
 
-	global.jQuery = require('jquery');
-	require('jquery.loadtemplate');
+  global.jQuery = require('jquery');
+  require('jquery.loadtemplate');
 
-	var engine = require('./live/engine'),
-	    linker = require('./nameLinker'),
-	    _ = require('lodash'),
-	    $ = jQuery;
+  var engine = require('./live/engine'),
+      linker = require('./nameLinker').linker,
+      matcher = require('./nameLinker').matcher,
+      _ = require('lodash'),
+      $ = jQuery;
 
-	var game = engine.game(recap.game_id);
-	var quarterTitles = {
-		'1st': 'First Quarter',
-		'2nd': 'Second Quarter',
-		'3rd': 'Third Quarter',
-		'4th': 'Fourth Quarter',
-		'1st OT': 'First Overtime',
-		'2nd OT': 'Second Overtime',
-		'Shootout': 'Shootout'
-	};
-	var started = false;
-	var score = [0, 0];
-	var recapHolder;
-	var loader;
-	var currentQuarter;
-	var currentQuarterTitle;
-	var quarterTmpl;
-	var updateTmpl;
+  var game = engine.game(recap.game_id);
+  game.quarterStarted.add(quarterStarted);
+  game.quarterEnded.add(quarterEnded);
+  game.updated.add(updated);
+  game.ended.add(gameEnded);
 
-	window.addEventListener('DOMContentLoaded', function () {
-		recapHolder = $('.recap').first();
-		quarterTmpl = $('#quarter-tmpl');
-		updateTmpl = $('#update-tmpl');
-		loader = $('.recap-loader');
+  var quarterTitles = {
+    '1st': 'First Quarter',
+    '2nd': 'Second Quarter',
+    '3rd': 'Third Quarter',
+    '4th': 'Fourth Quarter',
+    '1st OT': 'First Overtime',
+    '2nd OT': 'Second Overtime',
+    'Shootout': 'Shootout'
+  };
+  var started = false;
+  var score = [0, 0];
+  var recapHolder;
+  var loader;
+  var currentQuarter;
+  var currentQuarterTitle;
+  var quarterTmpl;
+  var updateTmpl;
 
-		processUpdates();
-	});
+  window.addEventListener('DOMContentLoaded', function () {
+    recapHolder = $('.recap').first();
+    quarterTmpl = $('#quarter-tmpl');
+    updateTmpl = $('#update-tmpl');
+    loader = $('.recap-loader');
 
-	function createNewQuarter(data, titleKey) {
-		var newQuarter, titleSplit, scope, title;
+    processUpdates();
+  });
 
-		title = quarterTitles[titleKey];
-		titleSplit = title.split(' ');
+  function processUpdates() {
+    _.forEach(recap.updates, function (update) {
+      engine.process(update);
+    });
+  }
 
-		scope = {
-			quarterNameFirst: titleSplit[0],
-			quarterNameRemaining: titleSplit[1],
-			status: '',
-			scoreUs: data.score[0],
-			scoreThem: data.score[1],
-			opponent: data.opponent
-		};
+  function createNewQuarter(data, titleKey) {
+    var newQuarter, titleSplit, scope, title;
 
-		newQuarter = $('<div></div>');
-		newQuarter.loadTemplate(quarterTmpl, scope);
-		recapHolder.append(newQuarter);
-		currentQuarter = newQuarter;
-		currentQuarterTitle = title;
-	}
+    title = quarterTitles[titleKey];
+    titleSplit = title.split(' ');
 
-	function updateScore(score) {
-		var classUs, classThem;
+    scope = {
+      quarterNameFirst: titleSplit[0],
+      quarterNameRemaining: titleSplit[1],
+      status: '',
+      scoreUs: data.score[0],
+      scoreThem: data.score[1],
+      opponent: data.opponent
+    };
 
-		if (score[0] > score[1]) {
-			classUs = 'result--win';
-			classThem = 'result--loss';
-		} else if (score[0] < score[1]) {
-			classUs = 'result--loss';
-			classThem = 'result--win';
-		} else {
-			classUs = classThem = 'result--tie';
-		}
+    newQuarter = $('<div></div>');
+    newQuarter.loadTemplate(quarterTmpl, scope);
+    recapHolder.append(newQuarter);
+    currentQuarter = newQuarter;
+    currentQuarterTitle = title;
+  }
 
-		currentQuarter.find('.score--us').removeClass('result--win result--loss result--tie').addClass(classUs).find('h2').text(score[0]).end().end().find('.score--them').removeClass('result--win result--loss result--tie').addClass(classThem).find('h2').text(score[1]).end();
-	}
+  function updateScore(score) {
+    var classUs, classThem;
 
-	function isQuarterStarted(data) {
-		if (!started) {
-			createNewQuarter(data, '1st');
-			loader.remove();
-			loader = false;
-			started = true;
-		}
-	}
+    if (score[0] > score[1]) {
+      classUs = 'result--win';
+      classThem = 'result--loss';
+    } else if (score[0] < score[1]) {
+      classUs = 'result--loss';
+      classThem = 'result--win';
+    } else {
+      classUs = classThem = 'result--tie';
+    }
 
-	function quarterStarted(data, title) {
-		createNewQuarter(data, title);
-		started = true;
+    currentQuarter.find('.score--us').removeClass('result--win result--loss result--tie').addClass(classUs).find('h2').text(score[0]).end().end().find('.score--them').removeClass('result--win result--loss result--tie').addClass(classThem).find('h2').text(score[1]).end();
+  }
 
-		if (loader) {
-			loader.remove();
-			loader = false;
-		}
-	}
+  function isQuarterStarted(data) {
+    if (!started) {
+      createNewQuarter(data, '1st');
+      loader.remove();
+      loader = false;
+      started = true;
+    }
+  }
 
-	function updated(data) {
-		isQuarterStarted(data);
+  function quarterStarted(data, title) {
+    createNewQuarter(data, title);
+    started = true;
 
-		var newUpdate = $('<div></div>');
-		var scope = {
-			msg: linker(data.msg),
-			score: data.score[0] + '-' + data.score[1],
-			timestampFormatted: data.moment.format('LT')
-		};
+    if (loader) {
+      loader.remove();
+      loader = false;
+    }
+  }
 
-		newUpdate.loadTemplate(updateTmpl, scope);
-		currentQuarter.find('.body.container').append(newUpdate);
-		updateScore(data.score);
-	}
+  function updated(data) {
+    isQuarterStarted(data);
 
-	function updateQuarterStatus(data, title) {
-		isQuarterStarted(data);
+    data.quarterTitle = currentQuarterTitle;
+    data.mentions = matcher(data.msg);
 
-		currentQuarter.find('.recap-quarter-status').text(title);
+    var newUpdate = $('<div></div>');
+    var scope = {
+      msg: linker(data.msg),
+      score: data.score[0] + '-' + data.score[1],
+      timestampFormatted: data.moment.format('LT'),
+      json: JSON.stringify(data)
+    };
 
-		updateScore(data.score);
-	}
+    newUpdate.loadTemplate(updateTmpl, scope);
+    currentQuarter.find('.body.container').append(newUpdate);
+    updateScore(data.score);
+  }
 
-	function quarterEnded(data) {
-		var title = 'End of the ' + currentQuarterTitle.replace('Quarter', '');
-		updateQuarterStatus(data, title);
-	}
+  function updateQuarterStatus(data, title) {
+    isQuarterStarted(data);
 
-	function gameEnded(data) {
-		var title = 'Final Result';
-		updateQuarterStatus(data, title);
-	}
+    currentQuarter.find('.recap-quarter-status').text(title);
 
-	game.quarterStarted.add(quarterStarted);
-	game.quarterEnded.add(quarterEnded);
-	game.updated.add(updated);
-	game.ended.add(gameEnded);
+    updateScore(data.score);
+  }
 
-	function processUpdates() {
-		_.forEach(recap.updates, function (update) {
-			engine.process(update);
-		});
-	}
+  function quarterEnded(data) {
+    var title = 'End of the ' + currentQuarterTitle.replace('Quarter', '');
+    updateQuarterStatus(data, title);
+  }
+
+  function gameEnded(data) {
+    var title = 'Final Result';
+    updateQuarterStatus(data, title);
+  }
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -180,7 +185,25 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 		}
 	}
 
-	module.exports = linker;
+	function matcher(str) {
+		var matched;
+		var nameKeys = [];
+
+		while ((matched = regex.exec(str)) !== null) {
+			var name = matched[2];
+			var url = _.get(playerlist.byName, name, false);
+			if (url) {
+				nameKeys.push(url.replace('/players/', ''));
+			}
+		}
+
+		return nameKeys;
+	}
+
+	module.exports = {
+		linker: linker,
+		matcher: matcher
+	};
 })();
 
 },{"lodash":7}],19:[function(require,module,exports){

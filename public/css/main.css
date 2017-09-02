@@ -5635,10 +5635,11 @@ table.upcoming .upcoming-team {
   text-align: center; }
 
 table.upcoming .upcoming-opponent {
-  width: 45%; }
+  width: 45%;
+  line-height: 1.2em; }
 
-.page--schedule .schedule--upcoming table {
-  font-size: 1.2em; }
+table.upcoming .upcoming-location {
+  white-space: nowrap; }
 
 .recent {
   position: relative;
