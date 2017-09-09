@@ -73,8 +73,12 @@ table.schedule {
     white-space: nowrap;
   }
 
+  .schedule-team {
+    width: 100px;
+  }
+
   .schedule-title {
-    width: 30%;
+    width: 25%;
   }
 
   .schedule-location {
@@ -89,17 +93,6 @@ table.schedule {
   }
   .schedule--tie {
     color: $color-tie-text;
-  }
-
-  .schedule-btns {
-    text-align: right;
-
-    a.btn {
-      font-size: 1em;
-      padding: $gap;
-      border: none;
-      background: none;
-    }
   }
 
   > tbody > .schedule-today td {

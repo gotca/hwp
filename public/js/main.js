@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({21:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({76:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -10,7 +10,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	    matchMenuHeight = _.debounce(require('./matchMenuHeight'), 300),
 	    PopupGallery = require('./gallery/popup'),
 	    FullGallery = require('./gallery/full'),
-	    Note = require('./note');
+	    Note = require('./note'),
+	    shareable = require('./shareables');
 
 	global.jQuery = require('jquery');
 	var $ = jQuery;
@@ -45,7 +46,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./gallery/full":15,"./gallery/popup":16,"./matchMenuHeight":22,"./mlpushmenu":23,"./note":26,"jquery":6,"lodash":7}],26:[function(require,module,exports){
+},{"./gallery/full":69,"./gallery/popup":70,"./matchMenuHeight":77,"./mlpushmenu":78,"./note":81,"./shareables":96,"jquery":27,"lodash":28}],81:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -82,7 +83,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":6,"vex-js":12}],23:[function(require,module,exports){
+},{"jquery":27,"vex-js":64}],78:[function(require,module,exports){
 'use strict';
 
 /**
@@ -331,7 +332,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = mlPushMenu;
 })(window);
 
-},{"./classie":13}],22:[function(require,module,exports){
+},{"./classie":66}],77:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -345,7 +346,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     };
 })();
 
-},{}],16:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -392,7 +393,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":6,"photoswipe":10,"photoswipe/dist/photoswipe-ui-default.js":9}],15:[function(require,module,exports){
+},{"jquery":27,"photoswipe":33,"photoswipe/dist/photoswipe-ui-default.js":32}],69:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -499,7 +500,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":6,"jquery.loadtemplate":5,"photoswipe":10,"photoswipe/dist/photoswipe-ui-default.js":9}],13:[function(require,module,exports){
+},{"jquery":27,"jquery.loadtemplate":26,"photoswipe":33,"photoswipe/dist/photoswipe-ui-default.js":32}],66:[function(require,module,exports){
 "use strict";
 
 /*!
@@ -574,7 +575,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     module.exports = classie;
 })(window);
 
-},{}],10:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*! PhotoSwipe - v4.1.2 - 2017-04-05
 * http://photoswipe.com
 * Copyright (c) 2017 Dmitry Semenov; */
@@ -4309,7 +4310,7 @@ _registerModule('History', {
 	framework.extend(self, publicMethods); };
 	return PhotoSwipe;
 });
-},{}],9:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*! PhotoSwipe Default UI - 4.1.2 - 2017-04-05
 * http://photoswipe.com
 * Copyright (c) 2017 Dmitry Semenov; */
@@ -5172,4 +5173,4 @@ return PhotoSwipeUI_Default;
 
 });
 
-},{}]},{},[21]);
+},{}]},{},[76]);

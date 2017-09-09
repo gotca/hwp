@@ -1,0 +1,20 @@
+nav.player-nav {
+
+  li {
+    margin-right: .75em;
+  }
+
+  li.shareable {
+    position: relative;
+    padding-left: .75em;
+
+    &:before{
+      content: '';
+      position: absolute;
+      top: 4px;
+      bottom: 8px;
+      left: 0;
+      border-left: 3px solid #a8a8a8;
+    }
+  }
+}

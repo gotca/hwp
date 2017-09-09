@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Collections\StatCollection;
+use App\Models\Contracts\Shareable;
 use App\Services\PlayerListService;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 
-class Stat extends Model
+class Stat extends Model implements Shareable
 {
     use BelongsToTenant;
 
@@ -349,5 +350,20 @@ class Stat extends Model
         } catch (\Exception $e) {
             return 0;
         }
+    }
+
+    public function isShareable()
+    {
+        return isset($this->game_id) && isset($this->player_id);
+    }
+
+    public function getShareableUrl()
+    {
+        return route('shareables.game', [
+            'shape' => Shareable::SQUARE,
+            'ext' => '.svg',
+            'namekey' => $this->player->name_key,
+            'game_id' => $this->game_id
+        ]);
     }
 }

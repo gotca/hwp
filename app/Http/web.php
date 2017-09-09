@@ -74,9 +74,16 @@ Route::get('gallery/player/{player}', ['uses' => 'GalleryController@playerCareer
 Route::get('gallery/player/{player}/season/{season}', ['uses' => 'GalleryController@playerSeason', 'as' => 'gallery.playerSeason']);
 
 
+Route::group(['middleware' => 'cors'], function() {
 
-Route::get('shareables/{shape}/game{ext}', ['uses' => 'ShareableController@game', 'as' => 'shareables.game']);
+    Route::get('shareables/{shape}/game{ext}', ['uses' => 'ShareableController@game', 'as' => 'shareables.game']);
 
-Route::get('shareables/{shape}/player{ext}', ['uses' => 'ShareableController@player', 'as' => 'shareables.player']);
+    Route::get('shareables/{shape}/player{ext}', ['uses' => 'ShareableController@player', 'as' => 'shareables.player']);
 
-Route::get('shareables/{shape}/update{ext}', ['uses' => 'ShareableController@update', 'as' => 'shareables.update']);
+    Route::get('shareables/{shape}/update{ext}', ['uses' => 'ShareableController@update', 'as' => 'shareables.update']);
+
+});
+
+Route::get('test', function() {
+   return view('test');
+});

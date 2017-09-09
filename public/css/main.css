@@ -5280,6 +5280,14 @@ a.btn,
   -ms-flex-pack: end;
   justify-content: flex-end; }
 
+table .action-btns {
+  text-align: right; }
+  table .action-btns .btn, table .action-btns .tableFilter .filter .filter-clear, .tableFilter .filter table .action-btns .filter-clear {
+    font-size: 1em;
+    padding: 0.5em;
+    border: none !important;
+    background: none; }
+
 .badges {
   padding: 0; }
 
@@ -5868,8 +5876,10 @@ table.schedule {
   table.schedule .schedule-date {
     width: 15%;
     white-space: nowrap; }
+  table.schedule .schedule-team {
+    width: 100px; }
   table.schedule .schedule-title {
-    width: 30%; }
+    width: 25%; }
   table.schedule .schedule-location {
     white-space: nowrap; }
   table.schedule .schedule--win {
@@ -5878,13 +5888,6 @@ table.schedule {
     color: #ea4d0f; }
   table.schedule .schedule--tie {
     color: #f29800; }
-  table.schedule .schedule-btns {
-    text-align: right; }
-    table.schedule .schedule-btns a.btn, table.schedule .schedule-btns .tableFilter .filter a.filter-clear, .tableFilter .filter table.schedule .schedule-btns a.filter-clear {
-      font-size: 1em;
-      padding: 0.5em;
-      border: none;
-      background: none; }
   table.schedule > tbody > .schedule-today td {
     font-family: "League Gothic", "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     text-transform: uppercase;
@@ -5995,6 +5998,18 @@ nav.sub-nav {
 .stat--five_meters_percent span::after {
   content: '%'; }
 
+@media (max-width: 75em) {
+  .table.stats-table tr {
+    position: relative; }
+  .table.stats-table th.player-name {
+    background: none !important; }
+  .table.stats-table .action-btns {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    background: none !important; } }
+
 .stats-table-edit th {
   text-align: center; }
 
@@ -6025,6 +6040,20 @@ nav.sub-nav {
 .stats-table-edit .player-picker {
   width: 14em;
   text-align: left; }
+
+nav.player-nav li {
+  margin-right: .75em; }
+
+nav.player-nav li.shareable {
+  position: relative;
+  padding-left: .75em; }
+  nav.player-nav li.shareable:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 8px;
+    left: 0;
+    border-left: 3px solid #a8a8a8; }
 
 .card .player-articles-body {
   padding: 0; }
@@ -6176,7 +6205,7 @@ nav.sub-nav {
       font-size: 1.125em;
       font-weight: bold;
       letter-spacing: -.02em; }
-    .recap-quarter .update .meta .score,
+    .recap-quarter .update .meta span,
     .recap-quarter .update .meta time {
       vertical-align: middle; }
     .recap-quarter .update .meta .score {
@@ -6185,6 +6214,25 @@ nav.sub-nav {
       display: inline-block;
       font-size: 0.875em;
       color: #b5b5b5; }
+    .recap-quarter .update .meta .share-btns {
+      display: block; }
+      .recap-quarter .update .meta .share-btns a {
+        font-size: 1.5em;
+        padding: .25em;
+        color: rgba(0, 0, 0, 0.2);
+        transition: all .25s ease; }
+        .recap-quarter .update .meta .share-btns a:hover {
+          color: rgba(0, 0, 0, 0.4); }
+    @media (min-width: 64em) {
+      .recap-quarter .update .meta time {
+        margin: 0 .25em; }
+      .recap-quarter .update .meta .share-btns {
+        display: inline-block; }
+        .recap-quarter .update .meta .share-btns a {
+          font-size: 1em;
+          padding: 0; }
+          .recap-quarter .update .meta .share-btns a + a {
+            margin-left: .25em; } }
 
 .recap-quarter-score {
   position: relative; }

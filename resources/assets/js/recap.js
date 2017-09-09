@@ -7,6 +7,7 @@
   var engine = require('./live/engine'),
     linker = require('./nameLinker').linker,
     matcher = require('./nameLinker').matcher,
+    shareable = require('./shareables'),
     _ = require('lodash'),
     $ = jQuery;
 
@@ -130,8 +131,14 @@
       msg: linker(data.msg),
       score: data.score[0] + '-' + data.score[1],
       timestampFormatted: data.moment.format('LT'),
-      json: JSON.stringify(data)
+      json: JSON.stringify(data),
+      shareable: shareable.urls.updates(JSON.stringify(data))
     };
+
+    // retweet?
+    if (data.twitter_id) {
+      scope.retweet = 'https://twitter.com/intent/retweet?tweet_id=' + data.twitter_id;
+    }
 
     newUpdate.loadTemplate(updateTmpl, scope);
     currentQuarter.find('.body.container').append(newUpdate);

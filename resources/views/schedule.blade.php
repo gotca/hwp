@@ -148,7 +148,7 @@
                                     @endif
                                 </td>
                             @endif
-                            <td class="schedule-btns">
+                            <td class="schedule-btns action-btns">
                                 <div class="btn-group btn-group--end">
                                     @if($event->scheduled instanceof \App\Models\Game)
                                         @if($event->stats_count)
@@ -164,6 +164,12 @@
                                         @if($event->updates_count)
                                             <a class="btn" href="@route('game.recap', ['id'=>$event->scheduled->id])" title="@lang('misc.recap')">
                                                 <i class="fa fa-ticket"></i>
+                                            </a>
+                                        @endif
+                                        @if($event->scheduled instanceof \App\Models\Contracts\Shareable
+                                            && $event->scheduled->isShareable())
+                                            <a class="btn shareable" href="{!! $event->scheduled->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                                <i class="fa fa-share-alt-square"></i>
                                             </a>
                                         @endif
                                         @if(auth()->check())

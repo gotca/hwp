@@ -78,3 +78,14 @@ a.btn {
 .btn-group--end {
   justify-content: flex-end;
 }
+
+table .action-btns {
+  text-align: right;
+
+  .btn {
+    font-size: 1em;
+    padding: $gap;
+    border: none !important;
+    background: none;
+  }
+}

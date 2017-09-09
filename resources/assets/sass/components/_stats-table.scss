@@ -79,3 +79,24 @@
     content: '%';
   }
 }
+
+// see _table-collapse.scss
+.table.stats-table {
+  @media (max-width: map-get($breakpoints, 'lg')) {
+    tr {
+      position: relative;
+    }
+
+    th.player-name {
+      background: none !important;
+    };
+
+    .action-btns {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: auto;
+      background: none !important;
+    }
+  }
+}

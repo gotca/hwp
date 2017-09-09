@@ -6,7 +6,8 @@
 		matchMenuHeight = _.debounce(require('./matchMenuHeight'), 300),
 		PopupGallery    = require('./gallery/popup'),
 		FullGallery     = require('./gallery/full'),
-		Note            = require('./note');
+		Note            = require('./note'),
+	  shareable				= require('./shareables');
 
 	global.jQuery = require('jquery');
 	var $ = jQuery;

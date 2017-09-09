@@ -47,7 +47,7 @@
 
     <text class="meta" x="50%" y="{!! $stripeY + $stripeHeight + $padding !!}">
         <tspan class="meta-opponent">{!! $opponent !!}</tspan>
-        <tspan class="meta-score">&nbsp;&nbsp;{!! implode(' - ', $score) !!}&nbsp;&nbsp;</tspan>
+        <tspan class="meta-score">&#160;&#160;{!! implode(' - ', $score) !!}&#160;&#160;</tspan>
         <tspan class="meta-$quarter">{!! $quarter !!}</tspan>
     </text>
 

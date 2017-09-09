@@ -42,7 +42,7 @@
     }
 
     .meta {
-      .score,
+      span,
       time {
         vertical-align: middle;
       }
@@ -56,6 +56,41 @@
         font-size: em(14);
         color: greyscale(71);
       }
+
+      .share-btns {
+        display: block;
+
+        a {
+          font-size: 1.5em;
+          padding: .25em;
+          color: rgba(0,0,0,.2);
+          transition: all .25s ease;
+
+          &:hover {
+            color: rgba(0,0,0,.4);
+          }
+        }
+      }
+
+      @include responsive('md') {
+        time {
+          margin: 0 .25em;
+        }
+
+        .share-btns {
+          display: inline-block;
+
+          a {
+            font-size: 1em;
+            padding: 0;
+
+            & + a {
+              margin-left: .25em;
+            }
+          }
+        }
+      }
+
     }
   }
 }

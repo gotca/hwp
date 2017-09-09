@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\Shareable;
 use App\Models\Traits\Event;
 use App\Models\Traits\UsesCustomCollection;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 
-class Game extends Model
+class Game extends Model implements Shareable
 {
 
     use BelongsToTenant, Event, UsesCustomCollection;
@@ -74,6 +75,20 @@ class Game extends Model
     public function badge()
     {
         return $this->belongsTo('App\Models\Badge');
+    }
+
+    public function isShareable()
+    {
+        return isset($this->score_us) && isset($this->score_them);
+    }
+
+    public function getShareableUrl()
+    {
+        return route('shareables.game', [
+            'shape' => Shareable::SQUARE,
+            'ext' => '.svg',
+            'game_id' => $this->id
+        ]);
     }
 
     /**

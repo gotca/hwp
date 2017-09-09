@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({29:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({84:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -11,6 +11,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var engine = require('./live/engine'),
       linker = require('./nameLinker').linker,
       matcher = require('./nameLinker').matcher,
+      shareable = require('./shareables'),
       _ = require('lodash'),
       $ = jQuery;
 
@@ -121,8 +122,14 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       msg: linker(data.msg),
       score: data.score[0] + '-' + data.score[1],
       timestampFormatted: data.moment.format('LT'),
-      json: JSON.stringify(data)
+      json: JSON.stringify(data),
+      shareable: shareable.urls.updates(JSON.stringify(data))
     };
+
+    // retweet?
+    if (data.twitter_id) {
+      scope.retweet = 'https://twitter.com/intent/retweet?tweet_id=' + data.twitter_id;
+    }
 
     newUpdate.loadTemplate(updateTmpl, scope);
     currentQuarter.find('.body.container').append(newUpdate);
@@ -149,7 +156,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./live/engine":19,"./nameLinker":25,"jquery":6,"jquery.loadtemplate":5,"lodash":7}],25:[function(require,module,exports){
+},{"./live/engine":74,"./nameLinker":80,"./shareables":96,"jquery":27,"jquery.loadtemplate":26,"lodash":28}],80:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -206,7 +213,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	};
 })();
 
-},{"lodash":7}],19:[function(require,module,exports){
+},{"lodash":28}],74:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -312,7 +319,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	module.exports = engine;
 })();
 
-},{"./game":20,"lodash":7,"moment":8}],20:[function(require,module,exports){
+},{"./game":75,"lodash":28,"moment":29}],75:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -332,7 +339,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	module.exports = Game;
 })();
 
-},{"signals":11}],11:[function(require,module,exports){
+},{"signals":41}],41:[function(require,module,exports){
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
 /*global define:false, require:false, exports:false, module:false, signals:false */
 
@@ -779,4 +786,4 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 }(this));
 
-},{}]},{},[29]);
+},{}]},{},[84]);

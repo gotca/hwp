@@ -34,6 +34,13 @@
                         ><i class="fa fa-ticket"></i> @lang('game.recap')</a>
                     </li>
                 @endif
+                @if($game->isShareable())
+                    <li>
+                        <a class="shareable" href="{!! $game->getShareableUrl() !!}"
+                           title="@lang('misc.shareable')" target="_blank"
+                        ><i class="fa fa-share-alt-square"></i> @lang('misc.shareable')</a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>

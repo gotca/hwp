@@ -35,6 +35,11 @@
                     <i class="fa fa-ticket"></i>
                 </a>
             @endif
+            @if($result instanceof \App\Models\Contracts\Shareable && $result->isShareable())
+                <a class="btn shareable" href="{!! $result->getShareableUrl() !!}" title="@lang('misc.shareable')" target="_blank">
+                    <i class="fa fa-share-alt-square"></i>
+                </a>
+            @endif
         </footer>
     @endif
 

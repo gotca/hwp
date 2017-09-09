@@ -37,6 +37,14 @@
                                title="@lang('players.viewSeason')"
                             >@lang('players.all')</a>
                         </li>
+                        @if($player->isShareable())
+                            <li class="shareable">
+                                <a class="shareable"
+                                   href="{!! $player->getShareableUrl() !!}" target="_blank"
+                                   title="@lang('misc.shareable')"
+                               ><i class="fa fa-share-alt-square"></i> @lang('misc.shareable')</a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>

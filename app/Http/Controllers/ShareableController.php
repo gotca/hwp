@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ShareableHandler;
 use App\Models\ActiveSeason;
+use App\Models\Contracts\Shareable;
 use App\Models\Game;
 use App\Models\Photo;
 use App\Models\PlayerSeason;
@@ -19,9 +20,6 @@ class ShareableController extends Controller
 
     const PATTERN_COLOR = '#2a82c9';
     const PATTERN_COLOR_DARKER = '#435e8d';
-
-    const SQUARE = 'square';
-    const RECTANGLE = 'rectangle';
 
     /**
      * @var PlayerListService
@@ -71,13 +69,12 @@ class ShareableController extends Controller
         if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
         if (!$photo) { $pattern = $this->getPattern($stats ? self::PATTERN_COLOR_DARKER : self::PATTERN_COLOR); }
 
-        $game->opponent = $this->chunkName($game->opponent);
         $game->us = 'Hudsonville' . ($game->team === 'JV' ? ' JV' : '');
 
         $data = compact('dimensions', 'game', 'player', 'stats', 'charts', 'photo', 'pattern');
 
         if ($ext == '.svg') {
-            return view('shareables.' . $shape . '.game' . ($player ? '-player' : ''), $data);
+            return $this->outputSVG('shareables.' . $shape . '.game' . ($player ? '-player' : ''), $data);
         }
 
         return $this->outputData($data);
@@ -109,7 +106,7 @@ class ShareableController extends Controller
         $data = compact('dimensions', 'player', 'stats', 'charts', 'photo', 'pattern', 'badges');
 
         if ($ext == '.svg') {
-            return view('shareables.' . $shape . '.player', $data);
+            return $this->outputSVG('shareables.' . $shape . '.player', $data);
         }
 
         return $this->outputData($data);
@@ -147,7 +144,7 @@ class ShareableController extends Controller
         }
 
         // split into lines
-        $splitLimit = $shape === ShareableController::SQUARE ? 30 : 20;
+        $splitLimit = $shape === Shareable::SQUARE ? 30 : 20;
         $lines = explode('ZZZ', wordwrap($update->msg, $splitLimit, 'ZZZ', false));
 
         // wrap mentions in the lines with tspans
@@ -204,9 +201,9 @@ class ShareableController extends Controller
            return $photo;
         });
 
-        if (!$photo) {
-            $pattern = $this->getPattern(self::PATTERN_COLOR, $update->msg);
-        }
+        if (!$photo) { $photo = $this->getGamePhoto($game); }
+        if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
+        if (!$photo) { $pattern = $this->getPattern(self::PATTERN_COLOR, $update->msg . time()); }
 
 
         $opponent = $update->opponent;
@@ -216,7 +213,7 @@ class ShareableController extends Controller
         $data = compact('dimensions', 'photo', 'pattern', 'lines', 'opponent', 'score', 'quarter');
 
         if ($ext == '.svg') {
-            return view('shareables.' . $shape . '.update', $data);
+            return $this->outputSVG('shareables.' . $shape . '.update', $data);
         }
 
         return $this->outputData($data);
@@ -359,7 +356,7 @@ class ShareableController extends Controller
             'value' => $percent,
             'suffix' => $percent ? '%' : false,
             'subvalue' => $stats->goals.'/'.$stats->shots,
-            'title' => trans('stats.shooting_percent')
+            'title' => trans('shareables.shooting_percent')
         ];
 
         # Steals/Turnovers
@@ -376,14 +373,14 @@ class ShareableController extends Controller
                 'prefix' => $negative ? '-' : '+',
                 'value' => abs($stats->steals_to_turnovers),
                 'subvalue' => $stats->steals . '/' . $stats->turnovers,
-                'title' => trans('stats.steals').'/'.trans('stats.turnovers')
+                'title' => trans('shareables.steals').'/'.trans('shareables.turnovers')
             ];
         } else {
             $chartData[] = [
                 'slices' => [0],
                 'value' => 0,
                 'subvalue' => '0/0',
-                'title' => trans('stats.steals').'/'.trans('stats.turnovers')
+                'title' => trans('shareables.steals').'/'.trans('shareables.turnovers')
             ];
         }
 
@@ -401,16 +398,16 @@ class ShareableController extends Controller
                 'prefix' => $negative ? '-' : '+',
                 'value' => abs($stats->kickouts_drawn_to_called),
                 'subvalue' => $stats->kickouts_drawn . '/' . $stats->kickouts,
-                'title' => trans('stats.kickouts'),
-                'subtitle' => trans('stats.drawn').'/'.trans('stats.called')
+                'title' => trans('shareables.kickouts'),
+                'subtitle' => trans('shareables.drawn').'/'.trans('shareables.called')
             ];
         } else {
             $chartData[] = [
                 'slices' => [0],
                 'value' => '0',
                 'subvalue' => '0/0',
-                'title' => trans('stats.kickouts'),
-                'subtitle' => trans('stats.drawn').'/'.trans('stats.called')
+                'title' => trans('shareables.kickouts'),
+                'subtitle' => trans('shareables.drawn').'/'.trans('shareables.called')
             ];
         }
 
@@ -422,7 +419,7 @@ class ShareableController extends Controller
                 'value' => $percent,
                 'suffix' => '%',
                 'subvalue' => $stats->sprints_won . '/' . $stats->sprints_taken,
-                'title' => trans('stats.sprints'),
+                'title' => trans('shareables.sprints'),
             ];
         } else {
             if ($stats->goals || $stats->assists) {
@@ -433,13 +430,13 @@ class ShareableController extends Controller
                 $chartData[] = [
                     'slices' => [$goals, $assists],
                     'value' => $stats->goals.'/'.$stats->assists,
-                    'title' => trans('stats.goals').'/'.trans('stats.assists')
+                    'title' => trans('shareables.goals').'/'.trans('shareables.assists')
                 ];
             } else {
                 $chartData[] = [
                     'slices' => [0],
                     'value' => 0,
-                    'title' => trans('stats.goals').'/'.trans('stats.assists')
+                    'title' => trans('shareables.goals').'/'.trans('shareables.assists')
                 ];
             }
         }
@@ -458,7 +455,7 @@ class ShareableController extends Controller
             'value' => round($stats->save_percent),
             'suffix' => '%',
             'subvalue' => $stats->saves.'/'.$stats->goals_allowed,
-            'title' => trans('stats.saves')
+            'title' => trans('shareables.saves')
         ];
 
         # 5 Meters
@@ -475,15 +472,15 @@ class ShareableController extends Controller
                'value' => $percent,
                'suffix' => '%',
                'subvalue' => $stats->five_meters_blocked.'/'.$stats->five_meters_missed.'/'.$stats->five_meters_allowed,
-               'title' => trans('stats.five_meters'),
-               'subtitle' => trans('stats.blocked').'/'.trans('stats.missed').'/'.trans('stats.allowed')
+               'title' => trans('shareables.five_meters'),
+               'subtitle' => trans('shareables.blocked').'/'.trans('shareables.missed').'/'.trans('shareables.allowed')
            ];
        } else {
            $chartData[] = [
                'value' => '0',
                'subvalue' => '0/0/0',
-               'title' => trans('stats.five_meters'),
-               'subtitle' => trans('stats.blocked').'/'.trans('stats.missed').'/'.trans('stats.allowed')
+               'title' => trans('shareables.five_meters'),
+               'subtitle' => trans('shareables.blocked').'/'.trans('shareables.missed').'/'.trans('shareables.allowed')
            ];
        }
 
@@ -501,15 +498,15 @@ class ShareableController extends Controller
                'value' => $percent,
                'suffix' => '%',
                'subvalue' => $stats->shoot_out_blocked.'/'.$stats->shoot_out_missed.'/'.$stats->shoot_out_allowed,
-               'title' => trans('stats.shoot_outs'),
-               'subtitle' => trans('stats.blocked').'/'.trans('stats.missed').'/'.trans('stats.allowed')
+               'title' => trans('shareables.shoot_outs'),
+               'subtitle' => trans('shareables.blocked').'/'.trans('shareables.missed').'/'.trans('shareables.allowed')
            ];
        } else {
            $chartData[] = [
                'value' => '0',
                'subvalue' => '0/0/0',
-               'title' => trans('stats.shoot_outs'),
-               'subtitle' => trans('stats.blocked').'/'.trans('stats.missed').'/'.trans('stats.allowed')
+               'title' => trans('shareables.shoot_outs'),
+               'subtitle' => trans('shareables.blocked').'/'.trans('shareables.missed').'/'.trans('shareables.allowed')
            ];
        }
 
@@ -522,13 +519,13 @@ class ShareableController extends Controller
            $chartData[] = [
                'slices' => [$goals, $assists],
                'value' => $stats->goals.'/'.$stats->assists,
-               'title' => trans('stats.goals').'/'.trans('stats.assists')
+               'title' => trans('shareables.goals').'/'.trans('shareables.assists')
            ];
        } else {
            $chartData[] = [
                'slices' => [0],
                'value' => 0,
-               'title' => trans('stats.goals').'/'.trans('stats.assists')
+               'title' => trans('shareables.goals').'/'.trans('shareables.assists')
            ];
        }
 
@@ -539,5 +536,11 @@ class ShareableController extends Controller
     protected function outputData($items)
     {
         return response()->json($items);
+    }
+
+    protected function outputSVG($view, $data) {
+        return response()
+            ->view($view, $data, 200)
+            ->header('Content-Type', 'image/svg+xml');
     }
 }

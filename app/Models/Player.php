@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\Shareable;
 use App\Models\Traits\HasStats;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Player extends Model
+class Player extends Model implements Shareable
 {
     use BelongsToTenant, HasStats;
 
@@ -72,5 +73,20 @@ class Player extends Model
     public function stats()
     {
         return $this->hasMany('App\Models\Stat');
+    }
+
+    public function isShareable()
+    {
+        // should probably do something to limit staff somehow?
+        return true;
+    }
+
+    public function getShareableUrl()
+    {
+        return route('shareables.player', [
+            'shape' => Shareable::SQUARE,
+            'ext' => '.svg',
+            'namekey' => $this->name_key
+        ]);
     }
 }

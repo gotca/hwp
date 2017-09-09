@@ -38,8 +38,8 @@
 
     @if($game->badge)
         @include('shareables.parts.badge', [
-            'x' => 120,
-            'y' => 598,
+            'x' => 56,
+            'y' => 1026,
             'showTitle' => true,
             'badge' => $game->badge
         ])

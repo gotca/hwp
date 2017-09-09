@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({31:[function(require,module,exports){
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({86:[function(require,module,exports){
 'use strict';
 
 var subscribeModalInit = require('./schedule/subscribe-modal'),
@@ -14,7 +14,7 @@ todayRow();
 // handles filtering the table
 filterable();
 
-},{"./schedule/filterable":32,"./schedule/subscribe-modal":39,"./schedule/today-row":40}],40:[function(require,module,exports){
+},{"./schedule/filterable":87,"./schedule/subscribe-modal":94,"./schedule/today-row":95}],95:[function(require,module,exports){
 'use strict';
 
 var _ = require('lodash');
@@ -53,7 +53,7 @@ function init() {
 
 module.exports = init;
 
-},{"lodash":7}],39:[function(require,module,exports){
+},{"lodash":28}],94:[function(require,module,exports){
 'use strict';
 
 var vex = require('vex-js');
@@ -75,7 +75,7 @@ function init() {
 
 module.exports = init;
 
-},{"vex-js":12}],32:[function(require,module,exports){
+},{"vex-js":64}],87:[function(require,module,exports){
 'use strict';
 
 var _tableFilter = require('./filters/table-filter');
@@ -121,7 +121,7 @@ function init() {
 
 module.exports = init;
 
-},{"./filters/checkbox-filter":33,"./filters/date-filter":34,"./filters/filter":35,"./filters/radio-filter":36,"./filters/select-filter":37,"./filters/table-filter":38}],38:[function(require,module,exports){
+},{"./filters/checkbox-filter":88,"./filters/date-filter":89,"./filters/filter":90,"./filters/radio-filter":91,"./filters/select-filter":92,"./filters/table-filter":93}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -225,7 +225,7 @@ var TableFilter = function () {
 exports.TableFilter = TableFilter;
 exports.default = TableFilter;
 
-},{"jquery":6,"lodash":7}],37:[function(require,module,exports){
+},{"jquery":27,"lodash":28}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -318,7 +318,7 @@ var SelectFilter = function (_Filter) {
 exports.SelectFilter = SelectFilter;
 exports.default = SelectFilter;
 
-},{"./filter":35}],36:[function(require,module,exports){
+},{"./filter":90}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -358,7 +358,7 @@ var RadioFilter = function (_CheckboxFilter) {
 exports.RadioFilter = RadioFilter;
 exports.default = RadioFilter;
 
-},{"./checkbox-filter":33}],34:[function(require,module,exports){
+},{"./checkbox-filter":88}],89:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -460,7 +460,7 @@ var DateFilter = function (_Filter) {
 exports.DateFilter = DateFilter;
 exports.default = DateFilter;
 
-},{"./filter":35,"flatpickr":4}],33:[function(require,module,exports){
+},{"./filter":90,"flatpickr":12}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -575,7 +575,7 @@ var CheckboxFilter = function (_Filter) {
 exports.CheckboxFilter = CheckboxFilter;
 exports.default = CheckboxFilter;
 
-},{"./filter":35}],35:[function(require,module,exports){
+},{"./filter":90}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -792,7 +792,7 @@ exports.Filter = Filter;
 exports.classes = classes;
 exports.default = Filter;
 
-},{}],4:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -3094,4 +3094,4 @@ Date.prototype.fp_toUTC = function () {
 };
 
 if (typeof module !== "undefined") module.exports = Flatpickr;
-},{}]},{},[31]);
+},{}]},{},[86]);

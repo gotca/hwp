@@ -7,5 +7,5 @@ $scale = isset($scale) ? $scale : 1;
     @endif
     <image style="overflow:visible;"
            width="130" height="147"
-           xlink:href="/badges/{!! $badge['image'] !!}"></image>
+           xlink:href="{!! asset('/') !!}badges/{!! $badge['image'] !!}"></image>
 </g>

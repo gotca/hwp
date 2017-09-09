@@ -92,6 +92,7 @@
                         @foreach($fields as $key => $v)
                             <th>@lang('stats.'.$key)</th>
                         @endforeach
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,6 +106,13 @@
                                 $fields[$key] += $stat->$key;
                                 ?>
                             @endforeach
+                            <td class="stat-btns action-btns">
+                                @if($stat->isShareable())
+                                    <a class="btn shareable" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                        <i class="fa fa-share-alt-square"></i>
+                                    </a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -163,12 +171,13 @@
                         @foreach($fields as $key => $v)
                             <th>@lang('stats.'.$key)</th>
                         @endforeach
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($players as $stat)
                         <tr>
-                            <th>@playerSeasonLink($stat->player)</th>
+                            <th class="player-name">@playerSeasonLink($stat->player)</th>
                             @foreach($fields as $key => &$sum)
                                 <td class="stat--{{$key}}" data-title="@lang('stats.'.$key)">
                                     <span>@numberOrNothing($stat->$key)</span>
@@ -177,6 +186,13 @@
                                 $fields[$key] += $stat->$key;
                                 ?>
                             @endforeach
+                            <td class="stat-btns action-btns">
+                                @if($stat->isShareable())
+                                    <a class="btn shareable" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                        <i class="fa fa-share-alt-square"></i>
+                                    </a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -42,5 +42,6 @@ return [
     'save' => 'Save',
     'add' => 'Add',
     'remove', 'Remove',
-    'saveSuccessful' => 'Save Successful!'
+    'saveSuccessful' => 'Save Successful!',
+    'shareable' => 'Shareable'
 ];
