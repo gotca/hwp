@@ -2,9 +2,12 @@
 
   var fabric = require('fabric').fabric;
   var gridPattern = require('./shareables/parts/gridPattern');
+  var gradients = require('./shareables/parts/gradients');
 
   var gameSquare = require('./shareables/game.square');
   var gameRectangle = require('./shareables/game.rectangle');
+  var gamePlayerSquare = require('./shareables/game-player.square');
+  var gamePlayerRectangle = require('./shareables/game-player.rectangle');
 
   var types = {
     'game.square': gameSquare
@@ -15,7 +18,15 @@
       .then(function(response) { return response.json(); })
   }
 
-  window.addEventListener('load', function() {
+  Promise.all([
+    (() => new Promise((resolve) => { window.addEventListener('load', () => resolve()) }))(),
+    document.fonts.ready
+  ])
+    .then(() => {
+      go();
+    });
+
+  function go() {
 
     fabric.Object.prototype.set({
       selectable: false
@@ -35,6 +46,7 @@
       canvas: canvas,
       shadow: shadow,
       gridPattern: null,
+      gradients: gradients,
       promises: []
     };
 
@@ -42,13 +54,15 @@
       .then((pattern) => {
         defs.gridPattern = pattern;
 
-        getData('/shareables/rectangle/game?game_id=288')
+        getData('/shareables/rectangle/game?game_id=288&namekey=LucasPetzold')
           .then((rsp) => {
             canvas.setHeight(rsp.dimensions.height);
             canvas.setWidth(rsp.dimensions.width);
 
             // gameSquare(rsp, defs);
-            gameRectangle(rsp, defs);
+            // gameRectangle(rsp, defs);
+            // gamePlayerSquare(rsp, defs);
+            gamePlayerRectangle(rsp, defs);
 
             Promise.all(defs.promises)
               .then(() => {
@@ -60,6 +74,6 @@
           });
       });
 
-  });
+  };
 
 })();

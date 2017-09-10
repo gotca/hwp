@@ -42,8 +42,6 @@
         canvas.add(badgeGroup);
       }
 
-      canvas.renderAll();
-
     });
   }
 

@@ -5,9 +5,12 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
   var fabric = require('fabric').fabric;
   var gridPattern = require('./shareables/parts/gridPattern');
+  var gradients = require('./shareables/parts/gradients');
 
   var gameSquare = require('./shareables/game.square');
   var gameRectangle = require('./shareables/game.rectangle');
+  var gamePlayerSquare = require('./shareables/game-player.square');
+  var gamePlayerRectangle = require('./shareables/game-player.rectangle');
 
   var types = {
     'game.square': gameSquare
@@ -19,7 +22,17 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     });
   }
 
-  window.addEventListener('load', function () {
+  Promise.all([function () {
+    return new Promise(function (resolve) {
+      window.addEventListener('load', function () {
+        return resolve();
+      });
+    });
+  }(), document.fonts.ready]).then(function () {
+    go();
+  });
+
+  function go() {
 
     fabric.Object.prototype.set({
       selectable: false
@@ -39,18 +52,21 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       canvas: canvas,
       shadow: shadow,
       gridPattern: null,
+      gradients: gradients,
       promises: []
     };
 
     gridPattern().then(function (pattern) {
       defs.gridPattern = pattern;
 
-      getData('/shareables/rectangle/game?game_id=288').then(function (rsp) {
+      getData('/shareables/rectangle/game?game_id=288&namekey=LucasPetzold').then(function (rsp) {
         canvas.setHeight(rsp.dimensions.height);
         canvas.setWidth(rsp.dimensions.width);
 
         // gameSquare(rsp, defs);
-        gameRectangle(rsp, defs);
+        // gameRectangle(rsp, defs);
+        // gamePlayerSquare(rsp, defs);
+        gamePlayerRectangle(rsp, defs);
 
         Promise.all(defs.promises).then(function () {
           defs.canvas.renderAll();
@@ -60,10 +76,10 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         });
       });
     });
-  });
+  };
 })();
 
-},{"./shareables/game.rectangle":97,"./shareables/game.square":98,"./shareables/parts/gridPattern":101,"fabric":11}],101:[function(require,module,exports){
+},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"fabric":11}],104:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -99,7 +115,43 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11}],98:[function(require,module,exports){
+},{"fabric":11}],103:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+
+  var hex = '#2f3157';
+
+  module.exports = {
+
+    blueTransBottom: new fabric.Gradient({
+      type: 'linear',
+      coords: {
+        x1: 0,
+        y1: 0,
+        x2: 0,
+        y2: 1
+      },
+      colorStops: [{ offset: 0, color: hex, opacity: 0 }, { offset: 1, color: hex, opacity: 1 }]
+    }),
+
+    blueTransRight: new fabric.Gradient({
+      type: 'linear',
+      coords: {
+        x1: 0,
+        y1: 0,
+        x2: 1,
+        y2: 0
+      },
+      colorStops: [{ offset: 0, color: hex, opacity: 0 }, { offset: 1, color: hex, opacity: 1 }]
+    })
+  };
+})();
+
+},{"fabric":11}],100:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -142,13 +194,11 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         });
         canvas.add(badgeGroup);
       }
-
-      canvas.renderAll();
     });
   };
 })();
 
-},{"./parts/backgroundWithStripe":99,"./parts/badge":100,"./parts/logo":102,"./parts/scores":104,"fabric":11}],97:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"fabric":11}],99:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -193,13 +243,344 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         });
         canvas.add(badgeGroup);
       }
-
-      canvas.renderAll();
     });
   };
 })();
 
-},{"./parts/backgroundWithStripe":99,"./parts/badge":100,"./parts/logo":102,"./parts/scores":104,"fabric":11}],104:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"fabric":11}],98:[function(require,module,exports){
+'use strict';
+
+(function () {
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var scores = require('./parts/scores');
+  var badge = require('./parts/badge');
+  var stat = require('./parts/stat');
+
+  module.exports = function draw(data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      bg.stripe.top = 338;
+      bg.stripe.height = 172;
+      canvas.add(bg);
+
+      logo(logo.TOP, defs).then(function (img) {
+        img.set({
+          top: 0,
+          left: 0
+        });
+
+        canvas.add(img);
+      });
+
+      var scoreGroup = scores(data.game, defs);
+      scoreGroup.set({
+        scaleX: 0.8399,
+        scaleY: 0.8399,
+        top: 420,
+        left: defs.canvas.width / 2
+      });
+      canvas.add(scoreGroup);
+
+      if (data.game.badge) {
+        var badgeGroup = badge(data.game.badge, true, defs);
+        badgeGroup.set({
+          transformMatrix: [.84, 0, 0, .84, 153, 527]
+        });
+        canvas.add(badgeGroup);
+      }
+
+      if (data.charts.length) {
+        var gradientBG = new fabric.Rect({
+          left: 0,
+          top: defs.canvas.height - 258,
+          height: 258,
+          width: defs.canvas.width
+        });
+
+        defs.gradients.blueTransBottom.coords.y2 = gradientBG.height;
+        gradientBG.set('fill', defs.gradients.blueTransBottom);
+        // gradientBG.setGradient('fill', _.defaults({y2: gradientBG.height}, defs.gradients.blueTransBottom));
+
+        defs.canvas.add(gradientBG);
+
+        var padding = 57;
+        var circleWidth = 204;
+        var spacing = (defs.canvas.width - padding * 2 - circleWidth * 4) / 3;
+        data.charts.forEach(function (statData, i) {
+          var statGroup = stat(statData);
+          statGroup.set({
+            top: 771,
+            left: 57 + i * (204 + spacing)
+          });
+
+          defs.canvas.add(statGroup);
+        });
+      }
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"./parts/stat":109,"fabric":11,"lodash":28}],97:[function(require,module,exports){
+'use strict';
+
+(function () {
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var scores = require('./parts/scores');
+  var badge = require('./parts/badge');
+  var name = require('./parts/name');
+  var stat = require('./parts/stat');
+
+  module.exports = function draw(data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      bg.stripe.top = 603;
+      bg.stripe.height = 240;
+      canvas.add(bg);
+
+      logo(logo.TOP, defs).then(function (img) {
+        img.set({
+          top: 0,
+          left: 0
+        });
+
+        canvas.add(img);
+      });
+
+      var scoreGroup = scores(data.game, defs);
+      scoreGroup.set({
+        // top: 420,
+        top: 722,
+        left: defs.canvas.width / 2
+      });
+      canvas.add(scoreGroup);
+
+      if (data.game.badge) {
+        var badgeGroup = badge(data.game.badge, true, defs);
+        badgeGroup.set({
+          transformMatrix: [.84, 0, 0, .84, 100, 865.5]
+        });
+        canvas.add(badgeGroup);
+      }
+
+      var padding = 57;
+      if (data.player) {
+        var nameBox = name(data.player.player, padding, defs);
+        nameBox.set({
+          fontSize: 150,
+          originY: 'bottom',
+          top: 1580,
+          left: padding
+        });
+
+        canvas.add(nameBox);
+      }
+
+      if (data.charts.length) {
+        var gradientBG = new fabric.Rect({
+          left: 0,
+          top: defs.canvas.height - 258,
+          height: 258,
+          width: defs.canvas.width
+        });
+
+        defs.gradients.blueTransBottom.coords.y2 = gradientBG.height;
+        gradientBG.set('fill', defs.gradients.blueTransBottom);
+        defs.canvas.add(gradientBG);
+
+        var circleWidth = 204;
+        var spacing = (defs.canvas.width - padding * 2 - circleWidth * 4) / 3;
+        data.charts.forEach(function (statData, i) {
+          var statGroup = stat(statData);
+          statGroup.set({
+            top: 1590,
+            left: 57 + i * (204 + spacing)
+          });
+
+          defs.canvas.add(statGroup);
+        });
+      }
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/scores":108,"./parts/stat":109,"fabric":11,"lodash":28}],109:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  // 'negative' => false,
+  // 'slices' => [33],
+  // 'prefix' => '+',
+  // 'value' => '3',
+  // 'suffix' => '%',
+  // 'subvalue' => '12/9',
+  // 'title' => 'Kickouts',
+  // 'subtitle' => 'Drawn/Called'
+  module.exports = function makeStat(stat, defs) {
+
+    var colors = ['#2a82c9', '#f29800', '#2ac95b'];
+
+    // Math.PI * 2 allows us to specify angles as percents of the chart
+    var StatCircle = fabric.util.createClass(fabric.Circle, {
+
+      initialize: function initialize(options) {
+        var defaults = {
+          radius: 92,
+          left: 0,
+          top: 195,
+          angle: -90,
+          startAngle: 0,
+          endAngle: 0,
+          stroke: '#b2b2b2',
+          strokeWidth: 10,
+          fill: '',
+          width: 204,
+          height: 204
+        };
+
+        options = _.defaults(options, defaults);
+
+        this.callSuper('initialize', options);
+
+        // this.width = 204;
+        // this.height = 204;
+      },
+
+      startAnglePercent: function startAnglePercent(percent) {
+        this.startAngle = (percent > 1 ? percent / 100 : percent) * Math.PI * 2;
+      },
+
+      endAnglePercent: function endAnglePercent(percent) {
+        this.endAngle = (percent > 1 ? percent / 100 : percent) * Math.PI * 2;
+      }
+    });
+
+    var parts = [];
+
+    var base = new StatCircle({
+      endAngle: Math.PI * 2
+    });
+    parts.push(base);
+
+    // TODO put stuff for negative here
+
+    var i = 0;
+    var offset = 0;
+    stat.slices.forEach(function (val) {
+      var slice = new StatCircle({
+        stroke: colors[i]
+      });
+
+      slice.startAnglePercent(offset);
+      slice.endAnglePercent(val);
+
+      parts.push(slice);
+      offset += val;
+      i++;
+    });
+
+    var valueText = new fabric.Text(stat.value + '', {
+      fontFamily: 'League Gothic',
+      fontSize: 95, // TODO check for long text and drop size
+      top: 100,
+      left: 98,
+      fill: '#fff',
+      textAlign: 'center',
+      originX: 'center',
+      originY: 'center'
+    });
+    parts.push(valueText);
+
+    // used to position prefix/suffix
+    var bounding = valueText.getBoundingRect();
+
+    if (stat.prefix) {
+      parts.push(new fabric.Text(stat.prefix + '', {
+        fontFamily: 'League Gothic',
+        fontSize: 58.5,
+        fill: '#fff',
+        top: bounding.top,
+        left: bounding.left,
+        originX: 'right',
+        originY: 'top'
+      }));
+    }
+
+    if (stat.suffix) {
+      parts.push(new fabric.Text(stat.suffix + '', {
+        fontFamily: 'League Gothic',
+        fontSize: 41,
+        fill: '#fff',
+        top: bounding.top + 15,
+        left: bounding.left + bounding.width,
+        originX: 'left',
+        originY: 'top'
+      }));
+    }
+
+    if (stat.subvalue) {
+      parts.push(new fabric.Text(stat.subvalue + '', {
+        fontFamily: 'League Gothic',
+        fontSize: 24,
+        fill: '#fff',
+        top: bounding.top + 95,
+        left: 98,
+        originX: 'center',
+        originY: 'top'
+      }));
+    }
+
+    var baseBounding = base.getBoundingRect();
+
+    function makeSubStyles(str) {
+      return str.split('').reduce(function (acc, letter, i) {
+        acc[i] = { fontSize: 25 };
+        return acc;
+      }, {});
+    }
+
+    var joinedTitle = stat.title + (stat.subtitle ? '\n' + stat.subtitle : '');
+    var titleText = new fabric.Text(joinedTitle.toUpperCase(), {
+      fontFamily: 'League Gothic',
+      fontSize: 38,
+      fill: '#fff',
+      lineHeight: .8,
+      textAlign: 'center',
+      top: baseBounding.top + baseBounding.height + 10,
+      left: baseBounding.width / 2,
+      originX: 'center',
+      originY: 'top',
+      styles: {
+        1: makeSubStyles(stat.subtitle + '')
+      }
+    });
+    parts.push(titleText);
+
+    return new fabric.Group(parts);
+  };
+})();
+
+},{"fabric":11,"lodash":28}],108:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -234,7 +615,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./scorebox":103,"fabric":11}],103:[function(require,module,exports){
+},{"./scorebox":107,"fabric":11}],107:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -299,7 +680,43 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = scorebox;
 })();
 
-},{"fabric":11}],102:[function(require,module,exports){
+},{"fabric":11}],106:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+
+  var yellow = '#f5d100';
+
+  module.exports = function name(player, padding, defs) {
+    // apply styles to the last name only
+    function makeSubStyles(first, last) {
+      var offset = first.length + 1; // +1 for the space
+      return last.split('').reduce(function (acc, letter, i) {
+        acc[offset + i] = { fill: yellow };
+        return acc;
+      }, {});
+    }
+
+    // use a textbox for line breaks
+    return new fabric.Textbox((player.first_name + ' ' + player.last_name).toUpperCase(), {
+      width: defs.canvas.width - padding * 2,
+      fontFamily: 'League Gothic',
+      fill: '#fff',
+      fontSize: 150,
+      lineHeight: .75,
+      lockScalingX: true,
+      styles: {
+        0: makeSubStyles(player.first_name, player.last_name)
+      },
+      shadow: defs.shadow
+    });
+  };
+})();
+
+},{"fabric":11}],105:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -328,7 +745,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = logo;
 })();
 
-},{"../../deferred":68,"fabric":11}],100:[function(require,module,exports){
+},{"../../deferred":68,"fabric":11}],102:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -371,7 +788,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"../../deferred":68,"fabric":11}],99:[function(require,module,exports){
+},{"../../deferred":68,"fabric":11}],101:[function(require,module,exports){
 'use strict';
 
 (function () {
