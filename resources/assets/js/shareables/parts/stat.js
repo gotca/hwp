@@ -13,8 +13,8 @@
   // 'title' => 'Kickouts',
   // 'subtitle' => 'Drawn/Called'
   module.exports = function makeStat(stat, defs) {
-
     var colors = ['#2a82c9', '#f29800', '#2ac95b'];
+    var baseColor = '#b2b2b2';
 
     // Math.PI * 2 allows us to specify angles as percents of the chart
     var StatCircle = fabric.util.createClass(fabric.Circle, {
@@ -27,7 +27,7 @@
           angle: -90,
           startAngle: 0,
           endAngle: 0,
-          stroke: '#b2b2b2',
+          stroke: baseColor,
           strokeWidth: 10,
           fill: '',
           width: 204,
@@ -37,9 +37,6 @@
         options = _.defaults(options, defaults);
 
         this.callSuper('initialize', options);
-
-        // this.width = 204;
-        // this.height = 204;
       },
 
       startAnglePercent: function(percent) {
@@ -58,7 +55,13 @@
     });
     parts.push(base);
 
-    // TODO put stuff for negative here
+    // if it's negative swap some colors so it looks like it was drawn backwards
+    // this will get really weird if we try to do multiple values
+    // but none of our negative-able values do that so we're good
+    if (stat.negative) {
+      base.set('stroke', colors[0]);
+      colors[0] = baseColor;
+    }
 
     var i = 0;
     var offset = 0;
@@ -68,7 +71,7 @@
       });
 
       slice.startAnglePercent(offset);
-      slice.endAnglePercent(val);
+      slice.endAnglePercent(offset + val);
 
       parts.push(slice);
       offset += val;
@@ -77,7 +80,7 @@
 
     var valueText = new fabric.Text(stat.value + '', {
       fontFamily: 'League Gothic',
-      fontSize: 95, // TODO check for long text and drop size
+      fontSize: stat.value.length > 3 ? 76 : 95,
       top: 100,
       left: 98,
       fill: '#fff',

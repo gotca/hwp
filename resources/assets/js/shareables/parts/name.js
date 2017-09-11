@@ -27,7 +27,7 @@
         0: makeSubStyles(player.first_name, player.last_name)
       },
       shadow: defs.shadow
-    })
+    });
 
   }
 

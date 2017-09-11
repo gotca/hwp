@@ -19,7 +19,7 @@
 
   logo.BOTTOM = 'logo-url-bottom.png';
   logo.TOP = 'logo-url-top.png';
-  logo.STACKED = 'logo.url-stacked.png';
+  logo.STACKED = 'logo-url-stacked.png';
 
 
   module.exports = logo;

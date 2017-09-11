@@ -74,7 +74,7 @@
     loadPattern: function(defs) {
       var self = this;
       var pattern = GeoPattern.generate(Date.now() + '', {
-        color: '#2a82c9'
+        color: '#435e8d'
       });
 
       self.image = false;

@@ -11,6 +11,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var gameRectangle = require('./shareables/game.rectangle');
   var gamePlayerSquare = require('./shareables/game-player.square');
   var gamePlayerRectangle = require('./shareables/game-player.rectangle');
+  var playerSquare = require('./shareables/player.square');
+  var playerRectangle = require('./shareables/player.rectangle');
 
   var types = {
     'game.square': gameSquare
@@ -35,7 +37,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   function go() {
 
     fabric.Object.prototype.set({
-      selectable: false
+      selectable: false,
+      fontFamily: 'sans-serif'
     });
 
     var canvas = new fabric.Canvas('c');
@@ -51,6 +54,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     var defs = {
       canvas: canvas,
       shadow: shadow,
+      padding: 57,
       gridPattern: null,
       gradients: gradients,
       promises: []
@@ -59,14 +63,16 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     gridPattern().then(function (pattern) {
       defs.gridPattern = pattern;
 
-      getData('/shareables/rectangle/game?game_id=288&namekey=LucasPetzold').then(function (rsp) {
+      getData('/shareables/rectangle/player?namekey=PatrickTutt').then(function (rsp) {
         canvas.setHeight(rsp.dimensions.height);
         canvas.setWidth(rsp.dimensions.width);
 
         // gameSquare(rsp, defs);
         // gameRectangle(rsp, defs);
         // gamePlayerSquare(rsp, defs);
-        gamePlayerRectangle(rsp, defs);
+        // gamePlayerRectangle(rsp, defs);
+        // playerSquare(rsp, defs);
+        playerRectangle(rsp, defs);
 
         Promise.all(defs.promises).then(function () {
           defs.canvas.renderAll();
@@ -79,7 +85,204 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"fabric":11}],104:[function(require,module,exports){
+},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"./shareables/player.rectangle":110,"./shareables/player.square":111,"fabric":11}],111:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var badge = require('./parts/badge');
+  var name = require('./parts/name');
+  var stat = require('./parts/stat');
+
+  module.exports = function draw(data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+      var padding = defs.padding;
+
+      // bg - no stripe
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      bg.stripe.height = 0;
+      canvas.add(bg);
+
+      // logo
+      logo(logo.STACKED, defs).then(function (img) {
+        img.set({
+          top: canvas.height - img.height - padding,
+          left: padding
+        });
+
+        canvas.add(img);
+      });
+
+      // Charts
+      if (data.charts.length) {
+        var gradientBG = new fabric.Rect({
+          top: 0,
+          left: 784,
+          height: defs.canvas.height,
+          width: 304
+        });
+
+        defs.gradients.blueTransRight.coords.x2 = 304;
+        gradientBG.set('fill', defs.gradients.blueTransRight);
+        defs.canvas.add(gradientBG);
+
+        var circleWidth = 204;
+        var statHeight = (circleWidth + 82.8) * .9;
+        var spacing = (defs.canvas.height - padding * 2 - statHeight * 4) / 3;
+        data.charts.forEach(function (statData, i) {
+          var statGroup = stat(statData);
+          statGroup.set({
+            scaleX: .9,
+            scaleY: .9,
+            originX: 'center',
+            originY: 'top',
+            top: padding + (i * statHeight + spacing),
+            left: 845 + circleWidth / 2
+          });
+
+          defs.canvas.add(statGroup);
+        });
+      }
+
+      // Name
+      if (data.player) {
+        var nameBox = name(data.player.player, padding, defs);
+        nameBox.set({
+          fontSize: 195,
+          originY: 'top',
+          top: padding / 2,
+          left: padding,
+          width: canvas.width - defs.padding - 304
+        });
+
+        canvas.add(nameBox);
+      }
+
+      // Badges
+      if (data.badges && data.badges.length) {
+        data.badges.forEach(function (badgeData, i) {
+          var badgeGroup = badge(badgeData, false, defs);
+          var x = padding + i * 95;
+          badgeGroup.set({
+            transformMatrix: [1, 0, 0, 1, x, 400]
+          });
+          canvas.add(badgeGroup);
+        });
+      }
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],110:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var badge = require('./parts/badge');
+  var name = require('./parts/name');
+  var stat = require('./parts/stat');
+
+  module.exports = function draw(data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+      var padding = defs.padding;
+
+      // bg - no stripe
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      bg.stripe.height = 0;
+      canvas.add(bg);
+
+      // logo
+      logo(logo.STACKED, defs).then(function (img) {
+        img.set({
+          top: canvas.height - img.height - padding,
+          left: padding
+        });
+
+        canvas.add(img);
+      });
+
+      // Charts
+      if (data.charts.length) {
+        var gradientBG = new fabric.Rect({
+          top: 0,
+          left: 784,
+          height: defs.canvas.height,
+          width: 304
+        });
+
+        defs.gradients.blueTransRight.coords.x2 = 304;
+        gradientBG.set('fill', defs.gradients.blueTransRight);
+        defs.canvas.add(gradientBG);
+
+        var circleWidth = 204;
+        var statHeight = (circleWidth + 82.8) * .9;
+        var spacing = (1080 - padding * 2 - statHeight * 4) / 3;
+        var charts = [];
+        data.charts.forEach(function (statData, i) {
+          var statGroup = stat(statData);
+          statGroup.set({
+            scaleX: .9,
+            scaleY: .9,
+            originX: 'center',
+            originY: 'top',
+            top: i * statHeight + spacing,
+            left: 845 + circleWidth / 2
+          });
+
+          charts.push(statGroup);
+        });
+
+        var cg = new fabric.Group(charts);
+        cg.set('top', canvas.height - cg.height - padding);
+        canvas.add(cg);
+      }
+
+      // Name
+      if (data.player) {
+        var nameBox = name(data.player.player, padding, defs);
+        nameBox.set({
+          fontSize: 195,
+          originY: 'top',
+          top: padding / 2,
+          left: padding,
+          width: canvas.width - defs.padding - 304
+        });
+
+        canvas.add(nameBox);
+      }
+
+      // Badges
+      if (data.badges && data.badges.length) {
+        data.badges.forEach(function (badgeData, i) {
+          var badgeGroup = badge(badgeData, false, defs);
+          var x = padding + i * 95;
+          badgeGroup.set({
+            transformMatrix: [1, 0, 0, 1, x, 400]
+          });
+          canvas.add(badgeGroup);
+        });
+      }
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],104:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -437,8 +640,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   // 'title' => 'Kickouts',
   // 'subtitle' => 'Drawn/Called'
   module.exports = function makeStat(stat, defs) {
-
     var colors = ['#2a82c9', '#f29800', '#2ac95b'];
+    var baseColor = '#b2b2b2';
 
     // Math.PI * 2 allows us to specify angles as percents of the chart
     var StatCircle = fabric.util.createClass(fabric.Circle, {
@@ -451,7 +654,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
           angle: -90,
           startAngle: 0,
           endAngle: 0,
-          stroke: '#b2b2b2',
+          stroke: baseColor,
           strokeWidth: 10,
           fill: '',
           width: 204,
@@ -461,9 +664,6 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         options = _.defaults(options, defaults);
 
         this.callSuper('initialize', options);
-
-        // this.width = 204;
-        // this.height = 204;
       },
 
       startAnglePercent: function startAnglePercent(percent) {
@@ -482,7 +682,13 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     });
     parts.push(base);
 
-    // TODO put stuff for negative here
+    // if it's negative swap some colors so it looks like it was drawn backwards
+    // this will get really weird if we try to do multiple values
+    // but none of our negative-able values do that so we're good
+    if (stat.negative) {
+      base.set('stroke', colors[0]);
+      colors[0] = baseColor;
+    }
 
     var i = 0;
     var offset = 0;
@@ -492,7 +698,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       });
 
       slice.startAnglePercent(offset);
-      slice.endAnglePercent(val);
+      slice.endAnglePercent(offset + val);
 
       parts.push(slice);
       offset += val;
@@ -501,7 +707,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
     var valueText = new fabric.Text(stat.value + '', {
       fontFamily: 'League Gothic',
-      fontSize: 95, // TODO check for long text and drop size
+      fontSize: stat.value.length > 3 ? 76 : 95,
       top: 100,
       left: 98,
       fill: '#fff',
@@ -740,7 +946,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
   logo.BOTTOM = 'logo-url-bottom.png';
   logo.TOP = 'logo-url-top.png';
-  logo.STACKED = 'logo.url-stacked.png';
+  logo.STACKED = 'logo-url-stacked.png';
 
   module.exports = logo;
 })();
@@ -866,7 +1072,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     loadPattern: function loadPattern(defs) {
       var self = this;
       var pattern = GeoPattern.generate(Date.now() + '', {
-        color: '#2a82c9'
+        color: '#435e8d'
       });
 
       self.image = false;

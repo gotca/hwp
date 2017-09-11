@@ -1,0 +1,101 @@
+(function () {
+  'use strict';
+
+  var _ = require('lodash');
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var badge = require('./parts/badge');
+  var name = require('./parts/name');
+  var stat = require('./parts/stat');
+
+  module.exports = function draw(data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+      var padding = defs.padding;
+
+      // bg - no stripe
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      bg.stripe.height = 0;
+      canvas.add(bg);
+
+      // logo
+      logo(logo.STACKED, defs)
+        .then(function(img) {
+          img.set({
+            top: canvas.height - img.height - padding,
+            left: padding
+          });
+
+          canvas.add(img);
+        });
+
+      // Charts
+      if (data.charts.length) {
+        var gradientBG = new fabric.Rect({
+          top: 0,
+          left: 784,
+          height: defs.canvas.height,
+          width: 304
+        });
+
+        defs.gradients.blueTransRight.coords.x2 = 304;
+        gradientBG.set('fill', defs.gradients.blueTransRight);
+        defs.canvas.add(gradientBG);
+
+
+        var circleWidth = 204;
+        var statHeight = ((circleWidth + 82.8) * .9);
+        var spacing = ((1080 - (padding * 2)) - (statHeight * 4)) / 3;
+        var charts = [];
+        data.charts.forEach(function(statData, i) {
+          var statGroup = stat(statData);
+          statGroup.set({
+            scaleX: .9,
+            scaleY: .9,
+            originX: 'center',
+            originY: 'top',
+            top: (i * statHeight + spacing),
+            left: 845 + circleWidth / 2
+          });
+
+          charts.push(statGroup);
+        });
+
+        var cg = new fabric.Group(charts);
+        cg.set('top', canvas.height - cg.height - padding);
+        canvas.add(cg);
+      }
+
+      // Name
+      if (data.player) {
+        var nameBox = name(data.player.player, padding, defs);
+        nameBox.set({
+          fontSize: 195,
+          originY: 'top',
+          top: padding / 2,
+          left: padding,
+          width: canvas.width - defs.padding - 304
+        });
+
+        canvas.add(nameBox);
+      }
+
+      // Badges
+      if (data.badges && data.badges.length) {
+        data.badges.forEach(function(badgeData, i) {
+          var badgeGroup = badge(badgeData, false, defs);
+          var x = padding + (i * 95);
+          badgeGroup.set({
+            transformMatrix: [1, 0, 0, 1, x, 400]
+          });
+          canvas.add(badgeGroup);
+        });
+      }
+
+    });
+  }
+
+})();
