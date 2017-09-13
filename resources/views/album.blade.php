@@ -12,7 +12,7 @@
             <div class="bg-elements">
                 <div class="bg--gradient"></div>
                 <div class="bg--img"
-                     @if($album->cover->photo)
+                     @if($album->cover)
                          style="background-image: url({{ $album->cover->photo  }})"
                     @endif
                 ></div>
