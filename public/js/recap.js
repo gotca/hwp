@@ -122,8 +122,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       msg: linker(data.msg),
       score: data.score[0] + '-' + data.score[1],
       timestampFormatted: data.moment.format('LT'),
-      json: JSON.stringify(data),
-      shareable: shareable.urls.updates(JSON.stringify(data))
+      json: JSON.stringify(data)
     };
 
     // retweet?
@@ -156,64 +155,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 })();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./live/engine":74,"./nameLinker":80,"./shareables":96,"jquery":27,"jquery.loadtemplate":26,"lodash":28}],80:[function(require,module,exports){
-'use strict';
-
-(function () {
-	'use strict';
-
-	var _ = require('lodash');
-
-	var playerlist = window.playerlist;
-
-	var tmpl = _.template('<a href="<%= url %>" title="view player"><%= title %></a>');
-
-	/**
-  * Matches cap number (and it's variants) plus name
-  * $1 = #[cap number]
-  * $2 = Name
-  * @type {RegExp}
-  */
-	var regex = /(#\d{1,2}(?:(?:[a-zA-Z]|\/)?\d{0,2})?) ((?:\b\w+) (?:\b\w+))/g;
-
-	function linker(str) {
-		return str.replace(regex, replace);
-	}
-
-	function replace(match, cap, name, offset, string) {
-		var url = _.get(playerlist.byName, name, false);
-		if (url) {
-			return tmpl({
-				url: url,
-				title: match
-			});
-		} else {
-			return match;
-		}
-	}
-
-	function matcher(str) {
-		var matched;
-		var nameKeys = [];
-
-		while ((matched = regex.exec(str)) !== null) {
-			var name = matched[2];
-			var url = _.get(playerlist.byName, name, false);
-			if (url) {
-				nameKeys.push(url.replace('/players/', ''));
-			}
-		}
-
-		return nameKeys;
-	}
-
-	module.exports = {
-		linker: linker,
-		matcher: matcher
-	};
-})();
-
-},{"lodash":28}],74:[function(require,module,exports){
+},{"./live/engine":74,"./nameLinker":80,"./shareables":96,"jquery":27,"jquery.loadtemplate":26,"lodash":28}],74:[function(require,module,exports){
 'use strict';
 
 (function () {

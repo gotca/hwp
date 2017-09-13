@@ -111,9 +111,9 @@
         ctx.fillStyle = '#2f3157';
         ctx.fillRect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
 
-        ctx.rect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
         ctx.fillStyle = this.gridPattern.toLive(ctx);
-        ctx.fill();
+        ctx.fillRect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
+        // ctx.fill();
 
         ctx.restore();
       }

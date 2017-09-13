@@ -122,72 +122,9 @@ class ShareableController extends Controller
     {
         $dimensions = config('shareable.dimensions.' . $shape);
 
-        $update = json_decode($request->data);
-
-        // find player mentions
-        $re = '/#\d{1,2}(?:(?:[a-zA-Z]|\/)?\d{0,2})? (?:\b\w+) (?:\b\w+)/';
-        $classes = ['mention--yellow', 'mention--grey'];
-        preg_match_all($re, $update->msg, $matches, PREG_OFFSET_CAPTURE, 0);
-        $mentions = [];
-        if (count($matches)) {
-            $matches = $matches[0];
-            $i = 0;
-            foreach($matches as $match) {
-                $mentions[] = [
-                    'name' => $match[0],
-                    'starts' => $match[1],
-                    'ends' => $match[1] + strlen($match[0]),
-                    'class' => array_key_exists($i, $classes) ? $classes[$i] : ''
-                ];
-                $i++;
-            }
-        }
-
-        // split into lines
-        $splitLimit = $shape === Shareable::SQUARE ? 30 : 20;
-        $lines = explode('ZZZ', wordwrap($update->msg, $splitLimit, 'ZZZ', false));
-
-        // wrap mentions in the lines with tspans
-        if (count($mentions)) {
-            $mentions = collect($mentions);
-
-            $open = '<tspan class="mention CLASS">';
-            $close = '</tspan>';
-            $start = 0;
-
-            foreach($lines as &$line) {
-                $len = strlen($line);
-                $end = $start + $len;
-                $offset = 0;
-
-                $mentions
-                    ->filter(function($m) use($start, $end) {
-                        return ($m['starts'] >= $start && $m['starts'] <= $end) ||
-                            ($m['ends'] >= $start && $m['ends'] <= $end);
-                    })
-                    ->each(function($m) use ($start, $end, &$line, $open, $close, &$offset) {
-                        $o = max($m['starts'] - $start, 0);
-                        $c = min($m['ends'] - $start, $end);
-
-                        $classed = str_replace('CLASS', $m['class'], $open);
-
-                        $line = substr_replace($line, $classed, $o + $offset, 0);
-                        $offset += strlen($classed);
-
-                        $line = substr_replace($line, $close, $c + $offset, 0);
-                        $offset += strlen($close);
-                    });
-
-                $start = $end + 1;
-            }
-        }
-
-
         $photo = null;
-        $pattern = null;
-
-        $game = $this->getGame($request, $update->game_id);
-        $namekeys = $update->mentions;
+        $game = $this->getGame($request);
+        $namekeys = json_decode($request->mentions);
         $players = collect($namekeys)
             ->map(function($namekey) use ($request) {
                 return $this->getPlayer($request, $namekey);
@@ -203,18 +140,8 @@ class ShareableController extends Controller
 
         if (!$photo) { $photo = $this->getGamePhoto($game); }
         if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
-        if (!$photo) { $pattern = $this->getPattern(self::PATTERN_COLOR, $update->msg . time()); }
 
-
-        $opponent = $update->opponent;
-        $score = $update->score;
-        $quarter = $update->quarterTitle;
-
-        $data = compact('dimensions', 'photo', 'pattern', 'lines', 'opponent', 'score', 'quarter');
-
-        if ($ext == '.svg') {
-            return $this->outputSVG('shareables.' . $shape . '.update', $data);
-        }
+        $data = compact('dimensions', 'game', 'photo');
 
         return $this->outputData($data);
     }

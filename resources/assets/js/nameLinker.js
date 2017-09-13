@@ -48,9 +48,21 @@
     return nameKeys;
   }
 
+  function finder(str) {
+		var matched;
+		var found = [];
+
+    while((matched = regex.exec(str)) !== null) {
+      found.push(matched);
+    }
+
+    return found;
+	}
+
 	module.exports = {
 		linker: linker,
-		matcher: matcher
+		matcher: matcher,
+		finder: finder
 	};
 
 })();

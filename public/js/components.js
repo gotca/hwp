@@ -13,6 +13,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var gamePlayerRectangle = require('./shareables/game-player.rectangle');
   var playerSquare = require('./shareables/player.square');
   var playerRectangle = require('./shareables/player.rectangle');
+  var updateSquare = require('./shareables/update.square');
+  var updateRectangle = require('./shareables/update.rectangle');
 
   var types = {
     'game.square': gameSquare
@@ -63,7 +65,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
     gridPattern().then(function (pattern) {
       defs.gridPattern = pattern;
 
-      getData('/shareables/rectangle/player?namekey=PatrickTutt').then(function (rsp) {
+      getData('shareables/rectangle/update?game_id=311&mentions=["IanWorst", "HarrisonFriar"]').then(function (rsp) {
         canvas.setHeight(rsp.dimensions.height);
         canvas.setWidth(rsp.dimensions.width);
 
@@ -72,7 +74,23 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         // gamePlayerSquare(rsp, defs);
         // gamePlayerRectangle(rsp, defs);
         // playerSquare(rsp, defs);
-        playerRectangle(rsp, defs);
+        // playerRectangle(rsp, defs);
+
+        var update = {
+          "msg": "Hudsonville Goal! #21 Ian Worst, his 1st, with the Assist by #11 Harrison Friar",
+          "ts": 1478993803,
+          "score": [5, 5],
+          "game_id": 311,
+          "title": "3rd",
+          "opponent": "AA Huron ",
+          "team": "V",
+          "moment": "2016-11-12T23:36:43.000Z",
+          "quarterTitle": "Second Quarter",
+          "mentions": ["IanWorst", "HarrisonFriar"]
+        };
+
+        // updateSquare(update, rsp, defs);
+        updateRectangle(update, rsp, defs);
 
         Promise.all(defs.promises).then(function () {
           defs.canvas.renderAll();
@@ -85,7 +103,293 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"./shareables/player.rectangle":110,"./shareables/player.square":111,"fabric":11}],111:[function(require,module,exports){
+},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"./shareables/player.rectangle":112,"./shareables/player.square":113,"./shareables/update.rectangle":114,"./shareables/update.square":115,"fabric":11}],115:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var message = require('./parts/updateMessage');
+  var meta = require('./parts/updateMeta');
+
+  module.exports = function draw(update, data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+      var padding = defs.padding;
+
+      // Background
+      // bg and stripe height is relative to the update
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      canvas.add(bg);
+
+      // Logo
+      logo(logo.BOTTOM, defs).then(function (img) {
+        img.set({
+          top: canvas.height - img.height
+        });
+
+        canvas.add(img);
+      });
+
+      // Message
+      var msg = message(update.msg, defs);
+      msg.set({
+        top: canvas.height / 2 - 68,
+        left: canvas.width / 2
+      });
+      canvas.add(msg);
+
+      // bounds needed for stripe and the meta
+      var msgBounding = msg.getBoundingRect();
+
+      // update the stripe bg
+      bg.stripe.height = msgBounding.height + padding;
+      bg.stripe.top = msgBounding.top - padding / 2;
+
+      // Meta Info
+      var metaInfo = meta(update, defs);
+      metaInfo.set({
+        top: msgBounding.top + msgBounding.height + metaInfo.height * 1.5,
+        left: canvas.width / 2
+      });
+      canvas.add(metaInfo);
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/logo":105,"./parts/updateMessage":110,"./parts/updateMeta":111,"fabric":11}],114:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+
+  var BackgroundWithStripe = require('./parts/backgroundWithStripe');
+  var logo = require('./parts/logo');
+  var message = require('./parts/updateMessage');
+  var meta = require('./parts/updateMeta');
+
+  module.exports = function draw(update, data, defs) {
+    return new Promise(function (resolve, reject) {
+
+      var canvas = defs.canvas;
+      var padding = defs.padding;
+
+      // Background
+      // bg and stripe height is relative to the update
+      var bg = new BackgroundWithStripe(data.photo, defs);
+      canvas.add(bg);
+
+      // Logo
+      logo(logo.BOTTOM, defs).then(function (img) {
+        img.set({
+          top: canvas.height - img.height
+        });
+
+        canvas.add(img);
+      });
+
+      // Message
+      var msg = message(update.msg, defs, 3.5);
+      msg.set({
+        fontSize: 129,
+        lineHeight: 1.1,
+        top: canvas.height / 2 - 68,
+        left: canvas.width / 2
+      });
+      canvas.add(msg);
+
+      // bounds needed for stripe and the meta
+      var msgBounding = msg.getBoundingRect();
+
+      // update the stripe bg
+      var tbp = padding / 2 * 3;
+      bg.stripe.height = msgBounding.height + tbp;
+      bg.stripe.top = msgBounding.top - tbp / 2;
+
+      // Meta Info
+      var metaInfo = meta(update, defs);
+      metaInfo.set({
+        top: msgBounding.top + msgBounding.height + tbp / 2 + metaInfo.height * 1.5,
+        left: canvas.width / 2
+      });
+      canvas.add(metaInfo);
+    });
+  };
+})();
+
+},{"./parts/backgroundWithStripe":101,"./parts/logo":105,"./parts/updateMessage":110,"./parts/updateMeta":111,"fabric":11}],111:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+
+  module.exports = function updateMeta(data, defs) {
+
+    function makeStyles(data) {
+      var offset = data.opponent.length + 3;
+      var score = data.score[0] + '-' + data.score[1];
+
+      return score.split('').reduce(function (acc, letter, i) {
+        acc[i + offset] = { fontWeight: '700' };
+        return acc;
+      }, {});
+    }
+
+    var str = data.opponent + '   ' + data.score[0] + '-' + data.score[1] + '   ' + data.quarterTitle;
+
+    return new fabric.Text(str, {
+      fontFamily: 'Play',
+      fill: '#d5d5d5',
+      fontSize: 29,
+      charSpacing: -6,
+      width: defs.canvas.width - defs.padding * 2.5,
+      textAlign: 'center',
+      originY: 'center',
+      originX: 'center'
+      // styles: {
+      //   0: makeStyles(data)
+      // }
+    });
+  };
+})();
+
+},{"fabric":11}],110:[function(require,module,exports){
+'use strict';
+
+(function () {
+  'use strict';
+
+  var fabric = require('fabric').fabric;
+  var finder = require('../../nameLinker').finder;
+
+  var yellow = '#f5d100';
+  var grey = '#cfcfcf';
+  var colors = [yellow, grey];
+
+  module.exports = function updateMessage(msg, defs, paddingMultiplier) {
+
+    /**
+     * [
+     *  [
+     *    0 => '#21 Ian Worst',
+     *    1 => '#21',
+     *    2 => 'Ian Worst',
+     *    index => 18 // offset in str
+     *  ]
+     * ]
+     */
+    var mentions = finder(msg);
+
+    function makeStyles(mentions) {
+      var obj = {};
+
+      mentions.forEach(function (match, i) {
+        for (var j = 0; j < match[0].length; j++) {
+          obj[j + match.index] = { fill: colors[i] };
+        }
+      });
+
+      return obj;
+    }
+
+    paddingMultiplier = paddingMultiplier || 2.5;
+
+    return new fabric.Textbox(msg.toUpperCase(), {
+      fontFamily: 'League Gothic',
+      fill: '#fff',
+      fontSize: 82,
+      lineHeight: 1.05,
+      width: defs.canvas.width - defs.padding * paddingMultiplier,
+      textAlign: 'center',
+      originY: 'center',
+      originX: 'center',
+      shadow: defs.shadow,
+      styles: {
+        0: makeStyles(mentions)
+      }
+    });
+  };
+})();
+
+},{"../../nameLinker":80,"fabric":11}],80:[function(require,module,exports){
+'use strict';
+
+(function () {
+	'use strict';
+
+	var _ = require('lodash');
+
+	var playerlist = window.playerlist;
+
+	var tmpl = _.template('<a href="<%= url %>" title="view player"><%= title %></a>');
+
+	/**
+  * Matches cap number (and it's variants) plus name
+  * $1 = #[cap number]
+  * $2 = Name
+  * @type {RegExp}
+  */
+	var regex = /(#\d{1,2}(?:(?:[a-zA-Z]|\/)?\d{0,2})?) ((?:\b\w+) (?:\b\w+))/g;
+
+	function linker(str) {
+		return str.replace(regex, replace);
+	}
+
+	function replace(match, cap, name, offset, string) {
+		var url = _.get(playerlist.byName, name, false);
+		if (url) {
+			return tmpl({
+				url: url,
+				title: match
+			});
+		} else {
+			return match;
+		}
+	}
+
+	function matcher(str) {
+		var matched;
+		var nameKeys = [];
+
+		while ((matched = regex.exec(str)) !== null) {
+			var name = matched[2];
+			var url = _.get(playerlist.byName, name, false);
+			if (url) {
+				nameKeys.push(url.replace('/players/', ''));
+			}
+		}
+
+		return nameKeys;
+	}
+
+	function finder(str) {
+		var matched;
+		var found = [];
+
+		while ((matched = regex.exec(str)) !== null) {
+			found.push(matched);
+		}
+
+		return found;
+	}
+
+	module.exports = {
+		linker: linker,
+		matcher: matcher,
+		finder: finder
+	};
+})();
+
+},{"lodash":28}],113:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -181,7 +485,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],110:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],112:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1106,9 +1410,9 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         ctx.fillStyle = '#2f3157';
         ctx.fillRect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
 
-        ctx.rect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
         ctx.fillStyle = this.gridPattern.toLive(ctx);
-        ctx.fill();
+        ctx.fillRect(this.stripe.left, this.stripe.top, this.width, this.stripe.height);
+        // ctx.fill();
 
         ctx.restore();
       }
