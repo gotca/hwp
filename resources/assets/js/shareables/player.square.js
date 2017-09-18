@@ -15,6 +15,7 @@
 
       var canvas = defs.canvas;
       var padding = defs.padding;
+      var badgeY = 400;
 
       // bg - no stripe
       var bg = new BackgroundWithStripe(data.photo, defs);
@@ -76,6 +77,9 @@
         });
 
         canvas.add(nameBox);
+
+        var bounding = nameBox.getBoundingRect();
+        badgeY = bounding.top + bounding.height;
       }
 
       // Badges
@@ -84,7 +88,7 @@
           var badgeGroup = badge(badgeData, false, defs);
           var x = padding + (i * 95);
           badgeGroup.set({
-            transformMatrix: [1, 0, 0, 1, x, 400]
+            transformMatrix: [1, 0, 0, 1, x, badgeY]
           });
           canvas.add(badgeGroup);
         });

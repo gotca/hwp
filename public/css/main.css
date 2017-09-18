@@ -5552,33 +5552,35 @@ table th[class*="col-"] {
       -ms-flex-pack: distribute;
       justify-content: space-around; }
     .table.table--collapse tr {
-      display: table;
+      display: block;
       margin-bottom: 1.25em;
       width: 100%; }
     .table.table--collapse td,
     .table.table--collapse th {
-      display: table-row;
+      display: block;
       text-align: left !important;
       width: 100%;
       opacity: 1 !important; }
       .table.table--collapse td[data-title]::before,
       .table.table--collapse th[data-title]::before {
         content: attr(data-title) ":";
-        display: table-cell;
+        display: inline-block;
         font-family: "Play", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         color: #58585a;
         padding: 0.25em 0.5em;
         font-weight: bold;
         letter-spacing: -.04em;
         text-align: left; }
+      .table.table--collapse td span,
+      .table.table--collapse th span {
+        display: inline-block; }
       .table.table--collapse td span.right,
       .table.table--collapse th span.right {
-        display: table-cell;
         text-align: right;
         padding: 0.25em 0.5em; }
     .table.table--collapse th::after {
       content: '';
-      display: table-cell; }
+      display: inline-block; }
     .table.table--collapse th:first-child {
       font-size: 2em;
       background: none;
@@ -8235,6 +8237,69 @@ span.flatpickr-weekday {
   text-align: center;
   font-size: 2em;
   padding: 1em; }
+
+a.shareable {
+  cursor: pointer; }
+
+.shareable-holder {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  .shareable-holder .backdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8); }
+  .shareable-holder .shareable-image-holder {
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    position: relative;
+    text-align: center;
+    pointer-events: none;
+    margin: 1em; }
+    .shareable-holder .shareable-image-holder .loader {
+      top: 40vh; }
+    .shareable-holder .shareable-image-holder img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      max-height: 100%;
+      max-width: 100%;
+      margin: auto;
+      pointer-events: all; }
+  .shareable-holder .shareable-sizer {
+    position: relative;
+    text-align: center; }
+    .shareable-holder .shareable-sizer input {
+      display: none; }
+    .shareable-holder .shareable-sizer label {
+      display: inline-block;
+      font-size: 1.8em;
+      padding: .25em;
+      margin: 0;
+      font-weight: normal;
+      cursor: pointer;
+      color: gray;
+      transition: all .5s ease; }
+    .shareable-holder .shareable-sizer input:checked + label.instagram {
+      color: deeppink; }
+    .shareable-holder .shareable-sizer input:checked + label.snapchat {
+      color: yellow; }
+  .shareable-holder .close {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    right: 0; }
 
 .page--home {
   margin-top: -85px; }

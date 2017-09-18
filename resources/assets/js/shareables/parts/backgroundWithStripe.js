@@ -62,10 +62,13 @@
               img.applyFilters();
 
               self.pattern = false;
-              self.image = new Image;
+              self.image = new Image();
+              self.image.onload = () => {
+                self.loaded = true;
+                self.deferred.resolve();
+              };
               self.image.src = img.toDataURL();
-              self.loaded = true;
-              self.deferred.resolve();
+
             });
           }
         });

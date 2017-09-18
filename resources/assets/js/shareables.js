@@ -1,107 +1,151 @@
 (function () {
+  global.jQuery = require('jquery');
+  const $ = jQuery;
 
-  var fabric = require('fabric').fabric;
-  var gridPattern = require('./shareables/parts/gridPattern');
-  var gradients = require('./shareables/parts/gradients');
+  const fabric = require('fabric').fabric;
+  const gridPattern = require('./shareables/parts/gridPattern');
+  const gradients = require('./shareables/parts/gradients');
 
-  var gameSquare = require('./shareables/game.square');
-  var gameRectangle = require('./shareables/game.rectangle');
-  var gamePlayerSquare = require('./shareables/game-player.square');
-  var gamePlayerRectangle = require('./shareables/game-player.rectangle');
-  var playerSquare = require('./shareables/player.square');
-  var playerRectangle = require('./shareables/player.rectangle');
-  var updateSquare = require('./shareables/update.square');
-  var updateRectangle = require('./shareables/update.rectangle');
+  const gameSquare = require('./shareables/game.square');
+  const gameRectangle = require('./shareables/game.rectangle');
+  const gamePlayerSquare = require('./shareables/game-player.square');
+  const gamePlayerRectangle = require('./shareables/game-player.rectangle');
+  const playerSquare = require('./shareables/player.square');
+  const playerRectangle = require('./shareables/player.rectangle');
+  const updateSquare = require('./shareables/update.square');
+  const updateRectangle = require('./shareables/update.rectangle');
 
-  var types = {
-    'game.square': gameSquare
-  };
+  const holder = require('./shareables/interface');
 
-  function getData(url) {
-    return fetch(url)
-      .then(function (response) {
-        return response.json();
-      })
-  }
+  let size = localStorage.getItem('shareableSize') || 'square';
 
-  Promise.all([
-    (() => new Promise((resolve) => {
-      window.addEventListener('load', () => resolve())
-    }))(),
-    document.fonts.ready
-  ])
-    .then(() => {
-      go();
-    });
+  let canvas, defs, lastClicked;
 
-  function go() {
+  function init() {
+    if (canvas) return Promise.resolve();
 
-    fabric.Object.prototype.set({
-      selectable: false,
-      fontFamily: 'sans-serif'
-    });
-
-    var canvas = new fabric.Canvas('c');
-    canvas.selection = false;
-
-    var shadow = new fabric.Shadow({
-      color: 'rgba(0,0,0,.8)',
-      offsetX: 0,
-      offsetY: 2,
-      blur: 5
-    });
-
-    var defs = {
-      canvas: canvas,
-      shadow: shadow,
-      padding: 57,
-      gridPattern: null,
-      gradients: gradients,
-      promises: []
-    };
-
-    gridPattern()
-      .then((pattern) => {
-        defs.gridPattern = pattern;
-
-        getData('shareables/rectangle/update?game_id=311&mentions=["IanWorst", "HarrisonFriar"]')
-          .then((rsp) => {
-            canvas.setHeight(rsp.dimensions.height);
-            canvas.setWidth(rsp.dimensions.width);
-
-            // gameSquare(rsp, defs);
-            // gameRectangle(rsp, defs);
-            // gamePlayerSquare(rsp, defs);
-            // gamePlayerRectangle(rsp, defs);
-            // playerSquare(rsp, defs);
-            // playerRectangle(rsp, defs);
-
-            var update = {
-              "msg": "Hudsonville Goal! #21 Ian Worst, his 1st, with the Assist by #11 Harrison Friar",
-              "ts": 1478993803,
-              "score": [5, 5],
-              "game_id": 311,
-              "title": "3rd",
-              "opponent": "AA Huron ",
-              "team": "V",
-              "moment": "2016-11-12T23:36:43.000Z",
-              "quarterTitle": "Second Quarter",
-              "mentions": ["IanWorst", "HarrisonFriar"]
-            };
-
-            // updateSquare(update, rsp, defs);
-            updateRectangle(update, rsp, defs);
-
-            Promise.all(defs.promises)
-              .then(() => {
-                defs.canvas.renderAll();
-
-                var data = defs.canvas.toDataURL({multiplier: 1, format: 'png'});
-                document.getElementById('o').src = data;
-              })
-          });
+    return new Promise((resolve, reject) => {
+      fabric.Object.prototype.set({
+        selectable: false,
+        fontFamily: 'sans-serif'
       });
 
+      canvas = new fabric.StaticCanvas();
+      canvas.selection = false;
+      canvas.renderOnAddRemove = false;
+      canvas.stateful = false;
+      canvas.enableRetinaScaling = false;
+
+      defs = {
+        canvas: canvas,
+        shadow: new fabric.Shadow({
+          color: 'rgba(0,0,0,.8)',
+          offsetX: 0,
+          offsetY: 2,
+          blur: 5
+        }),
+        padding: 57,
+        gridPattern: null,
+        gradients: gradients,
+        promises: []
+      };
+
+      gridPattern()
+        .then(pattern => {defs.gridPattern = pattern})
+        .then(resolve)
+        .catch(reject);
+    });
+  }
+
+  function fetchData(url) {
+    return $.getJSON(url);
+  }
+
+  function setSize(s) {
+    size = s;
+    localStorage.setItem('shareableSize', s);
+  }
+
+  const shapeRegex = /(rectangle|square)/g;
+
+  function dataUrlFromSVG(url) {
+    return url.replace(shapeRegex, size)
+      .replace('.svg', '');
+  }
+
+  const types = {
+    game: {
+      getUrl: (e) => dataUrlFromSVG(e.currentTarget.href),
+      square: gameSquare,
+      rectangle: gameRectangle
+    },
+    gamePlayer: {
+      getUrl: (e) => dataUrlFromSVG(e.currentTarget.href),
+      square: gamePlayerSquare,
+      rectangle: gamePlayerRectangle
+    },
+    player: {
+      getUrl: (e) => dataUrlFromSVG(e.currentTarget.href),
+      square: playerSquare,
+      rectangle: playerRectangle
+    },
+    update: {
+      getUrl: (e) => dataUrlFromSVG(e.currentTarget.href),
+      square: updateSquare,
+      rectangle: updateRectangle
+    }
   };
+
+
+
+  holder.setSize(size);
+
+  holder.sizeChanged.add((size) => {
+    setSize(size);
+    if (holder.isShowing()) {
+      lastClicked.click();
+    }
+  });
+
+  holder.closed.add(() => {
+    canvas.dispose();
+    canvas = undefined;
+  });
+
+  $(document).ready(function() {
+
+    $('body').on('click', '.shareable', function(e) {
+      lastClicked = $(this);
+
+      const type = $(this).data('shareable-type');
+
+      holder.show();
+
+      Promise.all([
+        init(),
+        fetchData(types[type].getUrl(e))
+      ])
+        .then(function([_, data]) {
+          canvas.setDimensions(data.dimensions);
+
+          types[type][size](data, defs, e);
+
+          Promise.all(defs.promises)
+            .then(() => {
+              canvas.renderAll();
+
+              let dataUrl = canvas.toDataURL({multiplier: 1, format: 'png'});
+              holder.load(dataUrl);
+            })
+            .catch((e) => {
+              console.error(e);
+              alert('sorry, something went wrong');
+            });
+        });
+
+      return false;
+    });
+
+  });
 
 })();

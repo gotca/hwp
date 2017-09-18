@@ -108,7 +108,7 @@
                             @endforeach
                             <td class="stat-btns action-btns">
                                 @if($stat->isShareable())
-                                    <a class="btn shareable" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                    <a class="btn shareable" data-shareable-type="gamePlayer" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
                                         <i class="fa fa-share-alt-square"></i>
                                     </a>
                                 @endif
@@ -188,7 +188,7 @@
                             @endforeach
                             <td class="stat-btns action-btns">
                                 @if($stat->isShareable())
-                                    <a class="btn shareable" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                    <a class="btn shareable" data-shareable-type="gamePlayer" href="{!! $stat->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
                                         <i class="fa fa-share-alt-square"></i>
                                     </a>
                                 @endif

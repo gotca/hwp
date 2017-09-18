@@ -18,9 +18,6 @@ use App\Http\Requests;
 class ShareableController extends Controller
 {
 
-    const PATTERN_COLOR = '#2a82c9';
-    const PATTERN_COLOR_DARKER = '#435e8d';
-
     /**
      * @var PlayerListService
      */
@@ -66,12 +63,12 @@ class ShareableController extends Controller
         }
 
         if (!$photo) { $photo = $this->getGamePhoto($game); }
+        if (!$photo) { $photo = $this->getRandomPhoto(); }
         if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
-        if (!$photo) { $pattern = $this->getPattern($stats ? self::PATTERN_COLOR_DARKER : self::PATTERN_COLOR); }
 
         $game->us = 'Hudsonville' . ($game->team === 'JV' ? ' JV' : '');
 
-        $data = compact('dimensions', 'game', 'player', 'stats', 'charts', 'photo', 'pattern');
+        $data = compact('dimensions', 'game', 'player', 'stats', 'charts', 'photo');
 
         if ($ext == '.svg') {
             return $this->outputSVG('shareables.' . $shape . '.game' . ($player ? '-player' : ''), $data);
@@ -97,13 +94,10 @@ class ShareableController extends Controller
         $charts = $this->getCharts($player, $stats ? $stats : new Stat());
         $pattern = null;
 
-        if ($photo) {
-            $photo->photo = $photo->getPhotoAttribute();
-        } else {
-            $pattern = $this->getPattern($stats ? self::PATTERN_COLOR_DARKER : self::PATTERN_COLOR);
-        }
+        if (!$photo) { $photo = $this->getRandomPhoto(); }
+        if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
 
-        $data = compact('dimensions', 'player', 'stats', 'charts', 'photo', 'pattern', 'badges');
+        $data = compact('dimensions', 'player', 'stats', 'charts', 'photo', 'badges');
 
         if ($ext == '.svg') {
             return $this->outputSVG('shareables.' . $shape . '.player', $data);
@@ -139,6 +133,23 @@ class ShareableController extends Controller
         });
 
         if (!$photo) { $photo = $this->getGamePhoto($game); }
+
+        // no game player photos
+        // no game photos
+        // check for player photos
+        $iterator = $players->getIterator();
+        $iterator->rewind();
+        while(!$photo && $iterator->valid()) {
+            $player = $iterator->current();
+            $photo = $this->getPlayerPhoto($player);
+
+            $iterator->next();
+        }
+
+        // none of the above, just grab a random one
+        if (!$photo) { $photo = $this->getRandomPhoto(); }
+
+
         if ($photo) { $photo->photo = $photo->getPhotoAttribute(); }
 
         $data = compact('dimensions', 'game', 'photo');
@@ -204,6 +215,7 @@ class ShareableController extends Controller
                     ->where('album_photo.album_id', '=', $album_id);
             })
             ->inRandomOrder()
+            ->take(1)
             ->first();
     }
 
@@ -213,7 +225,10 @@ class ShareableController extends Controller
             return null;
         }
 
-        return $game->album->photos()->inRandomOrder()->first();
+        return $game->album->photos()
+            ->inRandomOrder()
+            ->take(1)
+            ->first();
     }
 
     protected function getPlayerPhoto(PlayerSeason $playerSeason)
@@ -228,6 +243,13 @@ class ShareableController extends Controller
                     ->where('photo_player.season_id', '=', $season_id);
             })
             ->inRandomOrder()
+            ->take(1)
+            ->first();
+    }
+
+    protected function getRandomPhoto() {
+        return Photo::inRandomOrder()
+            ->take(1)
             ->first();
     }
 
@@ -248,14 +270,6 @@ class ShareableController extends Controller
         return array_map(function($leg) {
             return join(' ', $leg);
         }, $chunks);
-    }
-
-    protected function getPattern($color = self::PATTERN_COLOR, $str = null) {
-        $pattern = new \RedeyeVentures\GeoPattern\GeoPattern();
-        $pattern->setString($str ? $str : time());
-        $pattern->setColor($color);
-
-        return $pattern->toDataURI();
     }
 
     protected function getCharts(PlayerSeason $player, Stat $stats)

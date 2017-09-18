@@ -4,14 +4,14 @@
   var fabric = require('fabric').fabric;
   var Deferred = require('../../deferred');
 
-  module.exports = function badge(badge, showTitle, defs) {
+  module.exports = function badge(badgeData, showTitle, defs) {
     var d = new Deferred();
     defs.promises.push(d.promise);
 
     var group = new fabric.Group([], {});
 
     if (showTitle) {
-      var title = new fabric.Text(badge.title.toUpperCase(), {
+      var title = new fabric.Text(badgeData.title.toUpperCase(), {
         fontFamily: 'League Gothic',
         fill: '#fff',
         fontSize: 40,
@@ -22,7 +22,7 @@
       group.addWithUpdate(title);
     }
 
-    fabric.Image.fromURL('/badges/' + badge.image, function(img) {
+    fabric.Image.fromURL('/badges/' + badgeData.image, function(img) {
       img.set({
         top: 0,
         left: 0,

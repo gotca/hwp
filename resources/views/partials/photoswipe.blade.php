@@ -56,15 +56,7 @@
             </button>
 
             <div class="pswp__caption">
-                <div class="pswp__caption__center">
-                    <div class="shareable-size-switcher">
-                        <input type="radio" name="shareable-size" value="square" id="shareable-size-square">
-                        <label for="shareable-size-square">Square</label>
-
-                        <input type="radio" name="shareable-size" value="rectangle" id="shareable-size-rectangle">
-                        <label for="shareable-size-rectangle">Rectangle</label>
-                    </div>
-                </div>
+                <div class="pswp__caption__center"></div>
             </div>
 
         </div>

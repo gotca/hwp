@@ -41,6 +41,7 @@
                             <li class="shareable">
                                 <a class="shareable"
                                    href="{!! $player->getShareableUrl() !!}" target="_blank"
+                                   data-shareable-type="player"
                                    title="@lang('misc.shareable')"
                                ><i class="fa fa-share-alt-square"></i> @lang('misc.shareable')</a>
                             </li>

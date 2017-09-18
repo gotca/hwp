@@ -83,7 +83,3 @@ Route::group(['middleware' => 'cors'], function() {
     Route::get('shareables/{shape}/update{ext}', ['uses' => 'ShareableController@update', 'as' => 'shareables.update']);
 
 });
-
-Route::get('test', function() {
-   return view('test');
-});

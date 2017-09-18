@@ -1,7 +1,12 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({96:[function(require,module,exports){
+(function (global){
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 (function () {
+  global.jQuery = require('jquery');
+  var $ = jQuery;
 
   var fabric = require('fabric').fabric;
   var gridPattern = require('./shareables/parts/gridPattern');
@@ -16,98 +21,153 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var updateSquare = require('./shareables/update.square');
   var updateRectangle = require('./shareables/update.rectangle');
 
-  var types = {
-    'game.square': gameSquare
-  };
+  var holder = require('./shareables/interface');
 
-  function getData(url) {
-    return fetch(url).then(function (response) {
-      return response.json();
+  var size = localStorage.getItem('shareableSize') || 'square';
+
+  var canvas = void 0,
+      defs = void 0,
+      lastClicked = void 0;
+
+  function init() {
+    if (canvas) return Promise.resolve();
+
+    return new Promise(function (resolve, reject) {
+      fabric.Object.prototype.set({
+        selectable: false,
+        fontFamily: 'sans-serif'
+      });
+
+      canvas = new fabric.StaticCanvas();
+      canvas.selection = false;
+      canvas.renderOnAddRemove = false;
+      canvas.stateful = false;
+      canvas.enableRetinaScaling = false;
+
+      defs = {
+        canvas: canvas,
+        shadow: new fabric.Shadow({
+          color: 'rgba(0,0,0,.8)',
+          offsetX: 0,
+          offsetY: 2,
+          blur: 5
+        }),
+        padding: 57,
+        gridPattern: null,
+        gradients: gradients,
+        promises: []
+      };
+
+      gridPattern().then(function (pattern) {
+        defs.gridPattern = pattern;
+      }).then(resolve).catch(reject);
     });
   }
 
-  Promise.all([function () {
-    return new Promise(function (resolve) {
-      window.addEventListener('load', function () {
-        return resolve();
-      });
-    });
-  }(), document.fonts.ready]).then(function () {
-    go();
+  function fetchData(url) {
+    return $.getJSON(url);
+  }
+
+  function setSize(s) {
+    size = s;
+    localStorage.setItem('shareableSize', s);
+  }
+
+  var shapeRegex = /(rectangle|square)/g;
+
+  function dataUrlFromSVG(url) {
+    return url.replace(shapeRegex, size).replace('.svg', '');
+  }
+
+  var types = {
+    game: {
+      getUrl: function getUrl(e) {
+        return dataUrlFromSVG(e.currentTarget.href);
+      },
+      square: gameSquare,
+      rectangle: gameRectangle
+    },
+    gamePlayer: {
+      getUrl: function getUrl(e) {
+        return dataUrlFromSVG(e.currentTarget.href);
+      },
+      square: gamePlayerSquare,
+      rectangle: gamePlayerRectangle
+    },
+    player: {
+      getUrl: function getUrl(e) {
+        return dataUrlFromSVG(e.currentTarget.href);
+      },
+      square: playerSquare,
+      rectangle: playerRectangle
+    },
+    update: {
+      getUrl: function getUrl(e) {
+        return dataUrlFromSVG(e.currentTarget.href);
+      },
+      square: updateSquare,
+      rectangle: updateRectangle
+    }
+  };
+
+  holder.setSize(size);
+
+  holder.sizeChanged.add(function (size) {
+    setSize(size);
+    if (holder.isShowing()) {
+      lastClicked.click();
+    }
   });
 
-  function go() {
+  holder.closed.add(function () {
+    canvas.dispose();
+    canvas = undefined;
+  });
 
-    fabric.Object.prototype.set({
-      selectable: false,
-      fontFamily: 'sans-serif'
-    });
+  $(document).ready(function () {
 
-    var canvas = new fabric.Canvas('c');
-    canvas.selection = false;
+    $('body').on('click', '.shareable', function (e) {
+      lastClicked = $(this);
 
-    var shadow = new fabric.Shadow({
-      color: 'rgba(0,0,0,.8)',
-      offsetX: 0,
-      offsetY: 2,
-      blur: 5
-    });
+      var type = $(this).data('shareable-type');
 
-    var defs = {
-      canvas: canvas,
-      shadow: shadow,
-      padding: 57,
-      gridPattern: null,
-      gradients: gradients,
-      promises: []
-    };
+      holder.show();
 
-    gridPattern().then(function (pattern) {
-      defs.gridPattern = pattern;
+      Promise.all([init(), fetchData(types[type].getUrl(e))]).then(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            _ = _ref2[0],
+            data = _ref2[1];
 
-      getData('shareables/rectangle/update?game_id=311&mentions=["IanWorst", "HarrisonFriar"]').then(function (rsp) {
-        canvas.setHeight(rsp.dimensions.height);
-        canvas.setWidth(rsp.dimensions.width);
+        canvas.setDimensions(data.dimensions);
 
-        // gameSquare(rsp, defs);
-        // gameRectangle(rsp, defs);
-        // gamePlayerSquare(rsp, defs);
-        // gamePlayerRectangle(rsp, defs);
-        // playerSquare(rsp, defs);
-        // playerRectangle(rsp, defs);
-
-        var update = {
-          "msg": "Hudsonville Goal! #21 Ian Worst, his 1st, with the Assist by #11 Harrison Friar",
-          "ts": 1478993803,
-          "score": [5, 5],
-          "game_id": 311,
-          "title": "3rd",
-          "opponent": "AA Huron ",
-          "team": "V",
-          "moment": "2016-11-12T23:36:43.000Z",
-          "quarterTitle": "Second Quarter",
-          "mentions": ["IanWorst", "HarrisonFriar"]
-        };
-
-        // updateSquare(update, rsp, defs);
-        updateRectangle(update, rsp, defs);
+        types[type][size](data, defs, e);
 
         Promise.all(defs.promises).then(function () {
-          defs.canvas.renderAll();
+          canvas.renderAll();
 
-          var data = defs.canvas.toDataURL({ multiplier: 1, format: 'png' });
-          document.getElementById('o').src = data;
+          var dataUrl = canvas.toDataURL({ multiplier: 1, format: 'png' });
+          holder.load(dataUrl);
+        }).catch(function (e) {
+          console.error(e);
+          alert('sorry, something went wrong');
         });
       });
+
+      return false;
     });
-  };
+  });
 })();
 
-},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/parts/gradients":103,"./shareables/parts/gridPattern":104,"./shareables/player.rectangle":112,"./shareables/player.square":113,"./shareables/update.rectangle":114,"./shareables/update.square":115,"fabric":11}],115:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./shareables/game-player.rectangle":97,"./shareables/game-player.square":98,"./shareables/game.rectangle":99,"./shareables/game.square":100,"./shareables/interface":101,"./shareables/parts/gradients":104,"./shareables/parts/gridPattern":105,"./shareables/player.rectangle":113,"./shareables/player.square":114,"./shareables/update.rectangle":115,"./shareables/update.square":116,"fabric":11,"jquery":27}],116:[function(require,module,exports){
+(function (global){
 'use strict';
 
 (function () {
   'use strict';
+
+  global.jQuery = require('jquery');
+  var $ = jQuery;
 
   var fabric = require('fabric').fabric;
 
@@ -116,11 +176,12 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var message = require('./parts/updateMessage');
   var meta = require('./parts/updateMeta');
 
-  module.exports = function draw(update, data, defs) {
+  module.exports = function draw(data, defs, event) {
     return new Promise(function (resolve, reject) {
 
       var canvas = defs.canvas;
       var padding = defs.padding;
+      var update = JSON.parse($(event.currentTarget).parents('.update').find('.json').text());
 
       // Background
       // bg and stripe height is relative to the update
@@ -162,11 +223,16 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/logo":105,"./parts/updateMessage":110,"./parts/updateMeta":111,"fabric":11}],114:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./parts/backgroundWithStripe":102,"./parts/logo":106,"./parts/updateMessage":111,"./parts/updateMeta":112,"fabric":11,"jquery":27}],115:[function(require,module,exports){
+(function (global){
 'use strict';
 
 (function () {
   'use strict';
+
+  global.jQuery = require('jquery');
+  var $ = jQuery;
 
   var fabric = require('fabric').fabric;
 
@@ -175,11 +241,12 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var message = require('./parts/updateMessage');
   var meta = require('./parts/updateMeta');
 
-  module.exports = function draw(update, data, defs) {
+  module.exports = function draw(data, defs, event) {
     return new Promise(function (resolve, reject) {
 
       var canvas = defs.canvas;
       var padding = defs.padding;
+      var update = JSON.parse($(event.currentTarget).parents('.update').find('.json').text());
 
       // Background
       // bg and stripe height is relative to the update
@@ -224,7 +291,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/logo":105,"./parts/updateMessage":110,"./parts/updateMeta":111,"fabric":11}],111:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./parts/backgroundWithStripe":102,"./parts/logo":106,"./parts/updateMessage":111,"./parts/updateMeta":112,"fabric":11,"jquery":27}],112:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -262,7 +330,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11}],110:[function(require,module,exports){
+},{"fabric":11}],111:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -389,7 +457,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 	};
 })();
 
-},{"lodash":28}],113:[function(require,module,exports){
+},{"lodash":28}],114:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -409,6 +477,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
       var canvas = defs.canvas;
       var padding = defs.padding;
+      var badgeY = 400;
 
       // bg - no stripe
       var bg = new BackgroundWithStripe(data.photo, defs);
@@ -468,6 +537,9 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
         });
 
         canvas.add(nameBox);
+
+        var bounding = nameBox.getBoundingRect();
+        badgeY = bounding.top + bounding.height;
       }
 
       // Badges
@@ -476,7 +548,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
           var badgeGroup = badge(badgeData, false, defs);
           var x = padding + i * 95;
           badgeGroup.set({
-            transformMatrix: [1, 0, 0, 1, x, 400]
+            transformMatrix: [1, 0, 0, 1, x, badgeY]
           });
           canvas.add(badgeGroup);
         });
@@ -485,7 +557,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],112:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/name":107,"./parts/stat":110,"fabric":11,"lodash":28}],113:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -586,7 +658,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/stat":109,"fabric":11,"lodash":28}],104:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/name":107,"./parts/stat":110,"fabric":11,"lodash":28}],105:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -622,7 +694,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11}],103:[function(require,module,exports){
+},{"fabric":11}],104:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -658,7 +730,80 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11}],100:[function(require,module,exports){
+},{"fabric":11}],101:[function(require,module,exports){
+(function (global){
+'use strict';
+
+(function () {
+  'use strict';
+
+  global.jQuery = require('jquery');
+  var $ = jQuery;
+
+  var Signal = require('signals');
+
+  var markup = '\n    <div class="shareable-holder">\n        <div class="backdrop close"></div>\n        <div class="shareable-image-holder">\n            <div class="loader"></div>\n            <img class="shareable-image"/>\n        </div>\n        <div class="shareable-sizer">          \n          <input id="shareable-size-square" type="radio" name="shareable-size" value="square">\n          <label for="shareable-size-square" class="instagram"><i class="fa fa-instagram"></i></label>          \n          <input id="shareable-size-rectangle" type="radio" name="shareable-size" value="rectangle">\n          <label for="shareable-size-rectangle" class="snapchat"><i class="fa fa-snapchat-ghost"></i></label>\n        </div>\n        <button class="close pswp__button pswp__button--close"></button>\n    </div>\n  ';
+
+  var el = $(markup);
+  var img = el.find('img');
+  var close = el.find('.close');
+  var sizes = el.find('input[name="shareable-size"]');
+
+  var closed = new Signal();
+  var sizeChanged = new Signal();
+
+  var showing = false;
+
+  img.hide();
+
+  close.on('click', function (e) {
+    hide();
+    return false;
+  });
+
+  sizes.on('input, change', function () {
+    sizeChanged.dispatch($(this).val());
+    img.hide();
+  });
+
+  function show() {
+    el.appendTo(document.body);
+    showing = true;
+  }
+
+  function hide() {
+    el.detach();
+    img.hide();
+    showing = false;
+    closed.dispatch();
+  }
+
+  function load(src) {
+    img.attr('src', src).show();
+  }
+
+  function setSize(size) {
+    sizes.removeAttr('checked');
+    sizes.filter('[value="' + size + '"]').attr('checked', 'checked');
+  }
+
+  function isShowing() {
+    return showing;
+  }
+
+  module.exports = {
+    show: show,
+    hide: hide,
+    load: load,
+    setSize: setSize,
+    isShowing: isShowing,
+    closed: closed,
+    sizeChanged: sizeChanged
+  };
+})();
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"jquery":27,"signals":41}],100:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -689,8 +834,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
       var scoreGroup = scores(data.game, defs);
       scoreGroup.set({
-        top: 267,
-        left: 208
+        top: 459,
+        left: canvas.width / 2
       });
       canvas.add(scoreGroup);
 
@@ -705,7 +850,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"fabric":11}],99:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/scores":109,"fabric":11}],99:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -754,7 +899,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"fabric":11}],98:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/scores":109,"fabric":11}],98:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -835,7 +980,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/scores":108,"./parts/stat":109,"fabric":11,"lodash":28}],97:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/scores":109,"./parts/stat":110,"fabric":11,"lodash":28}],97:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -926,7 +1071,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./parts/backgroundWithStripe":101,"./parts/badge":102,"./parts/logo":105,"./parts/name":106,"./parts/scores":108,"./parts/stat":109,"fabric":11,"lodash":28}],109:[function(require,module,exports){
+},{"./parts/backgroundWithStripe":102,"./parts/badge":103,"./parts/logo":106,"./parts/name":107,"./parts/scores":109,"./parts/stat":110,"fabric":11,"lodash":28}],110:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -946,6 +1091,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = function makeStat(stat, defs) {
     var colors = ['#2a82c9', '#f29800', '#2ac95b'];
     var baseColor = '#b2b2b2';
+
+    stat.slices = stat.slices || [0];
 
     // Math.PI * 2 allows us to specify angles as percents of the chart
     var StatCircle = fabric.util.createClass(fabric.Circle, {
@@ -1090,7 +1237,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11,"lodash":28}],108:[function(require,module,exports){
+},{"fabric":11,"lodash":28}],109:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1125,7 +1272,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"./scorebox":107,"fabric":11}],107:[function(require,module,exports){
+},{"./scorebox":108,"fabric":11}],108:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1190,7 +1337,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = scorebox;
 })();
 
-},{"fabric":11}],106:[function(require,module,exports){
+},{"fabric":11}],107:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1226,7 +1373,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"fabric":11}],105:[function(require,module,exports){
+},{"fabric":11}],106:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1255,7 +1402,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   module.exports = logo;
 })();
 
-},{"../../deferred":68,"fabric":11}],102:[function(require,module,exports){
+},{"../../deferred":68,"fabric":11}],103:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1264,14 +1411,14 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   var fabric = require('fabric').fabric;
   var Deferred = require('../../deferred');
 
-  module.exports = function badge(badge, showTitle, defs) {
+  module.exports = function badge(badgeData, showTitle, defs) {
     var d = new Deferred();
     defs.promises.push(d.promise);
 
     var group = new fabric.Group([], {});
 
     if (showTitle) {
-      var title = new fabric.Text(badge.title.toUpperCase(), {
+      var title = new fabric.Text(badgeData.title.toUpperCase(), {
         fontFamily: 'League Gothic',
         fill: '#fff',
         fontSize: 40,
@@ -1282,7 +1429,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
       group.addWithUpdate(title);
     }
 
-    fabric.Image.fromURL('/badges/' + badge.image, function (img) {
+    fabric.Image.fromURL('/badges/' + badgeData.image, function (img) {
       img.set({
         top: 0,
         left: 0,
@@ -1298,7 +1445,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   };
 })();
 
-},{"../../deferred":68,"fabric":11}],101:[function(require,module,exports){
+},{"../../deferred":68,"fabric":11}],102:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -1365,9 +1512,11 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
             self.pattern = false;
             self.image = new Image();
+            self.image.onload = function () {
+              self.loaded = true;
+              self.deferred.resolve();
+            };
             self.image.src = img.toDataURL();
-            self.loaded = true;
-            self.deferred.resolve();
           });
         }
       });
@@ -2218,7 +2367,454 @@ module.exports = vex
 },{"classlist-polyfill":1,"domify":2,"es6-object-assign":3}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"classlist-polyfill":6,"domify":8,"es6-object-assign":9}],29:[function(require,module,exports){
+},{"classlist-polyfill":6,"domify":8,"es6-object-assign":9}],41:[function(require,module,exports){
+/*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
+/*global define:false, require:false, exports:false, module:false, signals:false */
+
+/** @license
+ * JS Signals <http://millermedeiros.github.com/js-signals/>
+ * Released under the MIT license
+ * Author: Miller Medeiros
+ * Version: 1.0.0 - Build: 268 (2012/11/29 05:48 PM)
+ */
+
+(function(global){
+
+    // SignalBinding -------------------------------------------------
+    //================================================================
+
+    /**
+     * Object that represents a binding between a Signal and a listener function.
+     * <br />- <strong>This is an internal constructor and shouldn't be called by regular users.</strong>
+     * <br />- inspired by Joa Ebert AS3 SignalBinding and Robert Penner's Slot classes.
+     * @author Miller Medeiros
+     * @constructor
+     * @internal
+     * @name SignalBinding
+     * @param {Signal} signal Reference to Signal object that listener is currently bound to.
+     * @param {Function} listener Handler function bound to the signal.
+     * @param {boolean} isOnce If binding should be executed just once.
+     * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+     * @param {Number} [priority] The priority level of the event listener. (default = 0).
+     */
+    function SignalBinding(signal, listener, isOnce, listenerContext, priority) {
+
+        /**
+         * Handler function bound to the signal.
+         * @type Function
+         * @private
+         */
+        this._listener = listener;
+
+        /**
+         * If binding should be executed just once.
+         * @type boolean
+         * @private
+         */
+        this._isOnce = isOnce;
+
+        /**
+         * Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @memberOf SignalBinding.prototype
+         * @name context
+         * @type Object|undefined|null
+         */
+        this.context = listenerContext;
+
+        /**
+         * Reference to Signal object that listener is currently bound to.
+         * @type Signal
+         * @private
+         */
+        this._signal = signal;
+
+        /**
+         * Listener priority
+         * @type Number
+         * @private
+         */
+        this._priority = priority || 0;
+    }
+
+    SignalBinding.prototype = {
+
+        /**
+         * If binding is active and should be executed.
+         * @type boolean
+         */
+        active : true,
+
+        /**
+         * Default parameters passed to listener during `Signal.dispatch` and `SignalBinding.execute`. (curried parameters)
+         * @type Array|null
+         */
+        params : null,
+
+        /**
+         * Call listener passing arbitrary parameters.
+         * <p>If binding was added using `Signal.addOnce()` it will be automatically removed from signal dispatch queue, this method is used internally for the signal dispatch.</p>
+         * @param {Array} [paramsArr] Array of parameters that should be passed to the listener
+         * @return {*} Value returned by the listener.
+         */
+        execute : function (paramsArr) {
+            var handlerReturn, params;
+            if (this.active && !!this._listener) {
+                params = this.params? this.params.concat(paramsArr) : paramsArr;
+                handlerReturn = this._listener.apply(this.context, params);
+                if (this._isOnce) {
+                    this.detach();
+                }
+            }
+            return handlerReturn;
+        },
+
+        /**
+         * Detach binding from signal.
+         * - alias to: mySignal.remove(myBinding.getListener());
+         * @return {Function|null} Handler function bound to the signal or `null` if binding was previously detached.
+         */
+        detach : function () {
+            return this.isBound()? this._signal.remove(this._listener, this.context) : null;
+        },
+
+        /**
+         * @return {Boolean} `true` if binding is still bound to the signal and have a listener.
+         */
+        isBound : function () {
+            return (!!this._signal && !!this._listener);
+        },
+
+        /**
+         * @return {boolean} If SignalBinding will only be executed once.
+         */
+        isOnce : function () {
+            return this._isOnce;
+        },
+
+        /**
+         * @return {Function} Handler function bound to the signal.
+         */
+        getListener : function () {
+            return this._listener;
+        },
+
+        /**
+         * @return {Signal} Signal that listener is currently bound to.
+         */
+        getSignal : function () {
+            return this._signal;
+        },
+
+        /**
+         * Delete instance properties
+         * @private
+         */
+        _destroy : function () {
+            delete this._signal;
+            delete this._listener;
+            delete this.context;
+        },
+
+        /**
+         * @return {string} String representation of the object.
+         */
+        toString : function () {
+            return '[SignalBinding isOnce:' + this._isOnce +', isBound:'+ this.isBound() +', active:' + this.active + ']';
+        }
+
+    };
+
+
+/*global SignalBinding:false*/
+
+    // Signal --------------------------------------------------------
+    //================================================================
+
+    function validateListener(listener, fnName) {
+        if (typeof listener !== 'function') {
+            throw new Error( 'listener is a required param of {fn}() and should be a Function.'.replace('{fn}', fnName) );
+        }
+    }
+
+    /**
+     * Custom event broadcaster
+     * <br />- inspired by Robert Penner's AS3 Signals.
+     * @name Signal
+     * @author Miller Medeiros
+     * @constructor
+     */
+    function Signal() {
+        /**
+         * @type Array.<SignalBinding>
+         * @private
+         */
+        this._bindings = [];
+        this._prevParams = null;
+
+        // enforce dispatch to aways work on same context (#47)
+        var self = this;
+        this.dispatch = function(){
+            Signal.prototype.dispatch.apply(self, arguments);
+        };
+    }
+
+    Signal.prototype = {
+
+        /**
+         * Signals Version Number
+         * @type String
+         * @const
+         */
+        VERSION : '1.0.0',
+
+        /**
+         * If Signal should keep record of previously dispatched parameters and
+         * automatically execute listener during `add()`/`addOnce()` if Signal was
+         * already dispatched before.
+         * @type boolean
+         */
+        memorize : false,
+
+        /**
+         * @type boolean
+         * @private
+         */
+        _shouldPropagate : true,
+
+        /**
+         * If Signal is active and should broadcast events.
+         * <p><strong>IMPORTANT:</strong> Setting this property during a dispatch will only affect the next dispatch, if you want to stop the propagation of a signal use `halt()` instead.</p>
+         * @type boolean
+         */
+        active : true,
+
+        /**
+         * @param {Function} listener
+         * @param {boolean} isOnce
+         * @param {Object} [listenerContext]
+         * @param {Number} [priority]
+         * @return {SignalBinding}
+         * @private
+         */
+        _registerListener : function (listener, isOnce, listenerContext, priority) {
+
+            var prevIndex = this._indexOfListener(listener, listenerContext),
+                binding;
+
+            if (prevIndex !== -1) {
+                binding = this._bindings[prevIndex];
+                if (binding.isOnce() !== isOnce) {
+                    throw new Error('You cannot add'+ (isOnce? '' : 'Once') +'() then add'+ (!isOnce? '' : 'Once') +'() the same listener without removing the relationship first.');
+                }
+            } else {
+                binding = new SignalBinding(this, listener, isOnce, listenerContext, priority);
+                this._addBinding(binding);
+            }
+
+            if(this.memorize && this._prevParams){
+                binding.execute(this._prevParams);
+            }
+
+            return binding;
+        },
+
+        /**
+         * @param {SignalBinding} binding
+         * @private
+         */
+        _addBinding : function (binding) {
+            //simplified insertion sort
+            var n = this._bindings.length;
+            do { --n; } while (this._bindings[n] && binding._priority <= this._bindings[n]._priority);
+            this._bindings.splice(n + 1, 0, binding);
+        },
+
+        /**
+         * @param {Function} listener
+         * @return {number}
+         * @private
+         */
+        _indexOfListener : function (listener, context) {
+            var n = this._bindings.length,
+                cur;
+            while (n--) {
+                cur = this._bindings[n];
+                if (cur._listener === listener && cur.context === context) {
+                    return n;
+                }
+            }
+            return -1;
+        },
+
+        /**
+         * Check if listener was attached to Signal.
+         * @param {Function} listener
+         * @param {Object} [context]
+         * @return {boolean} if Signal has the specified listener.
+         */
+        has : function (listener, context) {
+            return this._indexOfListener(listener, context) !== -1;
+        },
+
+        /**
+         * Add a listener to the signal.
+         * @param {Function} listener Signal handler function.
+         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+         */
+        add : function (listener, listenerContext, priority) {
+            validateListener(listener, 'add');
+            return this._registerListener(listener, false, listenerContext, priority);
+        },
+
+        /**
+         * Add listener to the signal that should be removed after first execution (will be executed only once).
+         * @param {Function} listener Signal handler function.
+         * @param {Object} [listenerContext] Context on which listener will be executed (object that should represent the `this` variable inside listener function).
+         * @param {Number} [priority] The priority level of the event listener. Listeners with higher priority will be executed before listeners with lower priority. Listeners with same priority level will be executed at the same order as they were added. (default = 0)
+         * @return {SignalBinding} An Object representing the binding between the Signal and listener.
+         */
+        addOnce : function (listener, listenerContext, priority) {
+            validateListener(listener, 'addOnce');
+            return this._registerListener(listener, true, listenerContext, priority);
+        },
+
+        /**
+         * Remove a single listener from the dispatch queue.
+         * @param {Function} listener Handler function that should be removed.
+         * @param {Object} [context] Execution context (since you can add the same handler multiple times if executing in a different context).
+         * @return {Function} Listener handler function.
+         */
+        remove : function (listener, context) {
+            validateListener(listener, 'remove');
+
+            var i = this._indexOfListener(listener, context);
+            if (i !== -1) {
+                this._bindings[i]._destroy(); //no reason to a SignalBinding exist if it isn't attached to a signal
+                this._bindings.splice(i, 1);
+            }
+            return listener;
+        },
+
+        /**
+         * Remove all listeners from the Signal.
+         */
+        removeAll : function () {
+            var n = this._bindings.length;
+            while (n--) {
+                this._bindings[n]._destroy();
+            }
+            this._bindings.length = 0;
+        },
+
+        /**
+         * @return {number} Number of listeners attached to the Signal.
+         */
+        getNumListeners : function () {
+            return this._bindings.length;
+        },
+
+        /**
+         * Stop propagation of the event, blocking the dispatch to next listeners on the queue.
+         * <p><strong>IMPORTANT:</strong> should be called only during signal dispatch, calling it before/after dispatch won't affect signal broadcast.</p>
+         * @see Signal.prototype.disable
+         */
+        halt : function () {
+            this._shouldPropagate = false;
+        },
+
+        /**
+         * Dispatch/Broadcast Signal to all listeners added to the queue.
+         * @param {...*} [params] Parameters that should be passed to each handler.
+         */
+        dispatch : function (params) {
+            if (! this.active) {
+                return;
+            }
+
+            var paramsArr = Array.prototype.slice.call(arguments),
+                n = this._bindings.length,
+                bindings;
+
+            if (this.memorize) {
+                this._prevParams = paramsArr;
+            }
+
+            if (! n) {
+                //should come after memorize
+                return;
+            }
+
+            bindings = this._bindings.slice(); //clone array in case add/remove items during dispatch
+            this._shouldPropagate = true; //in case `halt` was called before dispatch or during the previous dispatch.
+
+            //execute all callbacks until end of the list or until a callback returns `false` or stops propagation
+            //reverse loop since listeners with higher priority will be added at the end of the list
+            do { n--; } while (bindings[n] && this._shouldPropagate && bindings[n].execute(paramsArr) !== false);
+        },
+
+        /**
+         * Forget memorized arguments.
+         * @see Signal.memorize
+         */
+        forget : function(){
+            this._prevParams = null;
+        },
+
+        /**
+         * Remove all bindings from signal and destroy any reference to external objects (destroy Signal object).
+         * <p><strong>IMPORTANT:</strong> calling any method on the signal instance after calling dispose will throw errors.</p>
+         */
+        dispose : function () {
+            this.removeAll();
+            delete this._bindings;
+            delete this._prevParams;
+        },
+
+        /**
+         * @return {string} String representation of the object.
+         */
+        toString : function () {
+            return '[Signal active:'+ this.active +' numListeners:'+ this.getNumListeners() +']';
+        }
+
+    };
+
+
+    // Namespace -----------------------------------------------------
+    //================================================================
+
+    /**
+     * Signals namespace
+     * @namespace
+     * @name signals
+     */
+    var signals = Signal;
+
+    /**
+     * Custom event broadcaster
+     * @see Signal
+     */
+    // alias for backwards compatibility (see #gh-44)
+    signals.Signal = Signal;
+
+
+
+    //exports to multiple environments
+    if(typeof define === 'function' && define.amd){ //AMD
+        define(function () { return signals; });
+    } else if (typeof module !== 'undefined' && module.exports){ //node
+        module.exports = signals;
+    } else { //browser
+        //use string because of Google closure compiler ADVANCED_MODE
+        /*jslint sub:true */
+        global['signals'] = signals;
+    }
+
+}(this));
+
+},{}],29:[function(require,module,exports){
 //! moment.js
 //! version : 2.18.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -72187,6 +72783,6 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}]},{},[96]);
+},{}]},{},[]);
 
 //# sourceMappingURL=components.js.map

@@ -36,7 +36,7 @@
                 @endif
                 @if($game->isShareable())
                     <li>
-                        <a class="shareable" href="{!! $game->getShareableUrl() !!}"
+                        <a class="shareable" data-shareable-type="game" href="{!! $game->getShareableUrl() !!}"
                            title="@lang('misc.shareable')" target="_blank"
                         ><i class="fa fa-share-alt-square"></i> @lang('misc.shareable')</a>
                     </li>

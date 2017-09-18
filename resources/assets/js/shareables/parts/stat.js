@@ -16,6 +16,8 @@
     var colors = ['#2a82c9', '#f29800', '#2ac95b'];
     var baseColor = '#b2b2b2';
 
+    stat.slices = stat.slices || [0];
+
     // Math.PI * 2 allows us to specify angles as percents of the chart
     var StatCircle = fabric.util.createClass(fabric.Circle, {
 

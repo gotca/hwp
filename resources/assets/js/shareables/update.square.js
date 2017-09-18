@@ -1,5 +1,7 @@
 (function () {
   'use strict';
+  global.jQuery = require('jquery');
+  const $ = jQuery;
 
   var fabric = require('fabric').fabric;
 
@@ -8,11 +10,17 @@
   var message = require('./parts/updateMessage');
   var meta = require('./parts/updateMeta');
 
-  module.exports = function draw(update, data, defs) {
+  module.exports = function draw(data, defs, event) {
     return new Promise(function(resolve, reject) {
 
       var canvas = defs.canvas;
       var padding = defs.padding;
+      var update = JSON.parse(
+        $(event.currentTarget)
+          .parents('.update')
+          .find('.json')
+          .text()
+      );
 
       // Background
       // bg and stripe height is relative to the update

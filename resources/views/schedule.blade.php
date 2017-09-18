@@ -168,7 +168,7 @@
                                         @endif
                                         @if($event->scheduled instanceof \App\Models\Contracts\Shareable
                                             && $event->scheduled->isShareable())
-                                            <a class="btn shareable" href="{!! $event->scheduled->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
+                                            <a class="btn shareable" data-shareable-type="game" href="{!! $event->scheduled->getShareableUrl() !!}" title="@lang('misc.shareable')"  target="_blank">
                                                 <i class="fa fa-share-alt-square"></i>
                                             </a>
                                         @endif

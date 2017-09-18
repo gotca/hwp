@@ -27,8 +27,8 @@
 
       var scoreGroup = scores(data.game, defs);
       scoreGroup.set({
-        top: 267,
-        left: 208
+        top: 459,
+        left: canvas.width / 2
       });
       canvas.add(scoreGroup);
 
