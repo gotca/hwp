@@ -12,7 +12,7 @@
             <div class="bg-elements">
                 <div class="bg--gradient"></div>
                 <div class="bg--img"
-                     @if($album->cover->photo)
+                     @if($album->cover)
                          style="background-image: url({{ $album->cover->photo  }})"
                     @endif
                 ></div>
@@ -22,7 +22,7 @@
             </div>
         </header>
 
-        @if($game)
+        @if($games && count($games) > 0)
             <section class="page-section results">
                 <div class="bg-elements bg--white">
                     <div class="bg--inner-shadow"></div>
@@ -35,9 +35,11 @@
 
                     <div class="results-wrapper container">
                         <div class="row center-xs">
-                            <div class="col-xs-12 col-md-3">
-                                @include('partials.result', ['result' => $game])
-                            </div>
+                            @foreach($games as $game)
+                                <div class="col-xs-12 col-md-3">
+                                    @include('partials.result', ['result' => $game])
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

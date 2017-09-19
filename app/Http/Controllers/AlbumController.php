@@ -34,10 +34,12 @@ class AlbumController extends Controller
     public function photos(PhotoAlbum $album)
     {
         // $photos = $album->photos()->paginate(48);
-        $game = $album->game()
+        $games = $album->games()
             ->withCount(['album', 'updates', 'boxStats'])
-            ->first();
+            ->get();
 
-        return view('album', compact('album', 'photos', 'game'));
+        // dd($games);
+
+        return view('album', compact('album', 'photos', 'games'));
     }
 }
