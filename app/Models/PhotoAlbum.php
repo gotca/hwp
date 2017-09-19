@@ -25,4 +25,9 @@ class PhotoAlbum extends Model
     {
         return $this->hasOne('App\Models\Game', 'album_id');
     }
+
+    public function games()
+    {
+        return $this->hasMany('App\Models\Game', 'album_id');
+    }
 }
