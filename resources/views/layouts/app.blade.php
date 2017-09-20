@@ -70,6 +70,10 @@
             ga('create', 'UA-26653906-1', 'auto');
             ga('send', 'pageview');
         </script>
+    @else
+        <script>
+            ga = (...args) => console.log('GA', ...args);
+        </script>
     @endif
 
 </body>

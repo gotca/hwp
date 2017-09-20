@@ -118,6 +118,7 @@
       lastClicked = $(this);
 
       const type = $(this).data('shareable-type');
+      const timer = Date.now();
 
       holder.show();
 
@@ -136,6 +137,14 @@
 
               let dataUrl = canvas.toDataURL({multiplier: 1, format: 'png'});
               holder.load(dataUrl);
+
+              ga('send', {
+                hitType: 'event',
+                eventCategory: 'shareables',
+                eventAction: type,
+                eventLabel: size,
+                eventValue: Date.now() - timer
+              });
             })
             .catch((e) => {
               console.error(e);
