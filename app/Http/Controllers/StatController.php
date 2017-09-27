@@ -51,8 +51,12 @@ class StatController extends Controller
                 $statusUs = $statusThem = Game::TIE;
         }
 
-        $players = $game->stats->players();
-        $goalies = $game->stats->goalies();
+        $stats = $game->stats->sortBy(function($stat) {
+            return $stat->player->sort > 0 ? $stat->player->sort : $stat->player->number;
+        });
+
+        $players = $stats->players();
+        $goalies = $stats->goalies();
         $boxscores = $game->boxscores;
         $advantages = $game->advantages;
 
