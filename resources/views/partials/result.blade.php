@@ -18,7 +18,7 @@
         </ul>
     </div>
 
-    @if($result->stats_count > 0 || $result->album_count > 0 || $result->updates_count > 0)
+    @if($result->stats_count > 0 || $result->album_count > 0 || $result->updates_count > 0 || ($result instanceof \App\Models\Contracts\Shareable && $result->isShareable()))
         <footer class="btn-group btn-group--full">
             @if($result->stats_count > 0)
                 <a class="btn" href="@route('game.stats', ['id'=>$result->id])" title="@lang('misc.stats')">

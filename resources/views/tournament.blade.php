@@ -19,33 +19,42 @@
         </header>
 
         @if($upcoming->count())
-            <section class="page-section tournament--upcoming bg--light bg--grid">
+            <section class="page-section tournament--upcoming">
+                <div class="bg-elements">
+                    <div class="bg--light"></div>
+                    <div class="bg--inner-shadow"></div>
+                    <div class="bg--grid"></div>
+                </div>
                 <div class="container">
                     <header class="divider--bottom text-align--center">
                         <h1><span class="text--muted">@lang('tournament.upcoming')</span> @lang('tournament.games')</h1>
                     </header>
 
-                    <div class="row center-xs">
-                        @foreach($upcoming as $date => $games)
+                    <div class="upcoming-wrapper row center-xs">
+                        @foreach($upcoming as $date => $events)
                             <section class="col-xs-12 col-md-4">
-                                <header class="bg--grid bg--bright">
-                                    <h1>@day(new \Carbon\Carbon($date))</h1>
-                                </header>
+                                <div class="card upcoming">
+                                    <header>
+                                        <div class="bg-elements">
+                                            <div class="bg--bright"></div>
+                                            <div class="bg--grid"></div>
+                                        </div>
+                                        <h1>@day(new \Carbon\Carbon($date))</h1>
+                                    </header>
 
-                                <div class="body">
-                                    <table>
-                                        @foreach($games as $game)
-                                        <tr class="upcoming-event">
-                                            <td class="upcoming-time">@time($game->start)</td>
-                                            <td class="upcoming-team">{{$game->team}}</td>
-                                            <td class="upcoming-opponent">{{$game->opponent}}</td>
-                                        </tr>
+                                    <table class="body upcoming table table--striped">
+                                        <tbody>
+                                        @foreach($events as $event)
+                                            <tr class="upcoming-event">
+                                                <th class="upcoming-time">@time($event->start)</th>
+                                                <th class="upcoming-team">{{$event->team}}</th>
+                                                <td class="upcoming-opponent">{{$event->opponent}}</td>
+                                                <td class="upcoming-location">
+                                                    <a href="{{$event->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$event->location->title_short}}</a>
+                                                </td>
+                                            </tr>
                                         @endforeach
-                                        <tr>
-                                            <td class="upcoming-location" colspan="3">
-                                                <a href="{{$game->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$game->location->title}}</a>
-                                            </td>
-                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </section>

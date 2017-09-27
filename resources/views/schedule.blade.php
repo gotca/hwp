@@ -32,7 +32,6 @@
                     <div class="upcoming-wrapper row center-xs">
                         @foreach($upcoming as $date => $events)
                             <section class="col-xs-12 col-md-4">
-
                                 <div class="card upcoming">
                                     <header>
                                         <div class="bg-elements">
@@ -57,7 +56,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </section>
                         @endforeach
                     </div>
