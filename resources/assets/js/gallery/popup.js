@@ -3,8 +3,9 @@
 
 	global.jQuery = require('jquery');
 
-	var PhotoSwipe           = require('photoswipe'),
-		PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.js');
+  var PhotoSwipe = require('photoswipe');
+  var PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.js');
+  var idToDownload = require('./shutterflyIdToUrl');
 
 	var $ = jQuery;
 
@@ -30,7 +31,16 @@
 		var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
 			shareButtons: [
 				{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}
-			]
+			],
+      getImageURLForShare: function(btn) {
+        var item = gallery.currItem;
+
+        if (btn.download) {
+          return idToDownload(item.shutterfly_id);
+        } else {
+          return item.src;
+        }
+      }
 		});
 		gallery.init();
 

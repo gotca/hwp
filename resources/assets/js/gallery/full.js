@@ -4,8 +4,10 @@
 	global.jQuery = require('jquery');
 	require('jquery.loadtemplate');
 
-	var PhotoSwipe           = require('photoswipe'),
-		PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.js');
+	var PhotoSwipe = require('photoswipe');
+	var PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.js');
+	var idToDownload = require('./shutterflyIdToUrl');
+
 
 	var $ = jQuery;
 	var imgTmpl = $('#gallery-thumb-tmpl');
@@ -60,14 +62,23 @@
 	FullGallery.prototype.imageClick = function(e) {
 		var item = $(e.target).parent('[data-offset]');
 		var offset = parseInt(item.attr('data-offset'), 10);
-
+		var self = this;
 
 		var pswpElement = document.querySelectorAll('.pswp')[0];
 		this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, this.items, {
 			index: offset,
 			shareButtons: [
 				{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}
-			]
+			],
+      getImageURLForShare: function(btn) {
+			  var item = self.gallery.currItem;
+
+			  if (btn.download) {
+          return idToDownload(item.shutterfly_id);
+        } else {
+			    return item.src;
+        }
+      }
 		});
 		this.gallery.init();
 		// this.gallery.close();
