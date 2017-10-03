@@ -5,7 +5,7 @@
 	require('jquery.loadtemplate');
 
 	var PhotoSwipe = require('photoswipe');
-	var PhotoSwipeUI_Default = require('photoswipe/dist/photoswipe-ui-default.js');
+	var PhotoSwipeUI = require('./photoswipe-ui.js');
 	var idToDownload = require('./shutterflyIdToUrl');
 
 
@@ -65,19 +65,22 @@
 		var self = this;
 
 		var pswpElement = document.querySelectorAll('.pswp')[0];
-		this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, this.items, {
+		this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI, this.items, {
 			index: offset,
 			shareButtons: [
-				{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}
+				{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true, fa:'fa-download'}
 			],
       getImageURLForShare: function(btn) {
 			  var item = self.gallery.currItem;
 
-			  if (btn.download) {
+			  if (btn.download && item.shutterfly_id) {
           return idToDownload(item.shutterfly_id);
         } else {
 			    return item.src;
         }
+      },
+      getFilenameForShare: function(btn) {
+			  return self.gallery.currItem.file + '.jpg';
       }
 		});
 		this.gallery.init();

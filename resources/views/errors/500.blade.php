@@ -79,7 +79,7 @@
 <article id="container" class="container_12">
 
     <section id="content">
-        <img src="images/glennz_waterpolo.png" alt="your doing it wrong" style="max-width: 100%;"/>
+        <img src="/images/glennz_waterpolo.png" alt="your doing it wrong" style="max-width: 100%;"/>
 
         <h1><a href="/" title="Home">You're Doing It Wrong</a></h1>
         <p>The page you're trying to get to doesn't exist, or I broke something -- either way it didn't work. Try using the navigation below.</p>

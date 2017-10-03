@@ -1,0 +1,15 @@
+.pswp__share-buttons > .pswp__button {
+  background: none;
+  color: white;
+  opacity: .75;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+
+  &:hover {
+    background: none;
+    opacity: 1;
+  }
+}
