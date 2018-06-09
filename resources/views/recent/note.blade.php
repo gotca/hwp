@@ -1,3 +1,4 @@
+@if($note)
 <div class="recent recent--note note" data-note-id="{{$note->id}}" data-recent-id="{{$recent->id}}">
     <div class="bg-elements">
         <div class="bg--dark-gray"></div>
@@ -22,3 +23,4 @@
         <div class="loader"></div>
     </div>
 </div>
+@endif

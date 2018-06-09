@@ -1,4 +1,6 @@
 @inject('playerList', 'App\Services\PlayerListService')
+@inject('activeSeason', 'App\Models\ActiveSeason')
+@inject('site', 'App\Models\ActiveSite')
 
 {{-- http://tympanus.net/codrops/2013/08/13/multi-level-push-menu/ --}}
 <nav id="mp-menu" class="mp-menu">
@@ -22,6 +24,7 @@
                     <a class="mp-back" href="#">back</a>
                     <ul>
                         @foreach(['V', 'JV', 'STAFF'] as $team)
+                            @if($playerList->team($team))
                             <li class="mp-has-subs">
                                 <a href="#">@lang('misc.'.$team)</a>
                                 <div class="mp-level">
@@ -41,6 +44,7 @@
                                     </ul>
                                 </div>
                             </li>
+                            @endif
                         @endforeach
                     </ul>
                 </div>
@@ -52,6 +56,25 @@
 
             <li>
                 <a href="@route('albumlist')">@lang('menu.photos')</a>
+            </li>
+
+            <li class="mp-has-subs seasons">
+                <a href="#">@lang('menu.seasons') @warn(!$activeSeason->current, menu.notViewingCurrentSeason)</a>
+                <div class="mp-level">
+                    <header>
+                        <h2>@lang('menu.seasons')</h2>
+                    </header>
+                    <a class="mp-back" href="#">back</a>
+                    <ul>
+                        @foreach($site->seasons->reverse() as $season)
+                            <li class="{{$season->id == $activeSeason->id ? 'season--active' : ''}} {{$season->current ? 'season--current' : ''}}">
+                                <a href="#" data-season-id="{{$season->id}}" data-current="{{$season->current ? true : false}}" @if($season->current)title="@lang('menu.currentSeason')"@endif>
+                                    @if($season->current)<i class="current-indicator fa fa-dot-circle-o text--accent" title="@lang('menu.currentSeason')"></i>@endif{{$season->title}}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>

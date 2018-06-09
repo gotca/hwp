@@ -37,4 +37,9 @@ class Site extends Model
     {
         return $this->domain . '.json';
     }
+
+    public function seasons()
+    {
+        return $this->hasMany('App\Models\Season', 'site_id');
+    }
 }

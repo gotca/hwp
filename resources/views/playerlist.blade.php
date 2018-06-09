@@ -62,6 +62,7 @@
             </div>
         </section>
 
+        @if($playerList->team('STAFF'))
         <section class="page-section container">
             <header class="divider--bottom text-align--center">
                 <h1>@lang('misc.STAFF')</h1>
@@ -78,6 +79,7 @@
                 @endforeach
             </ul>
         </section>
+        @endif
 
 
     </article>

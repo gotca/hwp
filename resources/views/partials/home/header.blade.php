@@ -1,3 +1,5 @@
+@inject('season', 'App\Models\ActiveSeason')
+
 <header id="home-header" class="bg--dark">
     <div class="bg-elements">
         <div class="bg--gradient"></div>
@@ -23,6 +25,9 @@
                     <h2 class="ranking text--white-darker">@ordinal($ranking) @lang('misc.ranked')</h2>
                 @endif
                 <h1 class="site-name">Hudsonville<wbr><span class="text--accent">Water</span><wbr>Polo</h1>
+                @if(!$season->current)
+                    <h4 class="active-season--title text--white-darker">{{$season->title}}</h4>
+                @endif
             </header>
             <section class="upcoming">
                 <header class="divider--inline">

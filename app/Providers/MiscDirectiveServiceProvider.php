@@ -29,8 +29,8 @@ class MiscDirectiveServiceProvider extends ServiceProvider
         // Add our date directives to Blade
         $self = $this;
         $partial = function($func) use ($self) {
-            return function($date) use ($func, $self) {
-                return $self->outputPhp($func, $date);
+            return function($val) use ($func, $self) {
+                return $self->outputPhp($func, $val);
             };
         };
         
@@ -43,6 +43,18 @@ class MiscDirectiveServiceProvider extends ServiceProvider
         Blade::directive('implode', $partial('implode'));
         
         Blade::directive('val', $partial('val'));
+
+        Blade::directive('warn', function($expression) {
+            list($condition, $titlePath) = explode(',', $expression);
+            $title = trans(trim($titlePath));
+            return '
+                <?php
+                if ('.$condition.') {
+                    echo \'<i class="warning-indicator fa fa-exclamation-triangle" title="'.$title.'"></i>\';
+                }
+                ?>
+            ';
+        });
     }
 
     /**

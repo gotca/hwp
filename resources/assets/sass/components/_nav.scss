@@ -46,6 +46,10 @@
   @include responsive('lg') {
     display: none;
   }
+
+  .warning-indicator {
+    @include warningIndicatorPinned();
+  }
 }
 
 .nav-brand {
@@ -66,6 +70,9 @@
 
 #desktop-menu {
   display: none;
+  flex: 1;
+
+
   @include responsive('lg') {
     display: block;
   }
@@ -83,10 +90,14 @@
         background: $color-primary-darker;
       }
 
-      & > a{
+      & > a,
+      & > label {
         display: block;
         color: $color-white;
         padding: $gap-extra-large $gap-large;
+        font-weight: normal;
+        margin: 0;
+
         @include on-event {
           text-decoration: none;
         }
@@ -94,44 +105,74 @@
     }
   }
 
-  .has-subs > section {
-    @include grid();
-    display: none;
-    justify-content: space-around;
-    position: absolute;
-    left: 0;
-    background-color: $color-black-bg;
-    width: 100%;
-    z-index: 100;
-    padding: 0 2em;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,.5),
-      0 2px 5px rgba(0,0,0,.5);
-    transition: all .5s;
-  }
+  .has-subs {
+    position: relative;
 
-  .has-subs:hover > section {
-    display: flex;
-    padding: 2em 2em 3em 2em;
+    &.subs--super {
+      position: static;
+
+      > section {
+        width: 100%;
+        border-radius: 0;
+      }
+
+      &:hover > section {
+        padding: 2em 2em 3em 2em;
+      }
+    }
+
+    &.subs--right {
+      section {
+        left: auto;
+        right: 0;
+        text-align: right;
+      }
+    }
+
+    > section {
+      @include grid();
+      display: none;
+      justify-content: space-around;
+      position: absolute;
+      left: 0;
+      background-color: $color-black-bg;
+      z-index: 100;
+      padding: 0 2em;
+      box-shadow:
+        inset 0 2px 5px rgba(0,0,0,.5),
+        0 2px 5px rgba(0,0,0,.5);
+      border-radius: 0 0 2px 2px;
+      transition: all .5s;
+
+      li {
+        line-height: .8em;
+        margin-bottom: .6em;
+
+        a {
+          font-family: $text-font-stack;
+          font-size: 1rem;
+          text-transform: none;
+          color: $color-bright-muted;
+
+          @include on-event() {
+            color: $color-bright;
+          }
+        }
+      }
+    }
+
+    &:hover > section {
+      display: flex;
+      padding: 1em 2em;
+    }
   }
 
   .player-list {
-
     header {
       margin-bottom: $gap;
 
       h4 {
         color: $color-white-darker;
-      }
-    }
-
-    li a {
-      font-family: $text-font-stack;
-      font-size: 1rem;
-      text-transform: none;
-      color: $color-bright-muted;
-
-      @include on-event() {
-        color: $color-bright;
       }
     }
 
@@ -141,4 +182,40 @@
   }
 
 
+  .seasons {
+    margin-left: auto;
+    opacity: .3;
+    transition: all .5s;
+
+    &:hover,
+    &.seasons--not-current {
+      opacity: 1;
+    }
+
+    label {
+      .warning-indicator {
+        margin-right: .25em;
+      }
+
+      span {
+        display: inline-block;
+        margin-left: .25em;
+      }
+    }
+
+    li .fa.current-indicator {
+      position: absolute;
+      margin-left: -1.75em;
+      margin-top: .075em
+    }
+  }
+
+}
+
+// drop the opacity for the active season
+li.seasons {
+  li.season--active {
+    opacity: .5;
+    pointer-events: none;
+  }
 }

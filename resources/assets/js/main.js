@@ -7,7 +7,8 @@
 		PopupGallery    = require('./gallery/popup'),
 		FullGallery     = require('./gallery/full'),
 		Note            = require('./note'),
-	  shareable				= require('./shareables');
+	  shareable				= require('./shareables'),
+		seasonSwitching = require('./seasonSwitching');
 
 	global.jQuery = require('jquery');
 	var $ = jQuery;

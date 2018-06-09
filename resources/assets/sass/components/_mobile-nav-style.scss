@@ -93,3 +93,20 @@
   display: none;
   padding-left: 1.45em;
 }
+
+/**
+ * Season Tweaks
+ */
+.mp-menu .seasons {
+
+  .season--current .fa.current-indicator {
+    position: absolute;
+    margin-left: -1.15em;
+  }
+
+  .warning-indicator {
+    font-size: .6em;
+    position: absolute;
+  }
+
+}

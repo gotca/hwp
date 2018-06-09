@@ -13,6 +13,7 @@
     </header>
 
     <table class="body rankings table table--striped">
+        @if($rankings->count() >= 1)
         <tbody>
             @forelse($rankings->first()->ranks as $rank)
                 <tr class="rank {{$rank->self ? 'rank--self' : ''}}">
@@ -28,6 +29,11 @@
                 <td colspan="2">@dateSpan($rankings->first()->start, $rankings->first()->end)</td>
             </tr>
         </tfoot>
+        @else
+            <tbody>
+                <tr><td>@include('partials.nothing-here-yet')</td></tr>
+            </tbody>
+        @endif
     </table>
 
     <div class="block-loading bg--dark">

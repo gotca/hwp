@@ -49,7 +49,7 @@
                                                     <th class="upcoming-team">{{$event->team}}</th>
                                                     <td class="upcoming-opponent">{{$event->opponent}}</td>
                                                     <td class="upcoming-location">
-                                                        <a href="{{$event->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$event->location->title_short}}</a>
+                                                        @if($event->location)<a href="{{$event->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$event->location->title_short}}</a>@endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -129,9 +129,11 @@
                                 {{$event->opponent}}
                             </td>
                             <td class="schedule-location" data-title="@lang('schedule.location')">
+                                @if($event->location)
                                 <a href="{{$event->location->googleDirectionsLink()}}" title="@lang('directions')">
                                     {{$event->location->title}}
                                 </a>
+                                @endif
                             </td>
                             <td class="schedule-result schedule--{{$event->scheduled->status()}}"
                                 data-title="@lang('schedule.result')"

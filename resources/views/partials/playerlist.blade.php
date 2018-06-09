@@ -2,6 +2,7 @@
 
 <section class="player-list">
     @foreach(['V', 'JV', 'STAFF'] as $team)
+        @if($playerList->team($team))
         <section class="team team--{{$team}}">
             <header><h4>@lang('misc.'.$team)</h4></header>
             <ul>
@@ -15,5 +16,6 @@
                 @endforeach
             </ul>
         </section>
+        @endif
     @endforeach
 </section>

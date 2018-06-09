@@ -7,6 +7,7 @@ use App\Models\ActiveSite;
 use App\Models\Site;
 use HipsterJazzbo\Landlord\Facades\LandlordFacade;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,6 +32,7 @@ class TenantServiceProvider extends ServiceProvider
             $host = $_SERVER['HTTP_HOST'];
             $host = explode('.', $host);
             $domain = $host[ count($host) - 2];
+            $season_id = Cookie::get('season_id');
         }
 
         // Setup the site
