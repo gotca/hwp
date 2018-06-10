@@ -8,6 +8,7 @@
 /public/js/
 !/public/js/modernizr.custom.js
 /public/css/main.css
+/public/note_imgs/
 Homestead.yaml
 Homestead.json
 .env

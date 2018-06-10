@@ -121,6 +121,7 @@ abstract class ImportBase extends Seeder
      * Old photo_id are now the file field, so map from one to the other
      *
      * @param $oldID
+     * @return int the new id
      */
     protected function getNewPhotoID($oldID)
     {
