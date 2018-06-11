@@ -24,7 +24,7 @@
                     <ul>
                         <li class="text--muted">@lang('players.seasons'):</li>
                         @foreach($seasons as $season)
-                            <li class="{{$season->season->id === $activeSeasonId ? 'active' : ''}}">
+                            <li class="{{$season->season->id == $activeSeasonId ? 'active' : ''}}">
                                 <a class="season"
                                    href="@route('players', ['nameKey' => $player->name_key, 'season' => $season->season->id])"
                                    title="@lang('players.viewSeason')"
