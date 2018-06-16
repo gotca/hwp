@@ -26,7 +26,7 @@ class Game extends Renderer
         $bg = null;
 
         $game = GameModel::withCount(['album', 'stats', 'updates'])
-            ->firstOrFail($id);
+            ->findOrFail($id);
 
         $route = 'schedule';
         if ($game->album_count) {
