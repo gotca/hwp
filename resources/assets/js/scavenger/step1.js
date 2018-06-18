@@ -11,7 +11,7 @@
     const clues = [
         `First you'll need to figure out the answer to the ultimate question of life`,
         `(I told you it wouldn't be easy)`,
-        `And then you'll need to go back to the very beginning`,
+        `Then "begin at the beginning, and go on till you come to the end: then stop." -- Alice in Wonderland`,
         `Good Luck`
     ];
 
