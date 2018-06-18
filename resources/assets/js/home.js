@@ -4,6 +4,8 @@
 		Rankings   = require('./rankings'),
 		Recent     = require('./recent');
 
+	require('./scavenger/step1');
+
 	// ghost the nav when we're at the top of the page
 	GhostedNav(document.getElementById('main-menu'), document.getElementById('home-header'));
 
