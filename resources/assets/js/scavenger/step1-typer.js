@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    const typingSound = new Audio('https://freesound.org/data/previews/410/410938_5121236-lq.mp3');
+    const typingSound = new Audio('audio/glitching.mp3');
     typingSound.loop = true;
 
     var TxtType = function(el, lines, period) {

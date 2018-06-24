@@ -34,6 +34,8 @@
 <h2>OK, That Was Easy</h2>
 <p>But don't worry, it will get harder. Soon you'll be crying in the corner begging for my help</p>
 
+<a href="step3" style="position:fixed;bottom:0;right:0;width:40px;height:40px;"></a>
+
 <script type="text/javascript">
     ga('send', 'event', 'Scavenger Hunt', `Step 2`);
 </script>

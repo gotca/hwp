@@ -107,12 +107,19 @@
         console.log('fine... come back when the answer is yes');
     }
 
+    function maybe() {
+        console.log(`I don't like that`);
+    }
+
     Object.defineProperties(window, {
         yes: {
             get: yes
         },
         no: {
             get: no
+        },
+        maybe: {
+            get: maybe
         }
     });
 
