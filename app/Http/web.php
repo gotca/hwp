@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,4 +90,44 @@ Route::group(['middleware' => 'cors'], function() {
 
     Route::get('shareables/{shape}/update{ext}', ['uses' => 'ShareableController@update', 'as' => 'shareables.update']);
 
+});
+
+
+/*
+ * Scavenger Hunt Related
+ */
+Route::get('step3', function() {
+   return view('partials.scavenger.step3');
+});
+
+Route::get('shook', function() {
+    return view('partials.scavenger.step4');
+});
+Route::post('shook', function(Request $request) {
+
+    $answer = '85';
+
+    $first = Emoji\is_single_emoji($request->input('first'));
+    $second = Emoji\is_single_emoji($request->input('second'));
+    $success = (
+        $first !== false
+        && $second !== false
+        && $first['short_name'] === 'rolling_on_the_floor_laughing'
+        && $second['short_name'] === 'doughnut'
+    );
+
+    return response()->json([
+        'first' => $success ? $answer[0] : '' . rand(1,9),
+        'second' => $success ? $answer[1] : '' . rand(1,9),
+        'success' => $success,
+        'help' => App::environment('local') ? ['first' => $first, 'second' => $second] : false
+    ]);
+});
+
+Route::get('poltergeist', function() {
+   return view('partials.scavenger.step6');
+});
+
+Route::get('111100011', function() {
+   return view('partials.scavenger.final');
 });

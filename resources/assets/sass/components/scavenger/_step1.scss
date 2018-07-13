@@ -1,0 +1,56 @@
+#glitcher {
+
+  &-load {
+    display: none;
+  }
+
+  &-canvas {
+    position: fixed;
+    z-index: 1;
+    top: 0; left: 0;
+  }
+
+  &-typewriter {
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 3vw;
+    font-family: monospace;
+    letter-spacing: .1em;
+
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1em;
+
+    .glitcher-wrap {
+      text-shadow: 0 0 20px black;
+      background: rgba(0,0,0,.5);
+      border-right: 0.08em solid orange;
+      animation: blink-caret .5s step-end infinite;
+    }
+  }
+
+  &.glitcher--loading {
+    #glitcher-canvas,
+    #glitcher-typewrite {
+      display: none;
+    }
+
+    #glitcher-load {
+      display: block;
+    }
+  }
+
+  &.glitcher--hidden {
+    display: none;
+  }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange }
+}

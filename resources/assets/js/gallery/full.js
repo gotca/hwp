@@ -8,11 +8,16 @@
 	var PhotoSwipeUI = require('./photoswipe-ui.js');
 	var idToDownload = require('./shutterflyIdToUrl');
 
-
 	var $ = jQuery;
 	var imgTmpl = $('#gallery-thumb-tmpl');
 	var btnTmpl = $('#load-more-btn');
-	
+
+	function trackEvent(type, item) {
+		if (ga) {
+			ga('send', 'event', 'Photos', type, item.file, item.id);
+		}
+	}
+
 	function FullGallery(el) {
 		this.el = $(el);
 		this.btn = $(btnTmpl.text());
@@ -68,25 +73,33 @@
 		this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI, this.items, {
 			index: offset,
 			shareButtons: [
-				{id:'download', label:'Download image', url:'{{raw_image_url}}', download:true, fa:'fa-download'}
+				{
+					id: 'download',
+					label: 'Download image',
+					url: '{{raw_image_url}}',
+					download: true,
+					fa: 'fa-download'
+				}
 			],
-      getImageURLForShare: function(btn) {
-			  var item = self.gallery.currItem;
+			getImageURLForShare: function(btn) {
+				var item = self.gallery.currItem;
 
-			  if (btn.download && item.shutterfly_id) {
-          return idToDownload(item.shutterfly_id);
-        } else {
-			    return item.src;
-        }
-      },
-      getFilenameForShare: function(btn) {
-			  return self.gallery.currItem.file + '.jpg';
-      }
+				if (btn.download && item.shutterfly_id) {
+					return idToDownload(item.shutterfly_id);
+				} else {
+					return item.src;
+				}
+			  },
+			getFilenameForShare: function(btn) {
+				return self.gallery.currItem.file + '.jpg';
+			}
 		});
-		this.gallery.init();
-		// this.gallery.close();
-		// this.gallery.goTo(offset);
 
+		this.gallery.listen('afterChange', function() {
+			trackEvent('View', this.currItem);
+		});
+
+		this.gallery.init();
 		return false;
 	};
 

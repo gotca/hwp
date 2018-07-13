@@ -11,14 +11,17 @@
 	$(document).ready(function() {
 		$(document).on('click', '[data-note-id]', function() {
 			var self = $(this);
+			var id = $(this).data('note-id');
 
 			$(this).addClass('loading');
-			$.get('/notes/' + $(this).data('note-id'))
+			$.get('/notes/' + id)
 				.done(function(rsp) {
 					vex.open({
 						unsafeContent: rsp,
 						className: 'vex-theme-note'
 					});
+
+					ga('send', 'event', 'notes', 'view', id);
 				})
 				.fail(function(err) {
 					console.error(err);
