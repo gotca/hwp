@@ -16,6 +16,9 @@
         <li class="photos">
             <a href="@route('albumlist')" title="@lang('menu.photos')">@lang('menu.photos')</a>
         </li>
+        <li class="parents">
+            <a href="@route('parents')" title="@lang('menu.parents')">@lang('menu.parents')</a>
+        </li>
         @if($site->seasons->count())
         <li class="seasons has-subs subs--right {{!$activeSeason->current ? 'seasons--not-current' : ''}}">
             <label>@warn(!$activeSeason->current, menu.notViewingCurrentSeason) @lang('menu.season'):<span>{{$activeSeason->title}}</span></label>

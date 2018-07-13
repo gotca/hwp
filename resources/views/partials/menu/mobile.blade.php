@@ -58,6 +58,10 @@
                 <a href="@route('albumlist')">@lang('menu.photos')</a>
             </li>
 
+            <li>
+                <a href="@route('parents')" title="@lang('menu.parents')">@lang('menu.parents')</a>
+            </li>
+
             <li class="mp-has-subs seasons">
                 <a href="#">@lang('menu.seasons') @warn(!$activeSeason->current, menu.notViewingCurrentSeason)</a>
                 <div class="mp-level">

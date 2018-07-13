@@ -74,6 +74,13 @@ Route::get('gallery/player/{player}', ['uses' => 'GalleryController@playerCareer
 Route::get('gallery/player/{player}/season/{season}', ['uses' => 'GalleryController@playerSeason', 'as' => 'gallery.playerSeason']);
 
 
+Route::get('parents', ['as' => 'parents', function() {
+    return view('parents', [
+        'googleFolderID' => resolve('App\Models\ActiveSite')->settings->get('google.folder.id')
+    ]);
+}]);
+
+
 Route::group(['middleware' => 'cors'], function() {
 
     Route::get('shareables/{shape}/game{ext}', ['uses' => 'ShareableController@game', 'as' => 'shareables.game']);
