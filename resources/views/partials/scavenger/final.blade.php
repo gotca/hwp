@@ -67,8 +67,8 @@
         <h1>Hope you've been paying attention&hellip;</h1>
 
         <ul class="ll">
-            <li>__&deg; __' __.___"</li>
-            <li>__&deg; __' __.___"</li>
+            <li>&nbsp;__&deg; __' __.___"</li>
+            <li>-__&deg; __' __.___"</li>
         </ul>
     </section>
 
