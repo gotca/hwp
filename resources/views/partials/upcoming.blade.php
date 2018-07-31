@@ -17,7 +17,7 @@
                         <th class="upcoming-team">{{$event->team}}</th>
                         <td class="upcoming-opponent">{{$event->opponent}}</td>
                         <td class="upcoming-location">
-                            <a href="{{$event->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$event->location->title_short}}</a>
+                            @include('partials.location-link', ['location' => $event->location, 'short' => true, 'iconBefore' => true])
                         </td>
                     </tr>
                 @endforeach

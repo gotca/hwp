@@ -50,7 +50,7 @@
                                                 <th class="upcoming-team">{{$event->team}}</th>
                                                 <td class="upcoming-opponent">{{$event->opponent}}</td>
                                                 <td class="upcoming-location">
-                                                    <a href="{{$event->location->googleDirectionsLink()}}"><i class="fa fa-map-marker"></i> {{$event->location->title_short}}</a>
+                                                    @include('partials.location-link', ['location' => $event->location, 'short' => true, 'iconBefore' => true])
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -94,9 +94,7 @@
                                 {{$game->opponent}}
                             </td>
                             <td class="schedule-location" data-title="@lang('schedule.location')">
-                                <a href="{{$game->location->googleDirectionsLink()}}" title="@lang('misc.directions')">
-                                    {{$game->location->title}}
-                                </a>
+                                @include('partials.location-link', ['location' => $game->location, 'hideIcon' => true])
                             </td>
                             <td class="schedule-result schedule--{{$game->status()}}" data-title="@lang('schedule.result')">
                                 {{$game->status()}}

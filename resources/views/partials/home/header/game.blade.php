@@ -1,4 +1,4 @@
-{{$game->opponent}} @ <a href="{{$game->location->googleDirectionsLink()}}" title="get directions">{{$game->location->title}} <i class="fa fa-map-marker"></i></a>
+{{$game->opponent}} @ @include('partials.location-link', ['location' => $game->location])
 <time datetime="@iso($game->start)">
     <span class="day">@day($game->start)</span>
     @time($game->start)
