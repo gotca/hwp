@@ -5,6 +5,9 @@ namespace App\Models;
 use HipsterJazzbo\Landlord\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed rank
+ */
 class Rank extends Model
 {
     use BelongsToTenant;

@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Channels\LogChannel;
 use App\Models\Rank;
 use App\Notifications\Traits\Loggable;
+use App\Providers\MiscDirectiveServiceProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,16 +20,24 @@ class RankingsUpdated extends Notification implements ShouldQueue
     /**
      * @var Rank
      */
-    protected $rank;
+    public $newRank;
+
+
+    /**
+     * @var Rank
+     */
+    public $lastRank;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Rank $newRank
+     * @param Rank $lastRank
      */
-    public function __construct(Rank $rank)
+    public function __construct(Rank $newRank = null, Rank $lastRank = null)
     {
-        $this->rank = $rank;
+        $this->newRank = $newRank;
+        $this->lastRank = $lastRank;
     }
 
     /**
@@ -45,14 +54,17 @@ class RankingsUpdated extends Notification implements ShouldQueue
     /**
      * Get the log representation of the notification.
      *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @param  mixed $notifiable
+     * @return array
      */
     public function toLog($notifiable)
     {
         return [
             'message' => $this->getMessage(),
-            'context' => $this->rank->toArray()
+            'context' => [
+                $this->newRank->toArray(),
+                $this->lastRank->toArray()
+            ]
         ];
     }
 
@@ -80,13 +92,57 @@ class RankingsUpdated extends Notification implements ShouldQueue
         ];
     }
 
-    protected function getMessage() {
-        if ($this->rank->tied) {
-            $key = 'notifications.rankingsTied';
-        } else {
-            $key = 'notifications.rankings';
+    public function getMessage() {
+        $moved = '';
+        $tied = '';
+        $rank = '';
+        $punc = '.';
+
+        if ($this->newRank && $this->newRank->tied) {
+            $tied = trans('notifications.tiedFor');
         }
 
-        return trans($key, ['rank' => $this->rank->rank]);
+        // previously ranked but dropped off the rankings
+        if (!$this->newRank && $this->lastRank) {
+            $moved = trans('notifications.movedDown');
+            $rank = trans('notifications.unranked');
+
+        // unranked to ranked
+        // moved up
+        } elseif (
+            (!$this->lastRank && $this->newRank)
+            || $this->lastRank->rank > $this->newRank->rank
+        ) {
+            $moved = $this->lastRank ? trans('notifications.movedUp') : trans('notifications.were');
+            $rank = MiscDirectiveServiceProvider::ordinal($this->newRank->rank);
+            $punc = '!';
+
+        // moved down but still ranked
+        } elseif($this->lastRank->rank < $this->newRank->rank) {
+            $moved = trans('notifications.movedDown');
+            $rank = MiscDirectiveServiceProvider::ordinal($this->newRank->rank);
+
+        // stayed the same
+        } elseif ($this->lastRank->rank == $this->newRank->rank) {
+            if ($this->lastRank->tied && $this->newRank->tied) {
+                $moved = trans('notifications.stayed');
+                $tied = trans('notifications.tiedFor');
+            } elseif ($this->lastRank->tied != $this->newRank->tied) {
+                $moved = trans('notifications.were');
+                $tied = $this->newRank->tied ? trans('notifications.tiedFor') : '';
+            } else {
+                $moved = trans('notifications.stayed');
+            }
+
+            $punc = '!';
+            $rank = MiscDirectiveServiceProvider::ordinal($this->newRank->rank);
+        }
+
+        return trans('notifications.rankings', [
+            'moved' => $moved,
+            'tied' => $tied,
+            'rank' => $rank,
+            'punc' => $punc
+        ]);
     }
 }

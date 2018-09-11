@@ -35,7 +35,7 @@ class MWPARankingCommand extends LoggedCommand
     protected $signature = 'parsers:mwpa:rankings 
         {--domain= : The domain name of the site to use} 
         {--season= : The season_id to use, defaults to the current}
-        {--W|week= : The week to look ford, defaults to the site settings}
+        {--W|week= : The week to look for, defaults to the site settings}
         {--G|gender= : The gender to use (B|G), defaults to the site settings}
         {--N|name= : The name to look for, defaults to the site settings}
         ';
@@ -96,20 +96,25 @@ class MWPARankingCommand extends LoggedCommand
             return;
         }
 
-        // look for the current team
-        $self = $rankings->ranks->first(function($item) use ($options) {
-           return $item->team === $options['name'];
-        });
+        $findSelf = function($item) use ($options) {
+            return $item->team === $options['name'];
+        };
 
-        if ($self) {
-            $self->self = true;
+        // look for the current team
+        $newRank = $rankings->ranks->first($findSelf);
+        if ($newRank) {
+            $newRank->self = true;
         }
+
+        $lastRank = Ranking::latest()->first()
+            ->ranks
+            ->first($findSelf);
 
         $rankings->save();
         $rankings->ranks()->saveMany($rankings->ranks);
 
         // update the season ranking data
-        $this->season->ranking = $self ? $self->rank : null;
+        $this->season->ranking = $newRank ? $newRank->rank : null;
         $this->season->ranking_updated = Carbon::now();
         $this->season->save();
 
@@ -117,8 +122,8 @@ class MWPARankingCommand extends LoggedCommand
         $this->site->settings->set('ranking.parameters.week', ++$options['week']);
 
         // if the team is ranked, send the notification
-        if ($self) {
-            $notification = new RankingsUpdated($self);
+        if ($newRank || $lastRank) {
+            $notification = new RankingsUpdated($newRank, $lastRank);
             $this->site->notify($notification);
         }
     }
