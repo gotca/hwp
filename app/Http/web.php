@@ -26,7 +26,8 @@ Route::get('/rankings', ['uses' => 'HomeController@rankings', 'as' => 'rankings'
 
 Route::get('/players', ['uses' => 'PlayerController@playerList', 'as' => 'playerlist']);
 
-Route::get('players/{player}', ['uses' => 'PlayerController@player', 'as' => 'players']);
+Route::get('players/{player}', ['uses' => 'PlayerController@player', 'as' => 'players'])
+    ->middleware(App\Http\Middleware\Grounded::class);
 
 
 
@@ -91,7 +92,6 @@ Route::group(['middleware' => 'cors'], function() {
     Route::get('shareables/{shape}/update{ext}', ['uses' => 'ShareableController@update', 'as' => 'shareables.update']);
 
 });
-
 
 /*
  * Scavenger Hunt Related
