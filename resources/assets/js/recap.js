@@ -128,7 +128,7 @@
 
     var newUpdate = $('<div></div>');
     var scope = {
-      msg: linker(data.msg),
+      msg: linker(data.msg || ''),
       score: data.score[0] + '-' + data.score[1],
       timestampFormatted: data.moment.format('LT'),
       json: JSON.stringify(data),
