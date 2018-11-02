@@ -28,7 +28,8 @@ elixir.config.js.browserify.plugins.push(
         'public/js/scavenger/step3.js',
         'public/js/scavenger/step4.js',
         'public/js/scavenger/step6.js',
-        'public/js/scavenger/step8.js'
+        'public/js/scavenger/step8.js',
+        'public/js/porter.js'
       ]
     }
   }
@@ -45,8 +46,11 @@ elixir(function (mix) {
 
   mix.browserify(
     // Entry points need to be in the same order as the factor bundle outputs
-    ['main.js', 'home.js', 'schedule.js', 'player.js', 'recap.js', 'statEdit.js',
-        'scavenger/step3.js', 'scavenger/step4.js', 'scavenger/step6.js', 'scavenger/step8.js'],
+    [
+      'main.js', 'home.js', 'schedule.js', 'player.js', 'recap.js', 'statEdit.js',
+      'scavenger/step3.js', 'scavenger/step4.js', 'scavenger/step6.js', 'scavenger/step8.js',
+      'porter.js'
+    ],
     'public/js/components.js'
   );
 
@@ -62,7 +66,8 @@ elixir(function (mix) {
     'js/scavenger/step3.js',
     'js/scavenger/step4.js',
     'js/scavenger/step6.js',
-    'js/scavenger/step8.js'
+    'js/scavenger/step8.js',
+    'js/porter.js'
   ];
   if (inProduction) {
     versionedFiles.push('css/main.css');

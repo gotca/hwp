@@ -127,4 +127,7 @@
 @push('scripts')
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="{{elixir('js/player.js')}}"></script>
+    @if($player->name_key == 'NathanPorter')
+        <script src="{{elixir('js/porter.js')}}"></script>
+    @endif
 @endpush

@@ -39,7 +39,7 @@
 	// full galleries
 	$(document).ready(function () {
 		$('.full-gallery').each(function (el) {
-			new FullGallery(this);
+			$(this).data.gallery = new FullGallery(this);
 		});
 	});
 
