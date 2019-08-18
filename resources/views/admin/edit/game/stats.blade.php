@@ -134,7 +134,7 @@
                                     <optgroup label="@lang('misc.'.$team)">@lang('misc.'.$team)</optgroup>
                                     @foreach($playerlist->team($team)->sortBy('number') as $playerSeason)
                                         <option value="{{$playerSeason->player_id}}"
-                                                @if($playerSeason->player_id === $goalieStats->player_id)selected @endif
+                                                @if($playerSeason->player_id == $goalieStats->player_id)selected @endif
                                         >#{{$playerSeason->number}} {{$playerSeason->name}}</option>
                                     @endforeach
                                 @endforeach
@@ -247,7 +247,7 @@
                                     <optgroup label="@lang('misc.'.$team)">@lang('misc.'.$team)</optgroup>
                                     @foreach($playerlist->team($team)->sortBy('number') as $playerSeason)
                                         <option value="{{$playerSeason->player_id}}"
-                                                @if($playerSeason->player_id === $playerStats->player_id)selected @endif
+                                                @if($playerSeason->player_id == $playerStats->player_id)selected @endif
                                         >#{{$playerSeason->number}} {{$playerSeason->name}}</option>
                                     @endforeach
                                 @endforeach
