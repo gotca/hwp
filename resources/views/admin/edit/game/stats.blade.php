@@ -220,7 +220,7 @@
                         <th>OT II</th>
                         <th>SO</th>
                         <!-- kickouts -->
-                        <th>@lang('stats.against')</th>
+                        <th>@lang('stats.called')</th>
                         <th>@lang('stats.drawn')</th>
                         <!-- sprints -->
                         <th>@lang('stats.taken')</th>
