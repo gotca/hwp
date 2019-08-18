@@ -132,7 +132,7 @@
                                 <option></option>
                                 @foreach(['V', 'JV'] as $team)
                                     <optgroup label="@lang('misc.'.$team)">@lang('misc.'.$team)</optgroup>
-                                    @foreach($playerlist->team($team) as $playerSeason)
+                                    @foreach($playerlist->team($team)->sortBy('number') as $playerSeason)
                                         <option value="{{$playerSeason->player_id}}"
                                                 @if($playerSeason->player_id === $goalieStats->player_id)selected @endif
                                         >#{{$playerSeason->number}} {{$playerSeason->name}}</option>
@@ -195,23 +195,23 @@
                 <h1><span class="text--muted">@lang('stats.field')</span> @lang('stats.stats')</h1>
             </header>
 
-            <table class="table table--condensed stats-table-edit">
+            <table class="table table--condensed stats-table-edit stats-table--hasTotals">
                 <thead>
                     <tr>
                         <th rowspan="2">@lang('stats.name')</th>
                         <th rowspan="2">@lang('stats.shots')</th>
-                        <th colspan="7">@lang('stats.goals')</th>
+                        <th   colspan="7">@lang('stats.goals')</th>
                         <th rowspan="2">@lang('stats.assists')</th>
-                        <th rowspan="2">@lang('stats.kickouts_drawn')</th>
-                        <th rowspan="2">@lang('stats.kickouts')</th>
-                        <th rowspan="2">@lang('stats.turnovers')</th>
                         <th rowspan="2">@lang('stats.steals')</th>
                         <th rowspan="2">@lang('stats.blocks')</th>
-                        <th colspan="2">@lang('stats.sprints')</th>
-                        <th colspan="4">@lang('stats.five_meters')</th>
+                        <th rowspan="2">@lang('stats.tos')</th>
+                        <th   colspan="2">@lang('stats.kickouts')</th>
+                        <th   colspan="2">@lang('stats.sprints')</th>
+                        <th   colspan="4">@lang('stats.five_meters')</th>
                         <th rowspan="2"></th>
                     </tr>
                     <tr>
+                        <!-- goals -->
                         <th>I</th>
                         <th>II</th>
                         <th>III</th>
@@ -219,8 +219,13 @@
                         <th>OT I</th>
                         <th>OT II</th>
                         <th>SO</th>
+                        <!-- kickouts -->
+                        <th>@lang('stats.against')</th>
+                        <th>@lang('stats.drawn')</th>
+                        <!-- sprints -->
                         <th>@lang('stats.taken')</th>
                         <th>@lang('stats.won')</th>
+                        <!-- 5 meters -->
                         <th>@lang('stats.drawn')</th>
                         <th>@lang('stats.taken')</th>
                         <th>@lang('stats.made')</th>
@@ -240,7 +245,7 @@
                                 <option></option>
                                 @foreach(['V', 'JV'] as $team)
                                     <optgroup label="@lang('misc.'.$team)">@lang('misc.'.$team)</optgroup>
-                                    @foreach($playerlist->team($team) as $playerSeason)
+                                    @foreach($playerlist->team($team)->sortBy('number') as $playerSeason)
                                         <option value="{{$playerSeason->player_id}}"
                                                 @if($playerSeason->player_id === $playerStats->player_id)selected @endif
                                         >#{{$playerSeason->number}} {{$playerSeason->name}}</option>
@@ -318,19 +323,19 @@
                             <input class="form-control" type="number" name="{{$name}}[assists]" value="@val($name.'[assists]', $playerStats->assists)" />
                         </td>
                         <td>
-                            <input class="form-control" type="number" name="{{$name}}[kickouts_drawn]" value="@val($name.'[kickouts_drawn]', $playerStats->kickouts_drawn)" />
+                            <input class="form-control" type="number" name="{{$name}}[steals]" value="@val($name.'[steals]', $playerStats->steals)" />
                         </td>
                         <td>
-                            <input class="form-control" type="number" name="{{$name}}[kickouts]" value="@val($name.'[kickouts]', $playerStats->kickouts)" max="3" />
+                            <input class="form-control" type="number" name="{{$name}}[blocks]" value="@val($name.'[blocks]', $playerStats->blocks)" />
                         </td>
                         <td>
                             <input class="form-control" type="number" name="{{$name}}[turnovers]" value="@val($name.'[turnovers]', $playerStats->turnovers)" />
                         </td>
                         <td>
-                            <input class="form-control" type="number" name="{{$name}}[steals]" value="@val($name.'[steals]', $playerStats->steals)" />
+                            <input class="form-control" type="number" name="{{$name}}[kickouts]" value="@val($name.'[kickouts]', $playerStats->kickouts)" max="3" />
                         </td>
                         <td>
-                            <input class="form-control" type="number" name="{{$name}}[blocks]" value="@val($name.'[blocks]', $playerStats->blocks)" />
+                            <input class="form-control" type="number" name="{{$name}}[kickouts_drawn]" value="@val($name.'[kickouts_drawn]', $playerStats->kickouts_drawn)" />
                         </td>
                         <td>
                             <input class="form-control" type="number" name="{{$name}}[sprints_taken]" value="@val($name.'[sprints_taken]', $playerStats->sprints_taken)" />
@@ -358,6 +363,13 @@
                     </tr>
                 @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        @for ($i = 0; $i < 22; $i++)
+                            <td></td>
+                        @endfor
+                    </tr>
+                </tfoot>
             </table>
 
             <p class="text-align--center">

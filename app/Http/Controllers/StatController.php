@@ -94,10 +94,10 @@ class StatController extends Controller
         }
 
         $playerlist = $this->playerListService;
+        $teamPlayers = $this->playerListService->team($game->team);
 
         $players = $game->stats->players();
         if ($players->count() == 0) {
-            $teamPlayers = $this->playerListService->team($game->team);
             $teamPlayers->each(function($p) use (&$players) {
                $players->push($this->makeEmptyStat($p));
             });
@@ -105,7 +105,13 @@ class StatController extends Controller
 
         $goalies = $game->stats->goalies();
         if ($goalies->count() == 0) {
-            $goalies->push($this->makeEmptyStat());
+            $teamPlayers
+                ->filter(function($p) {
+                    return $p->position == PlayerSeason::GOALIE;
+                })
+                ->each(function($p) use (&$goalies) {
+                    $goalies->push($this->makeEmptyStat($p));
+                });
         }
 
         $boxscores = $game->boxscores;
@@ -118,7 +124,7 @@ class StatController extends Controller
 
             return isset($stat->player->sort) && $stat->player->sort != 0
                 ? $stat->player->sort
-                : $stat->player->number;
+                : intval($stat->player->number);
         });
 
         $boxscores->us()->each(function($bs) use (&$players) {
@@ -210,17 +216,16 @@ class StatController extends Controller
         return $headerPhoto;
     }
 
-    private function makeEmptyStat(PlayerSeason $player = null)
+    private function makeEmptyStat(PlayerSeason $playerSeason = null)
     {
         $stat = new Stat();
 
-        if ($player) {
-            $player = $player->player;
-            $stat->player_id = $player->id;
+        if ($playerSeason) {
+            $stat->player_id = $playerSeason->player->id;
         } else {
-            $player = new Player();
+            $playerSeason = new PlayerSeason();
         }
-        $stat->player = $player;
+        $stat->player = $playerSeason;
 
         return $stat;
     }

@@ -48,6 +48,11 @@
 		}
 
 		function removeRow(row) {
+			// trigger change to update the totals row
+			row.find('input[type="number"]').each(function() {
+				$(this).val('').trigger('input');
+            });
+
 			if (row.is(':only-child')) {
 				emptyInputs(row);
 
@@ -142,6 +147,27 @@
 
 	})($, document, _);
 
+    /**
+	 * Autogenerate totals at the bottom of the table
+     */
+	(function($, document, _) {
+		$('.stats-table--hasTotals').on('input', 'td input[type="number"]', function() {
+			var td = this.parentElement;
+			var tdIdx = [...td.parentElement.children].indexOf(td);
 
+			var $table = $(this).parents('table').eq(0);
+			var sum = 0;
+            $table.find('tbody td:nth-child('+ (tdIdx + 1) +') input')
+				.each(function() {
+					var val = parseInt($(this).val(), 10);
+            		if (!isNaN(val)) {
+            			sum += val;
+					}
+				});
+
+            $table.find('tfoot td:nth-child('+ (tdIdx + 1) +')')
+				.text(sum ? sum : '');
+		})
+	})($, document, _);
 
 })();

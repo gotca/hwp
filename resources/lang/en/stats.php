@@ -17,6 +17,7 @@ return [
     'steals' => 'Steals',
     'turnovers' => 'Turn&shy;overs',
     'turn_overs' => 'Turn&shy;overs', // catch the json dump
+    'tos' => 'TOs',
     'blocks' => 'Blocks',
     'kickouts_drawn' => 'Kickouts Drawn',
     'kickouts' => 'Kickouts',
@@ -54,6 +55,7 @@ return [
     'taken' => 'Taken',
     'made' => 'Made',
     'missed-blocked' => 'Missed/&shy;Blocked',
+    'against' => 'Against',
     'drawn' => 'Drawn',
     'called' => 'Called',
     'sprints' => 'Sprints',

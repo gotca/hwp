@@ -263,7 +263,7 @@ class Stat extends Model implements Shareable
         return $this->player;
     }
 
-    public function setPlayerAttribute(Player $player)
+    public function setPlayerAttribute(PlayerSeason $player)
     {
         $this->player = $player;
         // $this->attributes['player'] = $player;
