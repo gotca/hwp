@@ -104,7 +104,7 @@
                                     {{$game->score_us}} - {{$game->score_them}}
                                 @endif
                             </td>
-                            <td class="schedule-btns">
+                            <td class="schedule-btns action-btns">
                                 <div class="btn-group btn-group--end">
                                     @if($game->box_stats_count)
                                         <a class="btn" href="@route('game.stats', ['id'=>$game->id])" title="@lang('misc.stats')">
