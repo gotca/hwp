@@ -76,9 +76,13 @@ class ScheduleController extends Controller
                 ->setCategories([$item->team, $item->type])
                 ->setLocation($item->location->title . "\n" . $item->location->full_address, $item->location->title);
 
-            // tournaments don't have start times
             if ($item->type === Schedule::TOURNAMENT) {
+                // tournaments don't have start times
                 $vEvent->setNoTime(true);
+
+                // iCal end dates aren't inclusive, so to be able to get it to display on the end date add another day
+                $interval = new \DateInterval('P1D');
+                $vEvent->setDtEnd($item->end->add($interval));
             }
 
             // descriptions
