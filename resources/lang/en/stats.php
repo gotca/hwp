@@ -39,6 +39,7 @@ return [
     'shoot_out_allowed' => 'Shoot Out Allowed',
     'shooting_percent' => 'Shooting',
     'steals_to_turnovers' => 'Steals To Turn&shy;overs',
+    'steals_to_tos' => 'Steals To TOs',
     'kickouts_drawn_to_called' => 'Kickouts Drawn To Called',
     'save_percent' => 'Save %',
     'sprints_percent' => 'Sprints Percent',
@@ -47,6 +48,8 @@ return [
     'five_meters_save_percent' => '5m Save Percent',
     'shoot_out_percent' => 'Shoot Out Percent',
     'shoot_out_save_percent' => 'Shoot Out Save Percent',
+    'advantage_goals' => 'Kickout Goals',
+    'advantage_goals_allowed' => 'Kickout Goals Allowed',
 
     'stat' => 'Stat',
     'stats' => 'Stats',
@@ -66,6 +69,8 @@ return [
     'blocked' => 'Blocked',
     'missed' => 'Missed',
     'allowed' => 'Allowed',
+    'percent' => 'Percent',
+    '%' => '%',
     
     'final' => 'Final',
     'results' => 'Results',

@@ -39,7 +39,9 @@ class Stat extends Model implements Shareable
         'shoot_out_made',
         'shoot_out_taken_on',
         'shoot_out_blocked',
-        'shoot_out_allowed'
+        'shoot_out_allowed',
+        'advantage_goals',
+        'advantage_goals_allowed'
     ];
 
     /**
@@ -186,6 +188,14 @@ class Stat extends Model implements Shareable
         'shoot_out_save_percent' => [
             'label' => 'Shoot Out Save Percentage',
             'order' => 'high'
+        ],
+        'advantage_goals' => [
+            'label' => 'Advantage Goals',
+            'order' => 'high'
+        ],
+        'advantage_goals_allowed' => [
+            'label' => 'Advantage Goals Allowed',
+            'order' => 'low'
         ]
     ];
 
@@ -206,7 +216,8 @@ class Stat extends Model implements Shareable
         'shoot_out_blocked',
         'shoot_out_allowed',
         'shoot_out_missed',
-        'shoot_out_save_percent'
+        'shoot_out_save_percent',
+        'advantage_goals_allowed'
     ];
 
 

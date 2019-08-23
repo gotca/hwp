@@ -77,6 +77,7 @@
                 'saves' => 0,
                 'goals_allowed' => 0,
                 'save_percent' => 0,
+                'advantage_goals_allowed' => 0,
                 'five_meters_taken_on' => 0,
                 'five_meters_blocked' => 0,
                 'five_meters_allowed' => 0,
@@ -153,26 +154,52 @@
                 'blocks' => 0,
                 'kickouts' => 0,
                 'kickouts_drawn' => 0,
+                'advantage_goals' => 0,
                 'five_meters_called' => 0,
                 'five_meters_drawn' => 0,
                 'five_meters_taken' => 0,
                 'five_meters_made' => 0,
-                'five_meters_percent' => 0,
-                'sprints_won' => 0,
                 'sprints_taken' => 0,
+                'sprints_won' => 0,
                 'shoot_out_taken' => 0,
-                'shoot_out_made' => 0,
+                'shoot_out_made' => 0
             ];
             ?>
             <table class="table table--condensed table--collapse stats-table game-stats--field">
                 <thead>
-                    <tr>
-                        <th></th>
-                        @foreach($fields as $key => $v)
-                            <th>@lang('stats.'.$key)</th>
-                        @endforeach
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th rowspan="2">@lang('stats.name')</th>
+                    <th rowspan="2">@lang('stats.goals')</th>
+                    <th rowspan="2">@lang('stats.shots')</th>
+                    <th rowspan="2">@lang('stats.shooting_percent')</th>
+                    <th rowspan="2">@lang('stats.assists')</th>
+                    <th rowspan="2">@lang('stats.steals')</th>
+                    <th rowspan="2">@lang('stats.tos')</th>
+                    <th rowspan="2" style="width: 30px;">@lang('stats.steals_to_tos')</th>
+                    <th rowspan="2">@lang('stats.blocks')</th>
+                    <th   colspan="3">@lang('stats.kickouts')</th>
+                    <th   colspan="4">@lang('stats.five_meters')</th>
+                    <th   colspan="2">@lang('stats.sprints')</th>
+                    <th   colspan="2">@lang('stats.shoot_outs')</th>
+                    <th rowspan="2"></th>
+                </tr>
+                <tr>
+                    <!-- kickouts -->
+                    <th>@lang('stats.called')</th>
+                    <th>@lang('stats.drawn')</th>
+                    <th>@lang('stats.goals')</th>
+                    <!-- 5 meters -->
+                    <th>@lang('stats.called')</th>
+                    <th>@lang('stats.drawn')</th>
+                    <th>@lang('stats.taken')</th>
+                    <th>@lang('stats.made')</th>
+                    <!-- sprints -->
+                    <th>@lang('stats.taken')</th>
+                    <th>@lang('stats.won')</th>
+                    <!-- shootouts -->
+                    <th>@lang('stats.taken')</th>
+                    <th>@lang('stats.made')</th>
+                </tr>
                 </thead>
                 <tbody>
                     @foreach($players as $stat)

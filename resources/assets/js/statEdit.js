@@ -167,7 +167,10 @@
 
             $table.find('tfoot td:nth-child('+ (tdIdx + 1) +')')
 				.text(sum ? sum : '');
-		})
+		});
+
+		// trigger the handler to catch prefilled forms
+        jQuery('.stats-table--hasTotals tr:first-child td input[type="number"]').trigger('input');
 	})($, document, _);
 
 })();

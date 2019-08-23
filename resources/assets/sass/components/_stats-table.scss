@@ -6,6 +6,11 @@
     text-align: center;
   }
 
+  // fake a gap
+  & > thead th[colspan] + th[colspan] {
+    border-left: 4px solid white;
+  }
+
   & > tbody > tr > th,
   & > tfoot > tr > th {
     white-space: nowrap;

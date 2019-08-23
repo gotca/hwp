@@ -110,6 +110,7 @@
                         <th>@lang('stats.name')</th>
                         <th>@lang('stats.saves')</th>
                         <th>@lang('stats.goals_allowed')</th>
+                        <th>@lang('stats.advantage_goals_allowed')</th>
                         <th>@lang('stats.five_meters_taken_on')</th>
                         <th>@lang('stats.five_meters_blocked')</th>
                         <th>@lang('stats.five_meters_allowed')</th>
@@ -151,6 +152,9 @@
                                 value="@val($name.'[goals_allowed]', $goalieStats->goals_allowed)"
                                 data-autogenerate-score-source="score_them"
                             />
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" name="{{$name}}[advantage_goals_allowed]" value="@val($name.'[advantage_goals_allowed]', $goalieStats->advantage_goals_allowed)" />
                         </td>
                         <td>
                             <input class="form-control" type="number" name="{{$name}}[five_meters_taken_on]" value="@val($name.'[five_meters_taken_on]', $goalieStats->five_meters_taken_on)" />
@@ -205,7 +209,7 @@
                         <th rowspan="2">@lang('stats.steals')</th>
                         <th rowspan="2">@lang('stats.blocks')</th>
                         <th rowspan="2">@lang('stats.tos')</th>
-                        <th   colspan="2">@lang('stats.kickouts')</th>
+                        <th   colspan="3">@lang('stats.kickouts')</th>
                         <th   colspan="2">@lang('stats.sprints')</th>
                         <th   colspan="4">@lang('stats.five_meters')</th>
                         <th rowspan="2"></th>
@@ -222,6 +226,7 @@
                         <!-- kickouts -->
                         <th>@lang('stats.called')</th>
                         <th>@lang('stats.drawn')</th>
+                        <th>@lang('stats.goals')</th>
                         <!-- sprints -->
                         <th>@lang('stats.taken')</th>
                         <th>@lang('stats.won')</th>
@@ -336,6 +341,9 @@
                         </td>
                         <td>
                             <input class="form-control" type="number" name="{{$name}}[kickouts_drawn]" value="@val($name.'[kickouts_drawn]', $playerStats->kickouts_drawn)" />
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" name="{{$name}}[advantage_goals]" value="@val($name.'[advantage_goals]', $playerStats->advantage_goals)" />
                         </td>
                         <td>
                             <input class="form-control" type="number" name="{{$name}}[sprints_taken]" value="@val($name.'[sprints_taken]', $playerStats->sprints_taken)" />
