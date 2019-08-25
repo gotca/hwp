@@ -31,7 +31,7 @@
                 </header>
 
                 <ul class="player-list team--varsity">
-                    @foreach($playerList->team('V') as $player)
+                    @foreach($playerList->team('V')->sortBy('number') as $player)
                         <li>
                             <a href="@route('players', ['nameKey' => $player->nameKey])">
                                 <span class="player--number">{{$player->number}}</span>
@@ -50,7 +50,7 @@
                 </header>
 
                 <ul class="player-list team--jv">
-                    @foreach($playerList->team('JV') as $player)
+                    @foreach($playerList->team('JV')->sortBy('number') as $player)
                         <li>
                             <a href="@route('players', ['nameKey' => $player->nameKey])">
                                 <span class="player--number">{{$player->number}}</span>
