@@ -14,7 +14,7 @@
     <?php endif ?>
 
     <style type="text/css">
-        @import url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow);
+        @import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow);
 
         body {
             font-family: 'PT Sans Narrow', 'Arial Narrow', sans-serif;

@@ -11,8 +11,8 @@
 
     window.addEventListener('shake', shakeEventDidOccur, false);
     function shakeEventDidOccur (e) {
-        const thumb = 'http://photos.hudsonvillewaterpolo.com/thumbs/senior-man-bun.jpg';
-        const full = 'http://photos.hudsonvillewaterpolo.com/senior-man-bun.jpg';
+        const thumb = 'https://photos.hudsonvillewaterpolo.com/thumbs/senior-man-bun.jpg';
+        const full = 'https://photos.hudsonvillewaterpolo.com/senior-man-bun.jpg';
 
         // set the name
         const nameParts = document.querySelectorAll('.page-header h1 span');

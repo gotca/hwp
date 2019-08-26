@@ -9,20 +9,14 @@ class Photo extends Model
 {
     use BelongsToTenant;
 
-    const PATH = 'http://photos.hudsonvillewaterpolo.com/';
-
-    const THUMB_PATH = 'http://photos.hudsonvillewaterpolo.com/thumbs/';
-
-    
-
     public function getPhotoAttribute()
     {
-        return self::PATH . $this->file . '.jpg';
+        return config('urls.photos') . '/' . $this->file . '.jpg';
     }
 
     public function getThumbAttribute()
     {
-        return self::THUMB_PATH . $this->file . '.jpg';
+        return config('urls.photos') . '/thumbs/' . $this->file . '.jpg';
     }
 
     public function getJSONData(Player $player = null)

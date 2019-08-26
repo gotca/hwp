@@ -351,9 +351,9 @@
             cameraBack.position.set(0, 0, 100);
             cameraBack.lookAt(new THREE.Vector3());
 
-            // const imgSrc = 'http://www.tplh.net/file/osaka01.jpg';
-            // const imgSrc = 'http://photos.hudsonvillewaterpolo.com/s8-p1769.jpg';
-            // const imgSrc = 'http://photos.hudsonvillewaterpolo.com/natatorium.jpg';
+            // const imgSrc = 'https://www.tplh.net/file/osaka01.jpg';
+            // const imgSrc = 'https://photos.hudsonvillewaterpolo.com/s8-p1769.jpg';
+            // const imgSrc = 'https://photos.hudsonvillewaterpolo.com/natatorium.jpg';
 
             bgImg.init(imgSrc, () => {
                 sceneBack.add(bgImg.obj);

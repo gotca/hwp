@@ -207,13 +207,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.google.com/calendar/render?cid=@route('schedule.subscribe')" target="_blank">
+                        <a href="https://www.google.com/calendar/render?cid=@route('schedule.subscribe')" target="_blank">
                             <i class="fa fa-google"></i>
                             Google <em>(online)</em>
                         </a>
                     </li>
                     <li>
-                        <a href="http://calendar.live.com/calendar/calendar.aspx?rru=addsubscription&url=@route('schedule.subscribe')&name=@lang('vcal.name')'" target="_blank">
+                        <a href="https://calendar.live.com/calendar/calendar.aspx?rru=addsubscription&url=@route('schedule.subscribe')&name=@lang('vcal.name')'" target="_blank">
                             <i class="fa fa-windows"></i>
                             Outlook.com <em>(online)</em>
                         </a>

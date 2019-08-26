@@ -6,7 +6,7 @@
     const typer = require('./step1-typer');
     const hunt = require('./scavenger');
 
-    const bgImgSrc = 'http://photos.hudsonvillewaterpolo.com/natatorium.jpg';
+    const bgImgSrc = 'https://photos.hudsonvillewaterpolo.com/natatorium.jpg';
 
     const clues = [
         `First you'll need to figure out the answer to the ultimate question of life`,

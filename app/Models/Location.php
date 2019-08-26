@@ -59,7 +59,7 @@ class Location extends Model
     public function googleStaticMap($width = 200, $height = 200, $zoom = null)
     {
 
-        $url = 'http://maps.googleapis.com/maps/api/staticmap?';
+        $url = 'https://maps.googleapis.com/maps/api/staticmap?';
         $url .= 'size=' . $width . 'x' . $height;
         $url .= '&amp;markers=' . urlencode($this->full_address);
         if ($zoom !== null)
@@ -76,7 +76,7 @@ class Location extends Model
      */
     public function googleMapLink()
     {
-        return 'http://maps.google.com/?q=' . urlencode($this->full_address);
+        return 'https://maps.google.com/?q=' . urlencode($this->full_address);
     }
 
     /**
@@ -86,6 +86,6 @@ class Location extends Model
      */
     public function googleDirectionsLink()
     {
-        return 'http://maps.google.com/?daddr=' . urlencode($this->full_address);
+        return 'https://maps.google.com/?daddr=' . urlencode($this->full_address);
     }
 }
