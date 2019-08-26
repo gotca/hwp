@@ -23,7 +23,7 @@
 
         <div class="page-section container">
             <div class="album-list">
-                @each('partials.photo-album', $albums, 'album', 'partials.nothing-here-yet')
+                @each('partials.photo-album', $albums, 'album', 'partials.photos.no-photos-found')
             </div>
         </div>
 
