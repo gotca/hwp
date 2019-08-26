@@ -10,6 +10,7 @@
 
 	var $ = jQuery;
 	var imgTmpl = $('#gallery-thumb-tmpl');
+	var emptyTmpl = $('#gallery-no-photos-found-tmpl');
 	var btnTmpl = $('#load-more-btn');
 
 	function trackEvent(type, item) {
@@ -106,13 +107,17 @@
 	FullGallery.prototype.drawPage = function() {
 		var self = this;
 
-		this.el.loadTemplate(imgTmpl, this.items, {
-			beforeInsert: self.addOffset.bind(self),
-			paged: true,
-			elemPerPage: this.perPage,
-			append: true,
-			pageNo: this.page
-		});
+		if (this.items.length) {
+			this.el.loadTemplate(imgTmpl, this.items, {
+				beforeInsert: self.addOffset.bind(self),
+				paged: true,
+				elemPerPage: this.perPage,
+				append: true,
+				pageNo: this.page
+			});
+		} else {
+			this.el.loadTemplate(emptyTmpl);
+		}
 
 		if (this.perPage * this.page >= this.items.length) {
 			this.btn.remove();

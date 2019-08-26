@@ -32,3 +32,11 @@
   background: $color-accent;
   border-color: darken($color-accent, 5);
 }
+
+.full-gallery .gallery-empty {
+  font-family: $heading-font-stack;
+  font-weight: normal;
+  font-size: 2em;
+  padding: 3em;
+  opacity: .8;
+}
