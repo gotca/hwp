@@ -88,5 +88,9 @@ return [
 
     'opponent' => 'Opponent',
     'team' => 'Team',
-    'autogenerateScore' => 'Auto-Generate Score'
+    'autogenerateScore' => 'Auto-Generate Score',
+
+    'thirstsQuenched' => 'Thirsts Quenched',
+    'thirsts' => 'Thirsts',
+    'quenched' => 'Quenched'
 ];

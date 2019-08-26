@@ -65,6 +65,9 @@
                             @include('partials.stats.goalie', ['stats' => $stats, 'for' => 'PLAYER'])
                         @else
                             @include('partials.stats.field', ['stats' => $stats, 'for' => 'PLAYER'])
+                            @if($player->name_key == 'ParkerMolewyk')
+                                @include('partials.stats.thirsts-quenched', ['stats' => $stats, 'for' => 'PLAYER'])
+                            @endif
                         @endif
                     </div>
                 </div>

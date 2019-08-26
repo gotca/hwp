@@ -279,14 +279,14 @@ class ShareableController extends Controller
                 return $this->makeGoalieCharts($stats);
 
             case PlayerSeason::FIELD:
-                return $this->makeFieldCharts($stats);
+                return $this->makeFieldCharts($stats, $player);
 
             default:
                 return [];
         }
     }
 
-    protected function makeFieldCharts($stats)
+    protected function makeFieldCharts(Stat $stats, PlayerSeason $playerSeason)
     {
         $chartData = [];
 
@@ -361,6 +361,15 @@ class ShareableController extends Controller
                 'suffix' => '%',
                 'subvalue' => $stats->sprints_won . '/' . $stats->sprints_taken,
                 'title' => trans('shareables.sprints'),
+            ];
+        } elseif ($playerSeason->player->name_key === 'ParkerMolewyk') {
+            $number = rand(200, 500);
+            $chartData[] = [
+                'slices' => [100],
+                'value' => 100,
+                'suffix' => '%',
+                'subvalue' => $number . '/' . $number,
+                'title' => trans('shareables.thirsts').'/'.trans('shareables.quenched')
             ];
         } else {
             if ($stats->goals || $stats->assists) {
