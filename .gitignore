@@ -13,3 +13,5 @@ Homestead.yaml
 Homestead.json
 .env
 *.map
+storage/sites/
+!storage/sites/domain.json

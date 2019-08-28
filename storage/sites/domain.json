@@ -22,7 +22,11 @@
   },
   "google": {
     "folder": {
-      "id": "1PapcjHti-_aHGXeeRrcVJH4doeCIeHt5"
+      "id": "asdf-qwert"
     }
+  },
+  "twitter": {
+    "accessToken": "ASDF",
+    "accessTokenSecret": "ASDF"
   }
 }
