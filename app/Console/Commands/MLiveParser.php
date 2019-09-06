@@ -14,6 +14,12 @@ use Illuminate\Support\Collection;
 use Monolog\Logger;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class MLiveParser
+ *
+ * @deprecated mlive got rid of their RSS feeds (so stupid)
+ * @package App\Console\Commands
+ */
 class MLiveParser extends ArticleImporter
 {
 
@@ -79,7 +85,9 @@ class MLiveParser extends ArticleImporter
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param ActiveSite $site
+     * @param ActiveSeason $season
+     * @param PlayerListService $playerListService
      */
     public function __construct(ActiveSite $site, ActiveSeason $season, PlayerListService $playerListService)
     {
@@ -93,6 +101,7 @@ class MLiveParser extends ArticleImporter
      *
      * @param int $lastRan
      * @return array [[article ids], # of tags]
+     * @throws \Throwable
      */
     protected function parse($lastRan)
     {

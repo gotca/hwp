@@ -68,7 +68,8 @@ class MWPARankingCommand extends LoggedCommand
      * Create a new command instance.
      * TenantServiceProvider handles setting up the site and season injection based on the CLI options
      *
-     * @return void
+     * @param ActiveSite $site
+     * @param ActiveSeason $season
      */
     public function __construct(ActiveSite $site, ActiveSeason $season)
     {
