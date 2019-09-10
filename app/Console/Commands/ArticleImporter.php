@@ -71,7 +71,9 @@ abstract class ArticleImporter extends LoggedCommand
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param ActiveSite $site
+     * @param ActiveSeason $season
+     * @param PlayerListService $playerListService
      */
     public function __construct(ActiveSite $site, ActiveSeason $season, PlayerListService $playerListService)
     {
