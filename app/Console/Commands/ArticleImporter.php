@@ -1,4 +1,4 @@
-<?php
+<?gotca
 
 namespace App\Console\Commands;
 
